@@ -1,13 +1,10 @@
 import { Children } from "react";
-import UserDetails from "./UserDetails";
-import UserInterests from "./UserInterests";
+import SignIn3 from "./SignIn-3";
 
 export default function SignInPage() {
-
-
   return (
     <main className="flex flex-col justify-between h-[100vh] rounded-md">
-        <UserInterests />
+      <SignIn3 />
     </main>
   );
 }
