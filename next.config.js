@@ -7,6 +7,7 @@ const nextConfig = {
     // !! WARN !!
     // ignoreBuildErrors: true,
   },
+  swcMinify: false
 };
 
 module.exports = nextConfig;
