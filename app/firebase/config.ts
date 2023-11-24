@@ -1,11 +1,7 @@
 // Import the functions you need from the SDKs you need
-import {
-  initializeApp,
-  getApps,
-  // signInAnonymously,
-  // onAuthStateChanged,
-} from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -22,10 +18,17 @@ let firebase_app =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 const auth = getAuth(firebase_app);
+const db = getFirestore(firebase_app);
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
     const uid = user.uid;
+    setDoc(doc(db, "genie-users", uid), {
+      name: "Timmy",
+      age: "7",
+      topics: ["minecraft, gymnastics, egypt"],
+      chatGPT: "thing",
+    });
     console.log("AUTH STATE CHANGED", user);
   } else {
     console.log("AUTH STATE CHANGED", user);
