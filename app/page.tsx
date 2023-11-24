@@ -13,11 +13,11 @@ import {
   query,
   orderBy,
 } from "@firebase/firestore";
-import { addMessage } from "./openai/index";
+// import { addMessage } from "./openai/index";
 
-const askGenie = async (userId: string, body: string) => {
-  await addMessage(userId, body);
-};
+// const askGenie = async (userId: string, body: string) => {
+//   await addMessage(userId, body);
+// };
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -65,7 +65,7 @@ export default function Home() {
         top: boxRef?.current?.scrollHeight,
         behavior: "smooth",
       });
-      askGenie(userId, inputValue);
+      // askGenie(userId, inputValue);
     }
   }
 
