@@ -6,29 +6,32 @@ import firebase_init, { addDocument, db, getData } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { doc, onSnapshot, setDoc } from "@firebase/firestore";
-import { addMessage } from "./openai/index"
+import { addMessage } from "./openai/index";
 
 const askGenie = async (userId, body) => {
   await addMessage(userId, body);
-}
+};
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  // console.log(dbData);
+  console.log(dbData);
+
   useEffect(() => {
     firebase_init(setDbData);
     if (sectionRef.current) {
       const sectionScrollHeight: number = sectionRef?.current?.scrollHeight;
       sectionRef?.current?.scrollTo(0, sectionScrollHeight);
     }
-    askGenie('phPg9V9IkRdXcF8PGaX7j1jZ8823', `Yo yo, how's tricks?`);
+    askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
   }, []);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
+
     addDocument(inputValue);
+    // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", inputValue);
   }
 
   return (
