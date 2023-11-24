@@ -18,23 +18,6 @@ const assistantId = process.env.NEXT_PUBLIC_ASSISTANT_KEY;
 
 const client = new OpenAI(configuration);
 
-async function getThreadId(userSid: string) {
-  const dbRecord = await getDoc(doc(db, "genie-users", userSid));
-  if (!dbRecord.exists()) return null;
-  const record = dbRecord.data();
-  if (!record.hasOwnProperty("thread_id")) {
-    const thread = await createThread(userSid);
-    await setDoc(
-      doc(db, "genie-users", userSid),
-      { thread_id: thread?.id },
-      { merge: true }
-    );
-    return thread?.id;
-  } else {
-    return record.thread_id;
-  }
-}
-
 async function createCompletion(
   input: string,
   system = "You are a general purpose intelligence",
@@ -77,6 +60,23 @@ async function createMessage(thread_id: string, content: string) {
     return message;
   } catch (e) {
     console.log("ERROR CREATING MESSAGE", e);
+  }
+}
+
+async function getThreadId(userSid: string) {
+  const dbRecord = await getDoc(doc(db, "genie-users", userSid));
+  if (!dbRecord.exists()) return null;
+  const record = dbRecord.data();
+  if (!record.hasOwnProperty("thread_id")) {
+    const thread = await createThread(userSid);
+    await setDoc(
+      doc(db, "genie-users", userSid),
+      { thread_id: thread?.id },
+      { merge: true }
+    );
+    return thread?.id;
+  } else {
+    return record.thread_id;
   }
 }
 
