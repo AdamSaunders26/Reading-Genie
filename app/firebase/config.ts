@@ -63,19 +63,17 @@ export async function addDocument(data: string) {
 }
 
 export function getData(setState) {
-  console.log(setState);
   if (uid) {
-    console.log("yes");
     const q = query(
-      collection(db, "genie-user", uid, "messages"),
+      collection(db, "genie-users", uid, "messages"),
       orderBy("timestamp", "desc")
     );
 
     onSnapshot(q, (querySnapshot) => {
       const dataArray: string[] = [];
+
       querySnapshot.forEach((o) => {
         dataArray.push(o.data().body);
-        console.log(o.data());
       });
       setState(dataArray);
     });
