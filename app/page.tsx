@@ -17,7 +17,6 @@ import {
   orderBy,
   Timestamp
 } from "@firebase/firestore";
-// import { addMessage } from "./openai/index";
 
 
 export default function Home() {
