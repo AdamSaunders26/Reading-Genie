@@ -6,29 +6,31 @@ import firebase_init, { addDocument, db, getData } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { doc, onSnapshot, setDoc } from "@firebase/firestore";
-import { addMessage } from "./openai/index"
+import { addMessage } from "./openai/index";
 
 const askGenie = async (userId, body) => {
   await addMessage(userId, body);
-}
+};
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  // console.log(dbData);
+
   useEffect(() => {
     firebase_init(setDbData);
     if (sectionRef.current) {
       const sectionScrollHeight: number = sectionRef?.current?.scrollHeight;
       sectionRef?.current?.scrollTo(0, sectionScrollHeight);
     }
-    askGenie('phPg9V9IkRdXcF8PGaX7j1jZ8823', `Yo yo, how's tricks?`);
-  }, []);
+    // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
+  }, [inputValue]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
+
     addDocument(inputValue);
+    askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", inputValue);
   }
 
   return (
@@ -40,9 +42,14 @@ export default function Home() {
           className="overflow-scroll gap-2 overflow-x-hidden"
         >
           {dbData
-            ? dbData.map((data) => {
+            ? dbData.map((data, index) => {
                 return (
-                  <p className=" border-2 border-green-500 m-4 h-fit">{data}</p>
+                  <p
+                    key={index}
+                    className=" border-2 border-green-500 m-4 h-fit"
+                  >
+                    {data}
+                  </p>
                 );
               })
             : null}
