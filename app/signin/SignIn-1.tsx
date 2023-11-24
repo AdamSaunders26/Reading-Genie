@@ -17,20 +17,16 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  childNickName: z.string().min(5, {
+    message: "Nickname must be at least 5 characters.",
   }),
-  userage: z.number(),
+  childBirthDate: z.coerce.date(),
 });
 
-export default function UserDetails() {
+export default function SignIn0() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: "Timmy",
-      userage: 7,
-    },
   });
 
   // 2. Define a submit handler.
@@ -41,42 +37,44 @@ export default function UserDetails() {
   }
 
   return (
-    <div className="text-center m-4 p-4">
-      Sign up
+    <div className="flex flex-col justify-center items-center text-center m-4 p-4">
+      <h2 className="text-3xl">Tell me about your child</h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="bg-secondary space-y-8 p-4 rounded-md"
+          className="space-y-8 p-4 rounded-md w-fit"
         >
           <FormField
             control={form.control}
-            name="username"
+            name="childNickName"
             render={({ field }) => (
-              <FormItem className="flex flex-col items-center">
-                <FormLabel>Username</FormLabel>
+              <FormItem className="flex flex-col text-left">
+                <FormLabel>Child's name (nickname)</FormLabel>
                 <FormControl>
-                  <Input className="w-32" placeholder="shadcn" {...field} />
+                  <Input className="w-64" {...field} />
                 </FormControl>
-                <FormDescription>Enter your child's name here.</FormDescription>
+                <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
-            name="userage"
+            name="childBirthDate"
             render={({ field }) => (
-              <FormItem className="flex flex-col items-center">
-                <FormLabel>User Age</FormLabel>
+              <FormItem className="flex flex-col text-left">
+                <FormLabel>Child's date of birth</FormLabel>
                 <FormControl>
-                  <Input className="w-32" placeholder="" {...field} />
+                  <Input className="w-64" placeholder="DD/MM/YY" {...field} />
                 </FormControl>
-                <FormDescription>Enter your child's age here.</FormDescription>
+                <FormDescription></FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button className="rounded-full" type="submit">
+            Next
+          </Button>
         </form>
       </Form>
     </div>
