@@ -56,8 +56,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col justify-between h-[100vh] border-2 border-pink-500 w-full">
-      <div className=" border-2 border-red-500 m-4">Settings box</div>
-      <section className="h-[50%] flex flex-col justify-between border-2 border-blue-500 w-full">
+      <section className="flex flex-col justify-between border-2 border-blue-500 w-full">
         <div
           ref={sectionRef}
           id="fuckyoureact"

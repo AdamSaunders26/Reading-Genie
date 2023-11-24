@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import { doc, getDoc, setDoc, addDoc, collection } from "firebase/firestore";
+import { doc, getDoc, setDoc, addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from '../firebase/config';
 
 const configuration = {
@@ -119,7 +119,8 @@ async function addMessage (userSid, body) {
   const response = await loopRunAndReturn(thread_id, runStarted.id);
 
   await addDoc(collection(db, 'genie-users', userSid, 'messages'), {
-    body: response
+    body: response,
+    timestamp: Timestamp.now()
   });
 
   console.log('ASKING', userSid, body, response)
