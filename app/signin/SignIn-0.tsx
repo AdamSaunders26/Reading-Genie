@@ -26,7 +26,11 @@ const formSchema = z.object({
   }),
 });
 
-export default function SignIn0() {
+export default function SignIn0({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,6 +41,7 @@ export default function SignIn0() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    setCurrentStage(1);
   }
 
   return (

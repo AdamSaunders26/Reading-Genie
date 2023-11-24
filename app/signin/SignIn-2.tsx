@@ -6,7 +6,11 @@ import saveField from "../firebase/config";
 
 import React, { useState } from "react";
 
-export default function UserInterests() {
+export default function SignIn2({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
   // const toggleInterest = (section, interest) => {
   //   if (!selected.hasOwnProperty(section)) {
   //     selected[section] = {};
@@ -80,6 +84,14 @@ export default function UserInterests() {
           {key}
         </Button>
       ))}
+      <Button
+        onClick={() => {
+          setCurrentStage(3);
+        }}
+        className="text-white w-full rounded-full"
+      >
+        Next
+      </Button>
     </div>
   );
 }
