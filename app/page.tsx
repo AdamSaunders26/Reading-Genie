@@ -56,11 +56,11 @@ export default function Home() {
 
   return (
     <main className="flex flex-col justify-between h-[100vh] border-2 border-pink-500 w-full">
-      <section className="flex flex-col justify-between border-2 border-blue-500 w-full">
+      <section className="flex flex-col justify-between border-2 border-blue-500 w-full h-full">
         <div
           ref={sectionRef}
           id="fuckyoureact"
-          className="overflow-scroll gap-2 overflow-x-hidden"
+          className="overflow-scroll gap-2 overflow-x-hidden h-full"
         >
           <div ref={boxRef} className="flex flex-col gap-3 p-3">
           {dbData
