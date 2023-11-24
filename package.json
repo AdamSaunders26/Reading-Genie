@@ -23,7 +23,8 @@
     "react-hook-form": "^7.48.2",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "firebase": "^10.6.0"
   },
   "devDependencies": {
     "@types/node": "^20",
