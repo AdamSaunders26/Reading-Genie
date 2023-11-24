@@ -54,7 +54,7 @@ export default function Home() {
   useEffect(() => {
     start();
     // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
-  }, [inputValue]);
+  }, []);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
