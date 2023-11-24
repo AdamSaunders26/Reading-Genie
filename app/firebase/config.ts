@@ -40,4 +40,4 @@ async function firebase_init() {
   console.log(signIn);
 }
 
-export default firebase_init;
+export { firebase_init, db };

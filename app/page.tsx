@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import firebase_init from "./firebase/config";
+import { firebase_init } from "./firebase/config";
+import { addMessage } from "./openai/index"
+
+const askGenie = async (userId, body) => {
+  await addMessage(userId, body);
+}
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -12,6 +17,7 @@ export default function Home() {
       const sectionScrollHeight: number = sectionRef?.current?.scrollHeight;
       sectionRef?.current?.scrollTo(0, sectionScrollHeight);
     }
+    askGenie('phPg9V9IkRdXcF8PGaX7j1jZ8823', `Yo yo, how's tricks?`);
   }, []);
 
   return (

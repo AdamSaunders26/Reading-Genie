@@ -1,19 +1,23 @@
 import OpenAI from 'openai';
+import { doc, getDoc, setDoc, addDoc, collection } from "firebase/firestore";
+import { db } from '../firebase/config';
 
 const configuration = {
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    dangerouslyAllowBrowser: true
 };
 
-const assistantId = process.env.ASSISTANT_KEY;
+const assistantId = process.env.NEXT_PUBLIC_ASSISTANT_KEY;
+
 const client = new OpenAI(configuration);
 
 async function getThreadId (userSid) {
-  const dbRecord = await db.collection('genie-users').doc(userSid).get();
-  if (!dbRecord.exists) return null;
+  const dbRecord = await getDoc(doc(db, 'genie-users', userSid));
+  if (!dbRecord.exists()) return null;
   const record = dbRecord.data();
   if (!record.hasOwnProperty('thread_id')) {
     const thread = await createThread(userSid);
-    await db.collection('genie-users').doc(userSid).set({ thread_id: thread.id }, { merge: true });
+    await setDoc(doc(db, 'genie-users', userSid), { thread_id: thread.id }, { merge: true });
     return thread.id;
   } else {
     return record.thread_id;
@@ -86,12 +90,11 @@ async function createRun (assistant_id, thread_id) {
 
 async function checkRun (thread_id, run_id) {
     const run = await client.beta.threads.runs.retrieve(thread_id, run_id);
-    process.stdout.write('.');
     return (run.status == 'completed' || run.status == 'failed' || run.status == 'expired');
 }
 
 async function loopRunAndReturn (thread_id, run_id) {
-  returned = false;
+  let returned = false;
   while (!returned) {
     returned = await checkRun(thread_id, run_id);
   }
@@ -115,14 +118,14 @@ async function addMessage (userSid, body) {
 
   const response = await loopRunAndReturn(thread_id, runStarted.id);
 
+  await addDoc(collection(db, 'genie-users', userSid, 'messages'), {
+    body: response
+  });
+
   return {
     response
   };
 
 }
 
-exports.addMessage = addMessage;
-exports.createMessage = createMessage;
-exports.addRawFirestore = addRawFirestore;
-exports.tidyText = tidyText;
-exports.getThreadId = getThreadId;
+export {addMessage, createMessage, tidyText};
