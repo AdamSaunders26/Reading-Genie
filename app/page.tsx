@@ -5,7 +5,14 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import firebase_init, { addDocument, db, getData } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { doc, onSnapshot, setDoc, collection, query, orderBy } from "@firebase/firestore";
+import {
+  doc,
+  onSnapshot,
+  setDoc,
+  collection,
+  query,
+  orderBy,
+} from "@firebase/firestore";
 import { addMessage } from "./openai/index";
 
 const askGenie = async (userId, body) => {
@@ -15,10 +22,10 @@ const askGenie = async (userId, body) => {
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState("");
 
   const start = async () => {
     const uid = await firebase_init(setDbData);
@@ -36,10 +43,13 @@ export default function Home() {
       });
       setDbData(dataArray);
       setTimeout(() => {
-        sectionRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth'});
+        sectionRef?.current?.scrollTo({
+          top: boxRef?.current?.scrollHeight,
+          behavior: "smooth",
+        });
       }, 500);
     });
-  }
+  };
 
   useEffect(() => {
     start();
@@ -48,10 +58,15 @@ export default function Home() {
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
-    addDocument(inputRef.current.value);
-    inputRef.current.value = '';
-    sectionRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth'});
-    askGenie(userId, inputValue);
+    if (inputRef.current) {
+      addDocument(inputRef?.current?.value);
+      inputRef.current.value = "";
+      sectionRef?.current?.scrollTo({
+        top: boxRef?.current?.scrollHeight,
+        behavior: "smooth",
+      });
+      askGenie(userId, inputValue);
+    }
   }
 
   return (
@@ -63,18 +78,18 @@ export default function Home() {
           className="overflow-scroll gap-2 overflow-x-hidden"
         >
           <div ref={boxRef} className="flex flex-col gap-3 p-3">
-          {dbData
-            ? dbData.map((data, index) => {
-                return (
-                  <p
-                    key={index}
-                    className="border-2 border-green-500 h-fit p-3 rounded-md"
-                  >
-                    {data}
-                  </p>
-                );
-              })
-            : null}
+            {dbData
+              ? dbData.map((data, index) => {
+                  return (
+                    <p
+                      key={index}
+                      className="border-2 border-green-500 h-fit p-3 rounded-md"
+                    >
+                      {data}
+                    </p>
+                  );
+                })
+              : null}
           </div>
         </div>
         <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
@@ -85,7 +100,9 @@ export default function Home() {
               type="text"
               placeholder="Enter message"
             />
-            <Button className="rounded-l-none" type="submit">Submit</Button>
+            <Button className="rounded-l-none" type="submit">
+              Submit
+            </Button>
           </div>
         </form>
       </section>
