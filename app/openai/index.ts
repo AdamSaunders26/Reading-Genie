@@ -122,6 +122,8 @@ async function addMessage (userSid, body) {
     body: response
   });
 
+  console.log('ASKING', userSid, body, response)
+
   return {
     response
   };

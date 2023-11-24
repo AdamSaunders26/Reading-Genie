@@ -49,8 +49,7 @@ onAuthStateChanged(auth, (user) => {
 
 async function firebase_init(setState) {
   const signIn = await signInAnonymously(auth);
-  console.log(signIn);
-  getData(setState);
+  return signIn.user.uid;
 }
 
 export async function addDocument(data: string) {
@@ -62,11 +61,15 @@ export async function addDocument(data: string) {
   }
 }
 
-export function getData(setState) {
+export async function saveField (path, value) {
+  const savedDoc = await setDoc(doc(db, ...path, value));
+}
+
+export function getData() {
   if (uid) {
     const q = query(
       collection(db, "genie-users", uid, "messages"),
-      orderBy("timestamp", "desc")
+      orderBy("timestamp", "asc")
     );
 
     onSnapshot(q, (querySnapshot) => {
@@ -75,7 +78,9 @@ export function getData(setState) {
       querySnapshot.forEach((o) => {
         dataArray.push(o.data().body);
       });
-      setState(dataArray);
+      const fuckyoureact = document.querySelector('#fuckyoureact');
+      const chatbox = document.querySelector('#chatbox');
+      fuckyoureact.scrollTo(0, chatbox.scrollHeight)
     });
   }
 }
