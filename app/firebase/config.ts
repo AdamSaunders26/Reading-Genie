@@ -7,8 +7,11 @@ import {
   doc,
   getFirestore,
   onSnapshot,
+  orderBy,
+  query,
   setDoc,
   Timestamp,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -52,7 +55,7 @@ async function firebase_init(setState) {
 
 export async function addDocument(data: string) {
   if (uid) {
-    await addDoc(collection(db, "genie-users", uid, "messages"), {
+    const doc = await addDoc(collection(db, "genie-users", uid, "messages"), {
       body: data,
       timestamp: Timestamp.now(),
     });
@@ -61,11 +64,16 @@ export async function addDocument(data: string) {
 
 export function getData(setState) {
   if (uid) {
-    onSnapshot(collection(db, "genie-users", uid, "messages"), (doc) => {
+    const q = query(
+      collection(db, "genie-users", uid, "messages"),
+      orderBy("timestamp", "desc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
       const dataArray: string[] = [];
-      doc.docs.forEach((o) => {
+
+      querySnapshot.forEach((o) => {
         dataArray.push(o.data().body);
-        console.log(o.data());
       });
       setState(dataArray);
     });
