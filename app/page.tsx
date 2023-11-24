@@ -5,7 +5,7 @@ import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import firebase_init, { addDocument, db, getData } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { doc, onSnapshot, setDoc } from "@firebase/firestore";
+import { doc, onSnapshot, setDoc, collection, query, orderBy } from "@firebase/firestore";
 import { addMessage } from "./openai/index";
 
 const askGenie = async (userId, body) => {
@@ -14,56 +14,80 @@ const askGenie = async (userId, body) => {
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
+  const [userId, setUserId] = useState('');
+
+  const start = async () => {
+    const uid = await firebase_init(setDbData);
+    setUserId(uid);
+    const q = query(
+      collection(db, "genie-users", uid, "messages"),
+      orderBy("timestamp", "asc")
+    );
+
+    onSnapshot(q, (querySnapshot) => {
+      const dataArray: string[] = [];
+
+      querySnapshot.forEach((o) => {
+        dataArray.push(o.data().body);
+      });
+      setDbData(dataArray);
+      setTimeout(() => {
+        sectionRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth'});
+      }, 500);
+    });
+  }
 
   useEffect(() => {
-    firebase_init(setDbData);
-    if (sectionRef.current) {
-      const sectionScrollHeight: number = sectionRef?.current?.scrollHeight;
-      sectionRef?.current?.scrollTo(0, sectionScrollHeight);
-    }
+    start();
     // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
   }, [inputValue]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
-
-    addDocument(inputValue);
-    askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", inputValue);
+    addDocument(inputRef.current.value);
+    inputRef.current.value = '';
+    sectionRef.current.scrollTo({ top: boxRef.current.scrollHeight, behavior: 'smooth'});
+    askGenie(userId, inputValue);
   }
 
   return (
-    <main className="flex flex-col justify-between h-[100vh] border-2 border-pink-500">
+    <main className="flex flex-col justify-between h-[100vh] border-2 border-pink-500 w-full">
       <div className=" border-2 border-red-500 m-4">Settings box</div>
-      <section className="h-[50%] flex flex-col  justify-between border-2 border-blue-500 m-4">
+      <section className="h-[50%] flex flex-col justify-between border-2 border-blue-500 w-full">
         <div
           ref={sectionRef}
+          id="fuckyoureact"
           className="overflow-scroll gap-2 overflow-x-hidden"
         >
+          <div ref={boxRef} className="flex flex-col gap-3 p-3">
           {dbData
             ? dbData.map((data, index) => {
                 return (
                   <p
                     key={index}
-                    className=" border-2 border-green-500 m-4 h-fit"
+                    className="border-2 border-green-500 h-fit p-3 rounded-md"
                   >
                     {data}
                   </p>
                 );
               })
             : null}
+          </div>
         </div>
-        <form onSubmit={submitHandler} className="m-4 w-[80%] flex gap-2 ">
-          <Input
-            type="text"
-            placeholder="Enter message"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setInputValue(e.target.value)
-            }
-            value={inputValue}
-          />
-          <Button type="submit">Submit</Button>
+        <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
+          <div className="w-full rounded-l flex">
+            <Input
+              ref={inputRef}
+              className="rounded-r-none"
+              type="text"
+              placeholder="Enter message"
+            />
+            <Button className="rounded-l-none" type="submit">Submit</Button>
+          </div>
         </form>
       </section>
     </main>
