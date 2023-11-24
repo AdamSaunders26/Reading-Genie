@@ -2,10 +2,12 @@
 
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import firebase_init from "./firebase/config";
 
 export default function Home() {
   const sectionRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    firebase_init();
     if (sectionRef.current) {
       const sectionScrollHeight: number = sectionRef?.current?.scrollHeight;
       sectionRef?.current?.scrollTo(0, sectionScrollHeight);
