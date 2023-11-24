@@ -8,7 +8,11 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 
-export default function SignIn3() {
+export default function SignIn3({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const [goalsValue, setGoalsValue] = useState<number[]>([0]);
   // const [lampsValue, setLampsValue] = useState<number[]>([15]);
   const [currentEmoji, setCurrentEmoji] = useState<string>("🏆");

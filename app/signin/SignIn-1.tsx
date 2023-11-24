@@ -23,7 +23,11 @@ const formSchema = z.object({
   childBirthDate: z.string(),
 });
 
-export default function SignIn0() {
+export default function SignIn1({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,6 +38,7 @@ export default function SignIn0() {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
+    setCurrentStage(2);
   }
 
   return (
