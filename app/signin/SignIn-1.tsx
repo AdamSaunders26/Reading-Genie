@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import RGlogo from "../../public/Reading Genie v.2.png";
 
 const formSchema = z.object({
   childNickName: z.string().min(5, {
@@ -23,27 +24,33 @@ const formSchema = z.object({
   childBirthDate: z.string(),
 });
 
+
 export default function SignIn1({
   setCurrentStage,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
 }) {
   // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
     setCurrentStage(2);
   }
 
   return (
     <div className="flex flex-col justify-center items-center text-center m-4 p-4">
-      <h2 className="text-3xl">Tell me about your child</h2>
+      <Image
+        src={RGlogo}
+        alt="Reading Genie logo"
+        className="w-24 place-self-center"
+      />
+      <h2 className="text-2xl font-semibold text-primary text-center">
+        Tell me about your child
+      </h2>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -53,8 +60,10 @@ export default function SignIn1({
             control={form.control}
             name="childNickName"
             render={({ field }) => (
+
               <FormItem className="flex flex-col text-left">
                 <FormLabel>Child&apos;s name (nickname)</FormLabel>
+
                 <FormControl>
                   <Input className="w-64" {...field} />
                 </FormControl>
@@ -67,8 +76,10 @@ export default function SignIn1({
             control={form.control}
             name="childBirthDate"
             render={({ field }) => (
+
               <FormItem className="flex flex-col text-left">
                 <FormLabel>Child&apos;s date of birth</FormLabel>
+
                 <FormControl>
                   <Input className="w-64" placeholder="DD/MM/YY" {...field} />
                 </FormControl>
@@ -77,7 +88,7 @@ export default function SignIn1({
               </FormItem>
             )}
           />
-          <Button className="rounded-full" type="submit">
+          <Button className="text-white w-full rounded-full" type="submit">
             Next
           </Button>
         </form>
