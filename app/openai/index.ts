@@ -70,6 +70,7 @@ async function createMessage(thread_id: string, content: string) {
   try {
     const message = await client.beta.threads.messages.create(
       thread_id,
+      // @ts-ignore
       messageObject
     );
     console.log("MESSAGE CREATED");
@@ -120,7 +121,7 @@ async function loopRunAndReturn(thread_id: string, run_id: string) {
     returned = await checkRun(thread_id, run_id);
   }
   const messages = await client.beta.threads.messages.list(thread_id);
-
+  // @ts-ignore
   return messages.data[0].content[0].text.value;
 }
 
@@ -133,13 +134,15 @@ async function tidyText(inputText: string) {
   return answer;
 }
 
-async function addMessage(userSid, body) {
+async function addMessage(userSid: string, body: string) {
   let returned = false;
   let thread_id = await getThreadId(userSid);
 
   const addedMessage = await createMessage(thread_id, body);
-  const runStarted = await createRun(assistantId, thread_id);
 
+  // @ts-ignore
+  const runStarted = await createRun(assistantId, thread_id);
+  // @ts-ignore
   const response = await loopRunAndReturn(thread_id, runStarted.id);
 
   await addDoc(collection(db, "genie-users", userSid, "messages"), {

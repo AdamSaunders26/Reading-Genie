@@ -20,7 +20,7 @@ const formSchema = z.object({
   childNickName: z.string().min(5, {
     message: "Nickname must be at least 5 characters.",
   }),
-  childBirthDate: z.coerce.date(),
+  childBirthDate: z.string(),
 });
 
 export default function SignIn0() {

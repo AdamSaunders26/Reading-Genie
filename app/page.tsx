@@ -15,7 +15,7 @@ import {
 } from "@firebase/firestore";
 import { addMessage } from "./openai/index";
 
-const askGenie = async (userId, body) => {
+const askGenie = async (userId: string, body: string) => {
   await addMessage(userId, body);
 };
 
