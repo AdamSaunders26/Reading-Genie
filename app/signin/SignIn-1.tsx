@@ -49,7 +49,7 @@ export default function SignIn0() {
             name="childNickName"
             render={({ field }) => (
               <FormItem className="flex flex-col text-left">
-                <FormLabel>Child's name (nickname)</FormLabel>
+                <FormLabel>Child&apos;s name (nickname)</FormLabel>
                 <FormControl>
                   <Input className="w-64" {...field} />
                 </FormControl>
@@ -63,7 +63,7 @@ export default function SignIn0() {
             name="childBirthDate"
             render={({ field }) => (
               <FormItem className="flex flex-col text-left">
-                <FormLabel>Child's date of birth</FormLabel>
+                <FormLabel>Child&apos;s date of birth</FormLabel>
                 <FormControl>
                   <Input className="w-64" placeholder="DD/MM/YY" {...field} />
                 </FormControl>
