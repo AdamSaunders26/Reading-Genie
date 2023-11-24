@@ -28,13 +28,21 @@ const formSchema = z.object({
   }),
 });
 
-export default function SignIn0() {
+
+export default function SignIn0({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    setCurrentStage(1);
   }
 
   return (

@@ -47,7 +47,9 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-async function firebase_init(setState) {
+async function firebase_init(
+  setState: React.Dispatch<React.SetStateAction<string[] | null>>
+) {
   const signIn = await signInAnonymously(auth);
   return signIn.user.uid;
 }
@@ -61,9 +63,10 @@ export async function addDocument(data: string) {
   }
 }
 
-export async function saveField (path, value) {
-  const savedDoc = await setDoc(doc(db, ...path, value));
-}
+// export async function saveField(path: [], value: unknown) {
+//   const data = {value}
+//   const savedDoc = await setDoc(doc(db, ...path, ), data);
+// }
 
 export function getData() {
   if (uid) {
@@ -78,9 +81,11 @@ export function getData() {
       querySnapshot.forEach((o) => {
         dataArray.push(o.data().body);
       });
-      const fuckyoureact = document.querySelector('#fuckyoureact');
-      const chatbox = document.querySelector('#chatbox');
-      fuckyoureact.scrollTo(0, chatbox.scrollHeight)
+      const fuckyoureact = document.querySelector("#fuckyoureact");
+      const chatbox = document.querySelector("#chatbox");
+      if (chatbox) {
+        fuckyoureact?.scrollTo(0, chatbox.scrollHeight);
+      }
     });
   }
 }

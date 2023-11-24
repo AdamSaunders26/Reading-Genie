@@ -24,13 +24,21 @@ const formSchema = z.object({
   childBirthDate: z.string(),
 });
 
-export default function SignIn0() {
+
+export default function SignIn1({
+  setCurrentStage,
+}: {
+  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+}) {
+  // 1. Define your form.
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    setCurrentStage(2);
   }
 
   return (
@@ -52,8 +60,10 @@ export default function SignIn0() {
             control={form.control}
             name="childNickName"
             render={({ field }) => (
-              <FormItem className="flex flex-col text-gray-900 text-left">
-                <FormLabel>Child's name (nickname)</FormLabel>
+
+              <FormItem className="flex flex-col text-left">
+                <FormLabel>Child&apos;s name (nickname)</FormLabel>
+
                 <FormControl>
                   <Input className="w-64" {...field} />
                 </FormControl>
@@ -66,8 +76,10 @@ export default function SignIn0() {
             control={form.control}
             name="childBirthDate"
             render={({ field }) => (
-              <FormItem className="flex flex-col text-gray-900 text-left">
-                <FormLabel>Child's date of birth</FormLabel>
+
+              <FormItem className="flex flex-col text-left">
+                <FormLabel>Child&apos;s date of birth</FormLabel>
+
                 <FormControl>
                   <Input className="w-64" placeholder="DD/MM/YY" {...field} />
                 </FormControl>
