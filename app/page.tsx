@@ -68,7 +68,11 @@ export default function Home() {
             id="fuckyoureact"
             className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
           >
-            <div id="chatbox" ref={boxRef} className="flex flex-col gap-6 p-3">
+            <div
+              id="chatbox"
+              ref={boxRef}
+              className="flex flex-col gap-6 pl-3 py-3"
+            >
               <div className="flex w-full">
                 <div className="w-full">
                   <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
