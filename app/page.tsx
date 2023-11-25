@@ -175,22 +175,21 @@ export default function Home() {
                   Medium: "a paragraph",
                   Long: "several paragraphs",
                 };
-                console.log(userData);
-                if (userData?.contentLengths) {
-                  const length = Object.keys(userData?.contentLengths).pop();
-                  console.log(lengths[length]);
+                const nowData = await getUserRecord(userId);
+                if (nowData?.contentLengths) {
+                  const length = Object.keys(nowData?.contentLengths).length;
+                  console.log(lengths[nowData?.contentLengths[length - 1]], length);
+                  const textLength = lengths[nowData?.contentLengths[length - 1]];
+                  const instructions = `In ${textLength}, response with response with some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
+                  askGenie(
+                    userId,
+                    "Tell me a concise fun fact for an 8 year old",
+                    instructions
+                  ).then(() => {
+                    setLoading(false);
+                    setFirstMessage(false);
+                  });
                 }
-                // const instructions = `In ${lengths[length]}, response with response with some ${userData?.contentTypes.join(' or ')} about ${userData?.interests.join(' or ')}`;
-                const instructions =
-                  "Your response must contain something about a Gary";
-                askGenie(
-                  userId,
-                  "Tell me a concise fun fact for an 8 year old",
-                  instructions
-                ).then(() => {
-                  setLoading(false);
-                  setFirstMessage(false);
-                });
               }}
               className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
             >
