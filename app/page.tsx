@@ -52,7 +52,7 @@ export default function Home() {
           id="fuckyoureact"
           className="overflow-scroll gap-2 overflow-x-hidden h-full"
         >
-          <div ref={boxRef} className="flex flex-col gap-3 p-3">
+          <div id="chatbox" ref={boxRef} className="flex flex-col gap-3 p-3">
             {dbData
               ? dbData.map((data, index) => {
                   return (

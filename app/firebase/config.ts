@@ -76,9 +76,11 @@ export function onData(uid, setDbData) {
     });
     const fuckyoureact = document.querySelector("#fuckyoureact");
     const chatbox = document.querySelector("#chatbox");
-    if (chatbox) {
-      fuckyoureact?.scrollTo(0, chatbox.scrollHeight);
-    }
+    setTimeout(() => {
+      if (chatbox) {
+        fuckyoureact?.scrollTo({top: chatbox.scrollHeight, behavior: 'smooth'});
+      }
+    }, 500)
     setDbData(dataArray);
   });
 }
