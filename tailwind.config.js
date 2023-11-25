@@ -39,6 +39,9 @@ module.exports = {
         accent: {
           DEFAULT: "#33BBC5",
         },
+        lightaccent: {
+          DEFAULT: "#D9F7ED",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

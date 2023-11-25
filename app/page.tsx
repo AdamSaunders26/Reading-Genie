@@ -6,8 +6,12 @@ import { addDocument, db, onData, initFirebase } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
+import { FaGear } from "react-icons/fa6";
+import { FaThumbsUp } from "react-icons/fa6";
+import textlogo from "../public/text-logo.svg";
+import greengenie from "../public/greengenie.svg";
 
-const askGenie = async (uid:any, body: string) => {
+const askGenie = async (uid: any, body: string) => {
   await addMessage(uid, body);
 };
 
@@ -17,18 +21,18 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  const [userId, setUserId] = useState<string|null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const start = async () => {
     const uid = await initFirebase(setUserId);
     onData(userId, setDbData);
     setUserId(uid);
-    return uid
+    return uid;
   };
 
   useEffect(() => {
     start();
-    console.log('useEffect', userId);
+    console.log("useEffect", userId);
   }, [userId]);
 
   async function submitHandler(e: FormEvent) {
@@ -45,8 +49,14 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col justify-between h-[100vh] border-2 border-pink-500 w-full">
-      <section className="flex flex-col justify-between border-2 border-blue-500 w-full h-full">
+    <main className="flex flex-col justify-between h-[100vh] bg-secondary  w-full">
+      <header className="flex justify-between items-center px-4 shadow-lg bg-primary">
+        <p className="w-6 h-6"></p>
+
+        <Image src={textlogo} alt="reading genie" className="w-64" />
+        <FaGear className="w-6 h-6 text-white" />
+      </header>
+      <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
         <div
           ref={sectionRef}
           id="fuckyoureact"
@@ -56,18 +66,25 @@ export default function Home() {
             {dbData
               ? dbData.map((data, index) => {
                   return (
-                    <p
-                      key={index}
-                      className="border-2 border-green-500 h-fit p-3 rounded-md"
-                    >
-                      {data}
-                    </p>
+                    <div className="flex">
+                      <p
+                        key={index}
+                        className=" bg-white h-fit w-full p-3 rounded-md"
+                      >
+                        {data}
+                      </p>
+                      <Image
+                        src={greengenie}
+                        alt="reading genie"
+                        className="w-12 h-12 rounded-full bg-lightaccent mx-2"
+                      />
+                    </div>
                   );
                 })
               : null}
           </div>
         </div>
-        <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
+        {/* <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
           <div className="w-full rounded-l flex">
             <Input
               ref={inputRef}
@@ -79,7 +96,12 @@ export default function Home() {
               Submit
             </Button>
           </div>
-        </form>
+        </form> */}
+        <div className="m-4 w-full pr-8">
+          <Button className="bg-accent w-full rounded-full text-white text-lg">
+            Show me!
+          </Button>
+        </div>
       </section>
     </main>
   );
