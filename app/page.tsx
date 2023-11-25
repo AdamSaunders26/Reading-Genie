@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { addDocument, db, onData, initFirebase, getUserRecord } from "./firebase/config";
+import {
+  addDocument,
+  db,
+  onData,
+  initFirebase,
+  getUserRecord,
+} from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
@@ -11,6 +17,7 @@ import { FaThumbsUp } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
+import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 
@@ -27,12 +34,14 @@ export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const [differentLoading, setDifferentLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState(true);
   const [userData, setUserData] = useState(null);
 
   const start = async () => {
     const uid = await initFirebase();
-    console.log(uid)
+    console.log(uid);
     const record = await getUserRecord(uid);
     setUserData(record);
     console.log('RECORD', record);
@@ -61,12 +70,20 @@ export default function Home() {
   }
 
   return (
-    <main className="flex flex-col justify-between h-[100vh] bg-secondary  w-full">
-      <header className="flex justify-between items-center px-4 shadow-lg bg-primary">
-        <p className="w-6 h-6"></p>
-
-        <Image src={textlogo} alt="reading genie" className="w-64" />
-        <FaGear className="w-6 h-6 text-white" />
+    <main className="flex flex-col justify-between h-[100dvh] bg-secondary  w-full">
+      <header className="flex justify-apart items-center  shadow-lg bg-primary">
+        <div className="flex gap-2">
+          <Image
+            src={lamp}
+            alt="reading genie lamp"
+            className="w-20 -ml-2 pt-1"
+          />
+          <p className="text-white -ml-3 pt-1">0</p>
+        </div>
+        <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
+        <div className="w-24 flex items-center justify-center">
+          <FaGear className="w-6 h-6 text-white" />
+        </div>
       </header>
       <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
         {firstMessage ? (
@@ -75,12 +92,16 @@ export default function Home() {
             id="fuckyoureact"
             className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
           >
-            <div id="chatbox" ref={boxRef} className="flex flex-col gap-6 p-3">
+            <div
+              id="chatbox"
+              ref={boxRef}
+              className="flex flex-col gap-6 pl-3 py-3"
+            >
               <div className="flex w-full">
                 <div className="w-full">
                   <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
-                    Hi Timmy, I'm the Reading Genie and I know some great jokes
-                    and facts about dinosaurs!
+                    Hi Timmy, I&apos;m the Reading Genie and I know some great
+                    jokes and facts about dinosaurs!
                   </p>
                 </div>
                 <Image
@@ -101,7 +122,7 @@ export default function Home() {
               {dbData
                 ? dbData.map((data, index) => {
                     return (
-                      <div className="flex w-full" key={index}>
+                      <div key={index} className="flex w-full" key={index}>
                         <div className="w-full">
                           <p
                             key={index}
@@ -178,17 +199,17 @@ export default function Home() {
             <div className="flex flex-col gap-2">
               <Button
                 onClick={() => {
-                  setLoading(true);
+                  setMoreLoading(true);
                   askGenie(
                     userId,
                     "Tell me a concise fun fact for an 8 year old"
                   ).then(() => {
-                    setLoading(false);
+                    setMoreLoading(false);
                   });
                 }}
                 className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
               >
-                {loading ? (
+                {moreLoading ? (
                   <FaSpinner className="animate-spin" />
                 ) : (
                   "More like that"
@@ -196,18 +217,17 @@ export default function Home() {
               </Button>
               <Button
                 onClick={() => {
-                  setLoading(true);
+                  setDifferentLoading(true);
                   askGenie(
                     userId,
                     "Tell me a random thing suitable for an 8 year old"
                   ).then(() => {
-                    setLoading(false);
-                    setFirstMessage(false);
+                    setDifferentLoading(false);
                   });
                 }}
                 className="bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full  text-2xl font-semibold h-12 text-accent "
               >
-                {loading ? (
+                {differentLoading ? (
                   <FaSpinner className="animate-spin" />
                 ) : (
                   "Something different"
