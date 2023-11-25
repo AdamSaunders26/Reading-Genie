@@ -6,11 +6,11 @@ import SignIn3 from "./SignIn-3";
 import SignIn2 from "./SignIn-2";
 
 export default function SignInPage() {
-  const [currentStage, setCurrentStage] = useState(0);
+  const [currentStage, setCurrentStage] = useState(2);
   type StageProps = {
     setCurrentStage: (stage: number) => void;
   };
-  let mainClass = "flex flex-col justify-between h-[100vh] rounded-md";
+  let mainClass = "flex flex-col justify-between h-[100dvh] rounded-md";
   const stageIndex: Record<number, React.ReactElement<StageProps>> = {
     0: <SignIn0 setCurrentStage={setCurrentStage} />,
     1: <SignIn1 setCurrentStage={setCurrentStage} />,

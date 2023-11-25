@@ -17,6 +17,8 @@ import { LiaSkullCrossbonesSolid } from "react-icons/lia";
 import { FaOtter } from "react-icons/fa6";
 import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
 import { MdOutlineCheckBox } from "react-icons/md";
+import RGlogo from "../../public/Reading Genie v.2.png";
+import Image from "next/image";
 
 export default function SignIn2({
   setCurrentStage,
@@ -136,7 +138,14 @@ export default function SignIn2({
   console.log(selected);
   return (
     <div className="flex flex-col m-4 p-4 gap-4">
-      <h1 className="text-3xl text-center">What do they care about?</h1>
+      <Image
+        src={RGlogo}
+        alt="Reading Genie logo"
+        className="w-24 place-self-center"
+      />
+      <h1 className="text-2xl font-semibold text-primary text-center ">
+        What do they care about?
+      </h1>
       <div className="grid grid-cols-3 gap-4">
         {interests.map((interest, idx) => {
           return (
@@ -162,7 +171,9 @@ export default function SignIn2({
           );
         })}
       </div>
-      <h1 className="text-3xl text-center">What content to they enjoy?</h1>
+      <h1 className="text-2xl font-semibold text-primary text-center ">
+        What content to they enjoy?
+      </h1>
       {contentTypes.map((contentType, idx) => (
         <Button
           onClick={() => {
@@ -179,7 +190,9 @@ export default function SignIn2({
           {contentType}
         </Button>
       ))}
-      <h1 className="text-3xl text-center">Length of content</h1>
+      <h1 className="text-2xl font-semibold text-primary text-center ">
+        Length of content
+      </h1>
       {Object.keys(contentLengths).map((contentLength, idx) => (
         <Button
           onClick={() => {
