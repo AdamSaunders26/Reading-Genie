@@ -1,8 +1,11 @@
+
+"use client";
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import {
   addDoc,
+  getDoc,
   collection,
   doc,
   getFirestore,
@@ -42,8 +45,14 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-export async function initFirebase(setUserId) {
+export async function getUserRecord (uid) {
+  const rec = await getDoc(doc(db, 'genie-users', uid));
+  return rec.data();
+}
+
+export async function initFirebase() {
   const signIn = await signInAnonymously(auth);
+  saveField(['genie-users', signIn.user.uid], { added: Timestamp.now() });
   return signIn.user.uid;
 }
 
@@ -57,7 +66,13 @@ export async function addDocument(data: string) {
 }
 
 export async function saveField(path: [], value: any) {
-  const savedDoc = await setDoc(doc(db, ...path), value);
+  console.log()
+  try {
+    const savedDoc = await setDoc(doc(db, ...path), value, { merge: true});
+    console.log('Saved', savedDoc)
+  } catch (e) {
+    console.log('Error saving', e)
+  }
 }
 
 export function onData(uid, setDbData) {

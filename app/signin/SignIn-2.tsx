@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { saveField, auth, initFirebase } from "../firebase/config";
+import { saveField, auth, initFirebase, db } from "../firebase/config";
 
 import React, { useState, useEffect } from "react";
 
@@ -83,7 +83,7 @@ export default function SignIn2({
   useEffect(() => {
     getUser();
     if (userId) {
-      console.log(makeArray(selected.interests))
+      console.log('SAVING', userId, makeArray(selected.interests));
       saveField(['genie-users', userId], {
         interests: makeArray(selected.interests),
         contentTypes: makeArray(selected.contentTypes),
