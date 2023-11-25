@@ -22,7 +22,7 @@ import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 
 const askGenie = async (uid: any, body: string, instructions) => {
-  console.log('asdas', instructions)
+  console.log("asdas", instructions);
   await addMessage(uid, body, instructions);
 };
 
@@ -44,7 +44,7 @@ export default function Home() {
     console.log(uid);
     const record = await getUserRecord(uid);
     setUserData(record);
-    console.log('RECORD', record);
+    console.log("RECORD", record);
     onData(userId, setDbData);
     setUserId(uid);
     return uid;
@@ -122,7 +122,7 @@ export default function Home() {
               {dbData
                 ? dbData.map((data, index) => {
                     return (
-                      <div key={index} className="flex w-full" key={index}>
+                      <div key={index} className="flex w-full">
                         <div className="w-full">
                           <p
                             key={index}
@@ -171,17 +171,18 @@ export default function Home() {
               onClick={async () => {
                 setLoading(true);
                 const lengths = {
-                  "Short": "one or two sentences",
-                  'Medium': 'a paragraph',
-                  "Long": 'several paragraphs'
+                  Short: "one or two sentences",
+                  Medium: "a paragraph",
+                  Long: "several paragraphs",
                 };
-                console.log(userData)
+                console.log(userData);
                 if (userData?.contentLengths) {
                   const length = Object.keys(userData?.contentLengths).pop();
                   console.log(lengths[length]);
                 }
                 // const instructions = `In ${lengths[length]}, response with response with some ${userData?.contentTypes.join(' or ')} about ${userData?.interests.join(' or ')}`;
-                const instructions = 'Your response must contain something about a Gary'
+                const instructions =
+                  "Your response must contain something about a Gary";
                 askGenie(
                   userId,
                   "Tell me a concise fun fact for an 8 year old",
