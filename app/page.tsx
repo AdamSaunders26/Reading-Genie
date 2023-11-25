@@ -100,8 +100,7 @@ export default function Home() {
               <div className="flex w-full">
                 <div className="w-full">
                   <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
-                    Hi Timmy, I&apos;m the Reading Genie and I know some great
-                    jokes and facts about dinosaurs!
+                    Hi Timmy, hit the button below to get started!
                   </p>
                 </div>
                 <Image
@@ -180,7 +179,7 @@ export default function Home() {
                   const length = Object.keys(nowData?.contentLengths).length;
                   console.log(lengths[nowData?.contentLengths[length - 1]], length);
                   const textLength = lengths[nowData?.contentLengths[length - 1]];
-                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes[0]} about ${nowData?.interests.join(' or ')}`;
                   askGenie(
                     userId,
                     instructions,
@@ -200,12 +199,26 @@ export default function Home() {
               <Button
                 onClick={() => {
                   setMoreLoading(true);
+                const lengths = {
+                  Short: "one or two sentences",
+                  Medium: "a paragraph",
+                  Long: "several paragraphs",
+                };
+                const nowData = await getUserRecord(userId);
+                if (nowData?.contentLengths) {
+                  const length = Object.keys(nowData?.contentLengths).length;
+                  console.log(lengths[nowData?.contentLengths[length - 1]], length);
+                  const textLength = lengths[nowData?.contentLengths[length - 1]];
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
                   askGenie(
                     userId,
-                    "Tell me a concise fun fact for an 8 year old"
+                    instructions,
+                    'instructions'
                   ).then(() => {
-                    setMoreLoading(false);
+                    setLoading(false);
+                    setFirstMessage(false);
                   });
+                }
                 }}
                 className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
               >
@@ -218,12 +231,26 @@ export default function Home() {
               <Button
                 onClick={() => {
                   setDifferentLoading(true);
+                const lengths = {
+                  Short: "one or two sentences",
+                  Medium: "a paragraph",
+                  Long: "several paragraphs",
+                };
+                const nowData = await getUserRecord(userId);
+                if (nowData?.contentLengths) {
+                  const length = Object.keys(nowData?.contentLengths).length;
+                  console.log(lengths[nowData?.contentLengths[length - 1]], length);
+                  const textLength = lengths[nowData?.contentLengths[length - 1]];
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}. But be really creative`;
                   askGenie(
                     userId,
-                    "Tell me a random thing suitable for an 8 year old"
+                    instructions,
+                    'instructions'
                   ).then(() => {
-                    setDifferentLoading(false);
+                    setLoading(false);
+                    setFirstMessage(false);
                   });
+                }
                 }}
                 className="bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full  text-2xl font-semibold h-12 text-accent "
               >
