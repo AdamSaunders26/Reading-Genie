@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { addDocument, db, onData, initFirebase, getUserRecord } from "./firebase/config";
+import {
+  addDocument,
+  db,
+  onData,
+  initFirebase,
+  getUserRecord,
+} from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
@@ -30,9 +36,9 @@ export default function Home() {
 
   const start = async () => {
     const uid = await initFirebase();
-    console.log(uid)
+    console.log(uid);
     const record = await getUserRecord(uid);
-    console.log('RECORD', record);
+    console.log("RECORD", record);
     onData(userId, setDbData);
     setUserId(uid);
     return uid;
@@ -65,39 +71,6 @@ export default function Home() {
         <FaGear className="w-6 h-6 text-white" />
       </header>
       <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
-<<<<<<< HEAD
-        <div
-          ref={sectionRef}
-          id="fuckyoureact"
-          className="overflow-scroll gap-2 overflow-x-hidden h-full"
-        >
-          <div id="chatbox" ref={boxRef} className="flex flex-col gap-3 p-3">
-            {dbData
-              ? dbData.map((data, index) => {
-                  return (
-                    <div className="flex" key={index}>
-                      <div>
-                        <p
-                          key={index}
-                          className=" bg-white h-fit w-full p-3 rounded-md"
-                        >
-                          {data}
-                        </p>
-                        <div className="flex justify-between">
-                          <p>Like</p>
-                          <p>Dislike</p>
-                        </div>
-                      </div>
-                      <Image
-                        src={greengenie}
-                        alt="reading genie"
-                        className="w-12 h-12 rounded-full bg-lightaccent mx-2"
-                      />
-                    </div>
-                  );
-                })
-              : null}
-=======
         {firstMessage ? (
           <div
             ref={sectionRef}
@@ -123,7 +96,6 @@ export default function Home() {
                 />
               </div>
             </div>
->>>>>>> 3a39830e033d1e20ee678ede27578336b90a0a93
           </div>
         ) : (
           <div
