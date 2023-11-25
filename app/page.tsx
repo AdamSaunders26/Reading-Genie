@@ -9,7 +9,9 @@ import { addMessage } from "./openai/index";
 import { FaGear } from "react-icons/fa6";
 import { FaThumbsUp } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
+import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
+import { FaSpinner } from "react-icons/fa6";
 
 const askGenie = async (uid: any, body: string) => {
   await addMessage(uid, body);
@@ -22,6 +24,7 @@ export default function Home() {
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const start = async () => {
     const uid = await initFirebase(setUserId);
@@ -67,12 +70,18 @@ export default function Home() {
               ? dbData.map((data, index) => {
                   return (
                     <div className="flex">
-                      <p
-                        key={index}
-                        className=" bg-white h-fit w-full p-3 rounded-md"
-                      >
-                        {data}
-                      </p>
+                      <div>
+                        <p
+                          key={index}
+                          className=" bg-white h-fit w-full p-3 rounded-md"
+                        >
+                          {data}
+                        </p>
+                        <div className="flex justify-between">
+                          <p>Like</p>
+                          <p>Dislike</p>
+                        </div>
+                      </div>
                       <Image
                         src={greengenie}
                         alt="reading genie"
@@ -98,8 +107,19 @@ export default function Home() {
           </div>
         </form> */}
         <div className="m-4 w-full pr-8">
-          <Button className="bg-accent w-full rounded-full text-white text-lg">
-            Show me!
+          <Button
+            onClick={() => {
+              setLoading(true);
+              askGenie(
+                userId,
+                "Tell me a concise fun fact for an 8 year old"
+              ).then(() => {
+                setLoading(false);
+              });
+            }}
+            className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-bold h-16 "
+          >
+            {loading ? <FaSpinner className="animate-spin" /> : "Show me!"}
           </Button>
         </div>
       </section>
