@@ -17,6 +17,7 @@ import { FaThumbsUp } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
+import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 
@@ -66,11 +67,15 @@ export default function Home() {
 
   return (
     <main className="flex flex-col justify-between h-[100vh] bg-secondary  w-full">
-      <header className="flex justify-between items-center px-4 shadow-lg bg-primary">
-        <p className="w-6 h-6"></p>
-
-        <Image src={textlogo} alt="reading genie" className="w-64" />
-        <FaGear className="w-6 h-6 text-white" />
+      <header className="flex justify-apart items-center  shadow-lg bg-primary">
+        <div className="flex gap-2">
+          <Image src={lamp} alt="reading genie lamp" className="w-20 -ml-2 " />
+          <p className="text-white -ml-3 pt-1">0</p>
+        </div>
+        <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
+        <div className="w-24 flex items-center justify-center">
+          <FaGear className="w-6 h-6 text-white" />
+        </div>
       </header>
       <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
         {firstMessage ? (
