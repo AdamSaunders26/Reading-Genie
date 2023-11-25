@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { saveField, auth } from "../firebase/config";
+import { saveField, auth, initFirebase, db } from "../firebase/config";
 
 import React, { useState, useEffect } from "react";
 
@@ -25,21 +25,17 @@ export default function SignIn2({
 }) {
   // @ts-ignore
   const toggleInterest = (section, interest) => {
-    if (!selected.hasOwnProperty(section)) {
-      // @ts-ignore
-      selected[section] = {};
+    if (!mySelected.hasOwnProperty(section)) {
+      mySelected[section] = {};
     }
-    // @ts-ignore
-    if (selected[section].hasOwnProperty(interest)) {
-      // @ts-ignore
-      delete selected[section][interest];
+    if (mySelected[section].hasOwnProperty(interest)) {
+      delete mySelected[section][interest];
     } else {
-      // @ts-ignore
-      selected[section][interest] = true;
+      mySelected[section][interest] = true;
     }
-
-    console.log(selected);
   };
+
+  const [userId, setUserId] = useState(null);
 
   const [selected, setSelected] = useState({
     interests: {
@@ -94,10 +90,35 @@ export default function SignIn2({
     "Animals",
   ];
 
+  const getUser = async () => {
+    const userId = await initFirebase();
+    setUserId(userId);
+  };
+
+  const makeArray = (obj) => {
+    return Object.keys(obj)
+      .map((key) => {
+        if (obj[key] === true) {
+          return key;
+        }
+        if (typeof obj[key] == "string") {
+          return obj[key];
+        }
+      })
+      .filter((i) => i);
+  };
+
   useEffect(() => {
-    console.log(auth);
-    // saveField([], selected);
-  }, [selected]);
+    getUser();
+    if (userId) {
+      console.log("SAVING", userId, makeArray(selected.interests));
+      saveField(["genie-users", userId], {
+        interests: makeArray(selected.interests),
+        contentTypes: makeArray(selected.contentTypes),
+        contentLengths: makeArray(selected.contentLengths),
+      });
+    }
+  }, [selected, userId]);
 
   const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];
 
@@ -131,9 +152,7 @@ export default function SignIn2({
                   newSelected.interests[interest] = true;
                   return newSelected;
                 });
-                // toggleInterest("interests", interest);
               }}
-              // className="border border-black text-black bg-white hover:bg-gray-300"
             >
               <div className="flex flex-col items-center">
                 <span className="p-2">{iconIndex.interests[interest]}</span>
