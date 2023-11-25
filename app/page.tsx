@@ -125,7 +125,7 @@ export default function Home() {
                         <div className="w-full">
                           <p
                             key={index}
-                            className=" bg-white h-fit w-full rounded-t-md p-3 "
+                            className=" bg-white h-fit w-full rounded-t-md p-3 whitespace-pre"
                           >
                             {data}
                           </p>
