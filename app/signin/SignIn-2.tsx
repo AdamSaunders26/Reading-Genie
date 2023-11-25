@@ -41,7 +41,19 @@ export default function SignIn2({
       dancing: false,
       gymnastics: false,
     },
+    contentTypes: {
+      facts: false,
+      riddles: false,
+      jokes: false,
+      spells: false,
+    },
+    contentLengths: {
+      short: false,
+      medium: false,
+      spells: false,
+    },
   });
+
   // const selected = {
   //   interests: {
   //     sport: false,
@@ -107,21 +119,37 @@ export default function SignIn2({
       <h1 className="text-3xl text-center">What content to they enjoy?</h1>
       {contentTypes.map((contentType, idx) => (
         <Button
-          onClick={() => toggleInterest("contentTypes", contentType)}
+          onClick={() => {
+            setSelected((curr) => {
+              const newSelected = { ...curr, ...contentTypes };
+              newSelected.contentTypes[contentType] = true;
+              return newSelected;
+            });
+            // toggleInterest("interests", interest);
+          }}
           key={idx}
-          className="border border-black text-black bg-white hover:bg-gray-300"
+          className={selected.contentTypes[contentType] ? clicked : notClicked}
         >
           {contentType}
         </Button>
       ))}
       <h1 className="text-3xl text-center">Length of content</h1>
-      {Object.keys(contentLengths).map((key, idx) => (
+      {Object.keys(contentLengths).map((contentLength, idx) => (
         <Button
-          onClick={() => toggleInterest("contentLengths", contentLengths[key])}
+          onClick={() => {
+            setSelected((curr) => {
+              const newSelected = { ...curr, ...contentLengths };
+              newSelected.contentLengths[contentLength] = true;
+              return newSelected;
+            });
+            // toggleInterest("interests", interest);
+          }}
           key={idx}
-          className="border border-black text-black bg-white hover:bg-gray-300"
+          className={
+            selected.contentLengths[contentLength] ? clicked : notClicked
+          }
         >
-          {key}
+          {contentLength}
         </Button>
       ))}
       <Button
