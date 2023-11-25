@@ -2,9 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import saveField from "../firebase/config";
+import { saveField, auth } from "../firebase/config";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function SignIn2({
   setCurrentStage,
@@ -67,6 +67,11 @@ export default function SignIn2({
     "dancing",
     "gymnastics",
   ];
+
+  useEffect(() => {
+    console.log(auth)
+    // saveField([], selected);
+  }, [selected]);
 
   const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];
 

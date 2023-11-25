@@ -28,7 +28,7 @@ const firebaseConfig = {
 let firebase_app =
   getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-const auth = getAuth(firebase_app);
+export const auth = getAuth(firebase_app);
 export const db = getFirestore(firebase_app);
 
 let uid: string | null = null;
