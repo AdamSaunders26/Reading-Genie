@@ -18,12 +18,11 @@ import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 
 const formSchema = z.object({
-  childNickName: z.string().min(5, {
-    message: "Nickname must be at least 5 characters.",
+  childNickName: z.string().min(2, {
+    message: "Nickname must be at least 2 characters.",
   }),
   childBirthDate: z.string(),
 });
-
 
 export default function SignIn1({
   setCurrentStage,
@@ -60,7 +59,6 @@ export default function SignIn1({
             control={form.control}
             name="childNickName"
             render={({ field }) => (
-
               <FormItem className="flex flex-col text-left">
                 <FormLabel>Child&apos;s name (nickname)</FormLabel>
 
@@ -76,7 +74,6 @@ export default function SignIn1({
             control={form.control}
             name="childBirthDate"
             render={({ field }) => (
-
               <FormItem className="flex flex-col text-left">
                 <FormLabel>Child&apos;s date of birth</FormLabel>
 
