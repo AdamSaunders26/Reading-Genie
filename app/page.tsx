@@ -92,8 +92,8 @@ export default function Home() {
               <div className="flex w-full">
                 <div className="w-full">
                   <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
-                    Hi Timmy, I'm the Reading Genie and I know some great jokes
-                    and facts about dinosaurs!
+                    Hi Timmy, I&apos;m the Reading Genie and I know some great
+                    jokes and facts about dinosaurs!
                   </p>
                 </div>
                 <Image
@@ -114,7 +114,7 @@ export default function Home() {
               {dbData
                 ? dbData.map((data, index) => {
                     return (
-                      <div className="flex w-full">
+                      <div key={index} className="flex w-full">
                         <div className="w-full">
                           <p
                             key={index}
