@@ -20,6 +20,8 @@ import greengenie from "../public/greengenie.svg";
 import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
+import { useRouter } from 'next/navigation'
+
 
 const askGenie = async (uid: any, body: string, instructions) => {
   console.log("asdas", instructions);
@@ -27,6 +29,7 @@ const askGenie = async (uid: any, body: string, instructions) => {
 };
 
 export default function Home() {
+  const router = useRouter()
   const sectionRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -38,6 +41,7 @@ export default function Home() {
   const [differentLoading, setDifferentLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [clicks, setClicks] = useState(0);
 
   const start = async () => {
     const uid = await initFirebase();
@@ -54,6 +58,10 @@ export default function Home() {
     start();
     console.log("useEffect", userId);
   }, [userId]);
+
+  if (clicks == 3) {
+    router.push('/reward');
+  }
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();
@@ -125,7 +133,7 @@ export default function Home() {
                         <div className="w-full">
                           <p
                             key={index}
-                            className=" bg-white h-fit w-full rounded-t-md p-3 whitespace-pre"
+                            className=" bg-white h-fit w-full rounded-t-md p-3 whitespace-pre-wrap"
                           >
                             {data}
                           </p>
@@ -169,6 +177,7 @@ export default function Home() {
             <Button
               onClick={async () => {
                 setLoading(true);
+                setClicks(clicks + 1);
                 const lengths = {
                   Short: "one or two sentences",
                   Medium: "a paragraph",
@@ -199,6 +208,7 @@ export default function Home() {
               <Button
                 onClick={async () => {
                   setMoreLoading(true);
+                setClicks(clicks + 1);
                 const lengths = {
                   Short: "one or two sentences",
                   Medium: "a paragraph",
@@ -209,14 +219,14 @@ export default function Home() {
                   const length = Object.keys(nowData?.contentLengths).length;
                   console.log(lengths[nowData?.contentLengths[length - 1]], length);
                   const textLength = lengths[nowData?.contentLengths[length - 1]];
-                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes[0]} about ${nowData?.interests.join(' or ')}`;
                   askGenie(
                     userId,
                     instructions,
                     'instructions'
                   ).then(() => {
                     setLoading(false);
-                    setFirstMessage(false);
+                    setMoreLoading(false);
                   });
                 }
                 }}
@@ -231,6 +241,7 @@ export default function Home() {
               <Button
                 onClick={async () => {
                   setDifferentLoading(true);
+                setClicks(clicks + 1);
                 const lengths = {
                   Short: "one or two sentences",
                   Medium: "a paragraph",
@@ -241,14 +252,14 @@ export default function Home() {
                   const length = Object.keys(nowData?.contentLengths).length;
                   console.log(lengths[nowData?.contentLengths[length - 1]], length);
                   const textLength = lengths[nowData?.contentLengths[length - 1]];
-                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}. But be really creative`;
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes[0]} about ${nowData?.interests.join(' or ')}. But be really creative`;
                   askGenie(
                     userId,
                     instructions,
                     'instructions'
                   ).then(() => {
                     setLoading(false);
-                    setFirstMessage(false);
+                    setDifferentLoading(false);
                   });
                 }
                 }}
