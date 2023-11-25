@@ -69,7 +69,11 @@ export default function Home() {
     <main className="flex flex-col justify-between h-[100dvh] bg-secondary  w-full">
       <header className="flex justify-apart items-center  shadow-lg bg-primary">
         <div className="flex gap-2">
-          <Image src={lamp} alt="reading genie lamp" className="w-20 -ml-2 " />
+          <Image
+            src={lamp}
+            alt="reading genie lamp"
+            className="w-20 -ml-2 pt-1"
+          />
           <p className="text-white -ml-3 pt-1">0</p>
         </div>
         <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
