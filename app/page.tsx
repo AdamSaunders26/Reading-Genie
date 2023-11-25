@@ -7,9 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
 
-const uid = localStorage.getItem("uid");
-
-const askGenie = async (body: string) => {
+const askGenie = async (uid:any, body: string) => {
   await addMessage(uid, body);
 };
 
@@ -19,16 +17,19 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<string|null>(null);
 
   const start = async () => {
-    await initFirebase();
+    const uid = await initFirebase(setUserId);
+    onData(userId, setDbData);
+    setUserId(uid);
+    return uid
   };
 
   useEffect(() => {
     start();
-    // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
-  }, []);
+    console.log('useEffect', userId);
+  }, [userId]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();

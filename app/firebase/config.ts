@@ -42,7 +42,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-export async function initFirebase() {
+export async function initFirebase(setUserId) {
   const signIn = await signInAnonymously(auth);
   return signIn.user.uid;
 }
@@ -60,8 +60,8 @@ export async function saveField(path: [], value: any) {
   const savedDoc = await setDoc(doc(db, ...path), value);
 }
 
-export function onData() {
-  console.log('onData auth', localStorage.getItem("uid"))
+export function onData(uid, setDbData) {
+  console.log('onData auth', uid)
   if (!uid) return;
   const q = query(
     collection(db, "genie-users", uid, "messages"),
@@ -79,5 +79,6 @@ export function onData() {
     if (chatbox) {
       fuckyoureact?.scrollTo(0, chatbox.scrollHeight);
     }
+    setDbData(dataArray);
   });
 }
