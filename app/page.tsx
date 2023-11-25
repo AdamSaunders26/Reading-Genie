@@ -183,8 +183,8 @@ export default function Home() {
                   const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
                   askGenie(
                     userId,
-                    "Tell me a concise fun fact for an 8 year old",
-                    instructions
+                    instructions,
+                    'instructions'
                   ).then(() => {
                     setLoading(false);
                     setFirstMessage(false);
