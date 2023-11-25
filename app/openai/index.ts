@@ -83,7 +83,6 @@ async function getThreadId(userSid: string) {
 async function createThread(userSid = "", instructions = "") {
   try {
     const thread = await client.beta.threads.create({
-      instructions,
       metadata: {
         userSid,
       },
@@ -95,12 +94,14 @@ async function createThread(userSid = "", instructions = "") {
   }
 }
 
-async function createRun(assistant_id: string, thread_id: string) {
+async function createRun(assistant_id: string, thread_id: string, instructions) {
   try {
+    console.log('INS', instructions)
     const runJob = await client.beta.threads.runs.create(thread_id, {
       assistant_id,
+      instructions: instructions
     });
-    console.log("RUN CREATED");
+    console.log("RUN CREATED", runJob);
     return runJob;
   } catch (e) {
     console.log("ERROR CREATING RUN", e);
@@ -135,15 +136,13 @@ async function tidyText(inputText: string) {
   return answer;
 }
 
-async function addMessage(userSid: string, body: string) {
+async function addMessage(userSid: string, body: string, instructions) {
   let returned = false;
   let thread_id = await getThreadId(userSid);
 
   const addedMessage = await createMessage(thread_id, body);
 
-  // @ts-ignore
-  const runStarted = await createRun(assistantId, thread_id);
-  // @ts-ignore
+  const runStarted = await createRun(assistantId, thread_id, instructions);
   const response = await loopRunAndReturn(thread_id, runStarted.id);
 
   await addDoc(collection(db, "genie-users", userSid, "messages"), {

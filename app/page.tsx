@@ -14,8 +14,9 @@ import greengenie from "../public/greengenie.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 
-const askGenie = async (uid: any, body: string) => {
-  await addMessage(uid, body);
+const askGenie = async (uid: any, body: string, instructions) => {
+  console.log('asdas', instructions)
+  await addMessage(uid, body, instructions);
 };
 
 export default function Home() {
@@ -27,11 +28,13 @@ export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   const start = async () => {
     const uid = await initFirebase();
     console.log(uid)
     const record = await getUserRecord(uid);
+    setUserData(record);
     console.log('RECORD', record);
     onData(userId, setDbData);
     setUserId(uid);
@@ -52,7 +55,8 @@ export default function Home() {
         top: boxRef?.current?.scrollHeight,
         behavior: "smooth",
       });
-      askGenie(userId, inputValue);
+      // console.log('213423', instructions)
+      // askGenie(userId, inputValue, 'ehllo?');
     }
   }
 
@@ -65,39 +69,6 @@ export default function Home() {
         <FaGear className="w-6 h-6 text-white" />
       </header>
       <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
-<<<<<<< HEAD
-        <div
-          ref={sectionRef}
-          id="fuckyoureact"
-          className="overflow-scroll gap-2 overflow-x-hidden h-full"
-        >
-          <div id="chatbox" ref={boxRef} className="flex flex-col gap-3 p-3">
-            {dbData
-              ? dbData.map((data, index) => {
-                  return (
-                    <div className="flex" key={index}>
-                      <div>
-                        <p
-                          key={index}
-                          className=" bg-white h-fit w-full p-3 rounded-md"
-                        >
-                          {data}
-                        </p>
-                        <div className="flex justify-between">
-                          <p>Like</p>
-                          <p>Dislike</p>
-                        </div>
-                      </div>
-                      <Image
-                        src={greengenie}
-                        alt="reading genie"
-                        className="w-12 h-12 rounded-full bg-lightaccent mx-2"
-                      />
-                    </div>
-                  );
-                })
-              : null}
-=======
         {firstMessage ? (
           <div
             ref={sectionRef}
@@ -119,7 +90,6 @@ export default function Home() {
                 />
               </div>
             </div>
->>>>>>> 3a39830e033d1e20ee678ede27578336b90a0a93
           </div>
         ) : (
           <div
@@ -131,7 +101,7 @@ export default function Home() {
               {dbData
                 ? dbData.map((data, index) => {
                     return (
-                      <div className="flex w-full">
+                      <div className="flex w-full" key={index}>
                         <div className="w-full">
                           <p
                             key={index}
@@ -177,11 +147,24 @@ export default function Home() {
         <div className="m-4 w-full pr-8">
           {firstMessage ? (
             <Button
-              onClick={() => {
+              onClick={async () => {
                 setLoading(true);
+                const lengths = {
+                  "Short": "one or two sentences",
+                  'Medium': 'a paragraph',
+                  "Long": 'several paragraphs'
+                };
+                console.log(userData)
+                if (userData?.contentLengths) {
+                  const length = Object.keys(userData?.contentLengths).pop();
+                  console.log(lengths[length]);
+                }
+                // const instructions = `In ${lengths[length]}, response with response with some ${userData?.contentTypes.join(' or ')} about ${userData?.interests.join(' or ')}`;
+                const instructions = 'Your response must contain something about a Gary'
                 askGenie(
                   userId,
-                  "Tell me a concise fun fact for an 8 year old"
+                  "Tell me a concise fun fact for an 8 year old",
+                  instructions
                 ).then(() => {
                   setLoading(false);
                   setFirstMessage(false);
