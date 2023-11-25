@@ -80,9 +80,10 @@ async function getThreadId(userSid: string) {
   }
 }
 
-async function createThread(userSid = "") {
+async function createThread(userSid = "", instructions = "") {
   try {
     const thread = await client.beta.threads.create({
+      instructions,
       metadata: {
         userSid,
       },
