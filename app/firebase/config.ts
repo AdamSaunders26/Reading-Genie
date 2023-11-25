@@ -30,12 +30,12 @@ let firebase_app =
 
 export const auth = getAuth(firebase_app);
 export const db = getFirestore(firebase_app);
-
+export let userId = null;
 let uid: string | null = null;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     uid = user.uid;
-    localStorage.setItem("uid", uid);
+    userId = uid;
     console.log("AUTH STATE CHANGED", user);
   } else {
     console.log("AUTH STATE CHANGED", user);

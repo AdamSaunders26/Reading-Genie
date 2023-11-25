@@ -66,7 +66,7 @@ export default function Home() {
             {dbData
               ? dbData.map((data, index) => {
                   return (
-                    <div className="flex">
+                    <div className="flex" key={index}>
                       <p
                         key={index}
                         className=" bg-white h-fit w-full p-3 rounded-md"
