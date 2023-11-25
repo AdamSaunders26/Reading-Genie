@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
+import Link from "next/link";
 
 export default function SignIn3({
   setCurrentStage,
@@ -129,8 +130,9 @@ export default function SignIn3({
           />
         </div>
       </div>
-
-      <Button className="text-white w-full rounded-full">Next</Button>
+      <Link href="/" className="w-full">
+        <Button className="text-white w-full rounded-full">Next</Button>
+      </Link>
     </section>
   );
 }

@@ -6,7 +6,7 @@ import SignIn3 from "./SignIn-3";
 import SignIn2 from "./SignIn-2";
 
 export default function SignInPage() {
-  const [currentStage, setCurrentStage] = useState(2);
+  const [currentStage, setCurrentStage] = useState(0);
   type StageProps = {
     setCurrentStage: (stage: number) => void;
   };

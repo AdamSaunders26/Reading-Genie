@@ -8,6 +8,14 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   swcMinify: false,
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/",
+  //       destination: "/signin",
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;
