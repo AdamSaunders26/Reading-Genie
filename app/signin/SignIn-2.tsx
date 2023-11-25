@@ -6,6 +6,18 @@ import { saveField, auth } from "../firebase/config";
 
 import React, { useState, useEffect } from "react";
 
+import { IoFootballOutline } from "react-icons/io5";
+import { IoFlaskOutline } from "react-icons/io5";
+import { HiOutlineSparkles } from "react-icons/hi2";
+import { HiOutlinePaintBrush } from "react-icons/hi2";
+import { TbPick } from "react-icons/tb";
+import { PiPalette } from "react-icons/pi";
+import { GiDinosaurBones } from "react-icons/gi";
+import { LiaSkullCrossbonesSolid } from "react-icons/lia";
+import { FaOtter } from "react-icons/fa6";
+import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
+import { MdOutlineCheckBox } from "react-icons/md";
+
 export default function SignIn2({
   setCurrentStage,
 }: {
@@ -31,15 +43,15 @@ export default function SignIn2({
 
   const [selected, setSelected] = useState({
     interests: {
-      sport: false,
-      film: false,
-      bakeoff: false,
-      celebrities: false,
-      animals: false,
-      pirates: false,
-      dinosaurs: false,
-      dancing: false,
-      gymnastics: false,
+      Football: false,
+      Science: false,
+      Magic: false,
+      "Make-up": false,
+      Minecraft: false,
+      "Art & Craft": false,
+      Dinosaurs: false,
+      Pirates: false,
+      Animals: false,
     },
     contentTypes: {
       facts: false,
@@ -54,34 +66,36 @@ export default function SignIn2({
     },
   });
 
-  // const selected = {
-  //   interests: {
-  //     sport: false,
-  //     film: false,
-  //     bakeoff: false,
-  //     celebrities: false,
-  //     animals: false,
-  //     pirates: false,
-  //     dinosaurs: false,
-  //     dancing: false,
-  //     gymnastics: false,
-  //   },
-  // };
+  const iconSize = "h-6 w-6";
+
+  const iconIndex = {
+    interests: {
+      Football: <IoFootballOutline className={iconSize} />,
+      Science: <IoFlaskOutline className={iconSize} />,
+      Magic: <HiOutlineSparkles className={iconSize} />,
+      "Make-up": <HiOutlinePaintBrush className={iconSize} />,
+      Minecraft: <TbPick className={iconSize} />,
+      "Art & Craft": <PiPalette className={iconSize} />,
+      Dinosaurs: <GiDinosaurBones className={iconSize} />,
+      Pirates: <LiaSkullCrossbonesSolid className={iconSize} />,
+      Animals: <FaOtter className={iconSize} />,
+    },
+  };
 
   const interests = [
-    "sport",
-    "film",
-    "bakeoff",
-    "celebrities",
-    "animals",
-    "pirates",
-    "dinosaurs",
-    "dancing",
-    "gymnastics",
+    "Football",
+    "Science",
+    "Magic",
+    "Make-up",
+    "Minecraft",
+    "Art & Craft",
+    "Dinosaurs",
+    "Pirates",
+    "Animals",
   ];
 
   useEffect(() => {
-    console.log(auth)
+    console.log(auth);
     // saveField([], selected);
   }, [selected]);
 
@@ -93,8 +107,11 @@ export default function SignIn2({
     Long: "several paragraphs",
   };
 
-  const clicked = "bg-red-500";
-  const notClicked = "bg-blue-500";
+  const clicked = "bg-[#d9f7ed] border border-2 border-primary";
+  const notClicked = "bg-secondary border border-border";
+  const iconClicked = "bg-[#d9f7ed] border border-2 border-primary h-20 w-20";
+  const iconNotClicked = "bg-secondary border border-border h-20 w-20";
+
   console.log(selected);
   return (
     <div className="flex flex-col m-4 p-4 gap-4">
@@ -105,7 +122,9 @@ export default function SignIn2({
             <Button
               key={idx}
               // @ts-ignore
-              className={selected.interests[interest] ? clicked : notClicked}
+              className={
+                selected.interests[interest] ? iconClicked : iconNotClicked
+              }
               onClick={() => {
                 setSelected((curr) => {
                   const newSelected = { ...curr, ...interests };
@@ -116,7 +135,10 @@ export default function SignIn2({
               }}
               // className="border border-black text-black bg-white hover:bg-gray-300"
             >
-              {interest}
+              <div className="flex flex-col items-center">
+                <span className="p-2">{iconIndex.interests[interest]}</span>
+                <span>{interest}</span>
+              </div>
             </Button>
           );
         })}
