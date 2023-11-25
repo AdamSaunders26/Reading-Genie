@@ -32,6 +32,8 @@ export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
+  const [differentLoading, setDifferentLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState(true);
 
   const start = async () => {
@@ -171,17 +173,17 @@ export default function Home() {
             <div className="flex flex-col gap-2">
               <Button
                 onClick={() => {
-                  setLoading(true);
+                  setMoreLoading(true);
                   askGenie(
                     userId,
                     "Tell me a concise fun fact for an 8 year old"
                   ).then(() => {
-                    setLoading(false);
+                    setMoreLoading(false);
                   });
                 }}
                 className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
               >
-                {loading ? (
+                {moreLoading ? (
                   <FaSpinner className="animate-spin" />
                 ) : (
                   "More like that"
@@ -189,18 +191,17 @@ export default function Home() {
               </Button>
               <Button
                 onClick={() => {
-                  setLoading(true);
+                  setDifferentLoading(true);
                   askGenie(
                     userId,
                     "Tell me a random thing suitable for an 8 year old"
                   ).then(() => {
-                    setLoading(false);
-                    setFirstMessage(false);
+                    setDifferentLoading(false);
                   });
                 }}
                 className="bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full  text-2xl font-semibold h-12 text-accent "
               >
-                {loading ? (
+                {differentLoading ? (
                   <FaSpinner className="animate-spin" />
                 ) : (
                   "Something different"
