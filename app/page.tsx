@@ -2,21 +2,13 @@
 
 import Image from "next/image";
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import firebase_init, { addDocument, db, getData } from "./firebase/config";
+import { addDocument, db, onData, initFirebase } from "./firebase/config";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  doc,
-  onSnapshot,
-  setDoc,
-  collection,
-  query,
-  orderBy,
-} from "@firebase/firestore";
 import { addMessage } from "./openai/index";
 
-const askGenie = async (userId: string, body: string) => {
-  await addMessage(userId, body);
+const askGenie = async (uid:any, body: string) => {
+  await addMessage(uid, body);
 };
 
 export default function Home() {
@@ -25,36 +17,19 @@ export default function Home() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [dbData, setDbData] = useState<string[] | null>(null);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState<string|null>(null);
 
   const start = async () => {
-    const uid = await firebase_init(setDbData);
+    const uid = await initFirebase(setUserId);
+    onData(userId, setDbData);
     setUserId(uid);
-    const q = query(
-      collection(db, "genie-users", uid, "messages"),
-      orderBy("timestamp", "asc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const dataArray: string[] = [];
-
-      querySnapshot.forEach((o) => {
-        dataArray.push(o.data().body);
-      });
-      setDbData(dataArray);
-      setTimeout(() => {
-        sectionRef?.current?.scrollTo({
-          top: boxRef?.current?.scrollHeight,
-          behavior: "smooth",
-        });
-      }, 500);
-    });
+    return uid
   };
 
   useEffect(() => {
     start();
-    // askGenie("phPg9V9IkRdXcF8PGaX7j1jZ8823", `Yo yo, how's tricks?`);
-  }, []);
+    console.log('useEffect', userId);
+  }, [userId]);
 
   async function submitHandler(e: FormEvent) {
     e.preventDefault();

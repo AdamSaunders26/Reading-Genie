@@ -35,21 +35,14 @@ let uid: string | null = null;
 onAuthStateChanged(auth, (user) => {
   if (user) {
     uid = user.uid;
-    // setDoc(doc(db, "genie-users", uid), {
-    //   name: "Timmy",
-    //   age: "7",
-    //   topics: ["minecraft, gymnastics, egypt"],
-    //   chatGPT: "thing",
-    // });
+    localStorage.setItem("uid", uid);
     console.log("AUTH STATE CHANGED", user);
   } else {
     console.log("AUTH STATE CHANGED", user);
   }
 });
 
-async function firebase_init(
-  setState: React.Dispatch<React.SetStateAction<string[] | null>>
-) {
+export async function initFirebase(setUserId) {
   const signIn = await signInAnonymously(auth);
   return signIn.user.uid;
 }
@@ -63,31 +56,29 @@ export async function addDocument(data: string) {
   }
 }
 
-// export async function saveField(path: [], value: unknown) {
-//   const data = {value}
-//   const savedDoc = await setDoc(doc(db, ...path, ), data);
-// }
-
-export function getData() {
-  if (uid) {
-    const q = query(
-      collection(db, "genie-users", uid, "messages"),
-      orderBy("timestamp", "asc")
-    );
-
-    onSnapshot(q, (querySnapshot) => {
-      const dataArray: string[] = [];
-
-      querySnapshot.forEach((o) => {
-        dataArray.push(o.data().body);
-      });
-      const fuckyoureact = document.querySelector("#fuckyoureact");
-      const chatbox = document.querySelector("#chatbox");
-      if (chatbox) {
-        fuckyoureact?.scrollTo(0, chatbox.scrollHeight);
-      }
-    });
-  }
+export async function saveField(path: [], value: any) {
+  const savedDoc = await setDoc(doc(db, ...path), value);
 }
 
-export default firebase_init;
+export function onData(uid, setDbData) {
+  console.log('onData auth', uid)
+  if (!uid) return;
+  const q = query(
+    collection(db, "genie-users", uid, "messages"),
+    orderBy("timestamp", "asc")
+  );
+
+  onSnapshot(q, (querySnapshot) => {
+    const dataArray: string[] = [];
+
+    querySnapshot.forEach((o) => {
+      dataArray.push(o.data().body);
+    });
+    const fuckyoureact = document.querySelector("#fuckyoureact");
+    const chatbox = document.querySelector("#chatbox");
+    if (chatbox) {
+      fuckyoureact?.scrollTo(0, chatbox.scrollHeight);
+    }
+    setDbData(dataArray);
+  });
+}
