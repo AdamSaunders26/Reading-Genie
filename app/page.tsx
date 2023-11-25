@@ -197,7 +197,7 @@ export default function Home() {
           ) : (
             <div className="flex flex-col gap-2">
               <Button
-                onClick={() => {
+                onClick={async () => {
                   setMoreLoading(true);
                 const lengths = {
                   Short: "one or two sentences",
@@ -229,7 +229,7 @@ export default function Home() {
                 )}
               </Button>
               <Button
-                onClick={() => {
+                onClick={async () => {
                   setDifferentLoading(true);
                 const lengths = {
                   Short: "one or two sentences",
