@@ -12,6 +12,7 @@ import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
 import { FaSpinner } from "react-icons/fa6";
+import { FaThumbsDown } from "react-icons/fa";
 
 const askGenie = async (uid: any, body: string) => {
   await addMessage(uid, body);
@@ -25,6 +26,7 @@ export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [firstMessage, setFirstMessage] = useState(true);
 
   const start = async () => {
     const uid = await initFirebase(setUserId);
@@ -60,39 +62,68 @@ export default function Home() {
         <FaGear className="w-6 h-6 text-white" />
       </header>
       <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
-        <div
-          ref={sectionRef}
-          id="fuckyoureact"
-          className="overflow-scroll gap-2 overflow-x-hidden h-full"
-        >
-          <div id="chatbox" ref={boxRef} className="flex flex-col gap-3 p-3">
-            {dbData
-              ? dbData.map((data, index) => {
-                  return (
-                    <div className="flex">
-                      <div>
-                        <p
-                          key={index}
-                          className=" bg-white h-fit w-full p-3 rounded-md"
-                        >
-                          {data}
-                        </p>
-                        <div className="flex justify-between">
-                          <p>Like</p>
-                          <p>Dislike</p>
-                        </div>
-                      </div>
-                      <Image
-                        src={greengenie}
-                        alt="reading genie"
-                        className="w-12 h-12 rounded-full bg-lightaccent mx-2"
-                      />
-                    </div>
-                  );
-                })
-              : null}
+        {firstMessage ? (
+          <div
+            ref={sectionRef}
+            id="fuckyoureact"
+            className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
+          >
+            <div id="chatbox" ref={boxRef} className="flex flex-col gap-6 p-3">
+              <div className="flex w-full">
+                <div className="w-full">
+                  <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
+                    Hi Timmy, I'm the Reading Genie and I know some great jokes
+                    and facts about dinosaurs!
+                  </p>
+                </div>
+                <Image
+                  src={greengenie}
+                  alt="reading genie"
+                  className="w-12 h-12 rounded-full bg-lightaccent mx-2"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div
+            ref={sectionRef}
+            id="fuckyoureact"
+            className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
+          >
+            <div id="chatbox" ref={boxRef} className="flex flex-col gap-6 p-3">
+              {dbData
+                ? dbData.map((data, index) => {
+                    return (
+                      <div className="flex w-full">
+                        <div className="w-full">
+                          <p
+                            key={index}
+                            className=" bg-white h-fit w-full rounded-t-md p-3 "
+                          >
+                            {data}
+                          </p>
+                          <div className="flex justify-between bg-primary text-white py-2 rounded-b-md">
+                            <p className="text-center flex-1 flex items-center justify-center gap-2">
+                              <FaThumbsUp /> <span className="pt-1">Like</span>
+                            </p>
+                            <p className="text-center flex-1 border-l-2 border-white flex items-center justify-center gap-2">
+                              <FaThumbsDown />
+                              <span className="pt-1">Dislike</span>
+                            </p>
+                          </div>
+                        </div>
+                        <Image
+                          src={greengenie}
+                          alt="reading genie"
+                          className="w-12 h-12 rounded-full bg-lightaccent mx-2"
+                        />
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+          </div>
+        )}
         {/* <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
           <div className="w-full rounded-l flex">
             <Input
@@ -107,20 +138,63 @@ export default function Home() {
           </div>
         </form> */}
         <div className="m-4 w-full pr-8">
-          <Button
-            onClick={() => {
-              setLoading(true);
-              askGenie(
-                userId,
-                "Tell me a concise fun fact for an 8 year old"
-              ).then(() => {
-                setLoading(false);
-              });
-            }}
-            className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-bold h-16 "
-          >
-            {loading ? <FaSpinner className="animate-spin" /> : "Show me!"}
-          </Button>
+          {firstMessage ? (
+            <Button
+              onClick={() => {
+                setLoading(true);
+                askGenie(
+                  userId,
+                  "Tell me a concise fun fact for an 8 year old"
+                ).then(() => {
+                  setLoading(false);
+                  setFirstMessage(false);
+                });
+              }}
+              className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
+            >
+              {loading ? <FaSpinner className="animate-spin" /> : "Show me!"}
+            </Button>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={() => {
+                  setLoading(true);
+                  askGenie(
+                    userId,
+                    "Tell me a concise fun fact for an 8 year old"
+                  ).then(() => {
+                    setLoading(false);
+                  });
+                }}
+                className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
+              >
+                {loading ? (
+                  <FaSpinner className="animate-spin" />
+                ) : (
+                  "More like that"
+                )}
+              </Button>
+              <Button
+                onClick={() => {
+                  setLoading(true);
+                  askGenie(
+                    userId,
+                    "Tell me a random thing suitable for an 8 year old"
+                  ).then(() => {
+                    setLoading(false);
+                    setFirstMessage(false);
+                  });
+                }}
+                className="bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full  text-2xl font-semibold h-12 text-accent "
+              >
+                {loading ? (
+                  <FaSpinner className="animate-spin" />
+                ) : (
+                  "Something different"
+                )}
+              </Button>
+            </div>
+          )}
         </div>
       </section>
     </main>
