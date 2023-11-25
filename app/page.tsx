@@ -180,7 +180,7 @@ export default function Home() {
                   const length = Object.keys(nowData?.contentLengths).length;
                   console.log(lengths[nowData?.contentLengths[length - 1]], length);
                   const textLength = lengths[nowData?.contentLengths[length - 1]];
-                  const instructions = `In ${textLength}, response with response with some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
+                  const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(' or ')} about ${nowData?.interests.join(' or ')}`;
                   askGenie(
                     userId,
                     "Tell me a concise fun fact for an 8 year old",
