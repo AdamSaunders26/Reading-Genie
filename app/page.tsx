@@ -21,6 +21,7 @@ import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import LikeButtons from "./LikeButtons";
 
 const askGenie = async (uid: any, body: string, instructions: any) => {
   console.log("asdas", instructions);
@@ -141,16 +142,7 @@ export default function Home() {
                             >
                               {data}
                             </p>
-                            <div className="flex justify-between bg-primary text-white py-2 rounded-b-md">
-                              <p className="text-center flex-1 flex items-center justify-center gap-2">
-                                <FaThumbsUp />{" "}
-                                <span className="pt-1">Like</span>
-                              </p>
-                              <p className="text-center flex-1 border-l-2 border-white flex items-center justify-center gap-2">
-                                <FaThumbsDown />
-                                <span className="pt-1">Dislike</span>
-                              </p>
-                            </div>
+                            <LikeButtons />
                           </div>
                           <Image
                             src={greengenie}
