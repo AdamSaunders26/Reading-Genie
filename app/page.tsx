@@ -20,8 +20,7 @@ import greengenie from "../public/greengenie.svg";
 import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
-import { useRouter } from 'next/navigation'
-
+import { useRouter } from "next/navigation";
 
 const askGenie = async (uid: any, body: string, instructions: any) => {
   console.log("asdas", instructions);
@@ -29,7 +28,7 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
 };
 
 export default function Home() {
-  const router = useRouter()
+  const router = useRouter();
   const sectionRef = useRef<HTMLDivElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -60,7 +59,7 @@ export default function Home() {
   }, [userId]);
 
   if (clicks == 3) {
-    router.push('/reward');
+    router.push("/reward");
   }
 
   async function submitHandler(e: FormEvent) {
@@ -78,9 +77,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex justify-center h-[100dvh]">
-      <main className="flex flex-col justify-center align-center h-[100dvh] bg-secondary w-[400px]">
-        <header className="flex justify-apart items-center shadow-lg bg-primary">
+    <div className="flex justify-center h-[100dvh] ">
+      <main className="flex flex-col justify-center  h-[100dvh] bg-secondary  ">
+        <header className="flex justify-between items-center shadow-lg bg-primary w-full">
           <div className="flex gap-2">
             <Image
               src={lamp}
@@ -94,7 +93,7 @@ export default function Home() {
             <FaGear className="w-6 h-6 text-white" />
           </div>
         </header>
-        <section className="flex flex-1 flex-col overflow-y-scroll justify-between w-full ">
+        <section className="flex flex-1 flex-col overflow-hidden justify-between w-full ">
           {firstMessage ? (
             <div
               ref={sectionRef}

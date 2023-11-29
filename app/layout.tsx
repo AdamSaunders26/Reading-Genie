@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="h-[100dvh]" lang="en">
+    <html className="h-[100dvh] mx-auto w-[400px]" lang="en">
       <body className={league_spartan.className}>{children}</body>
     </html>
   );
