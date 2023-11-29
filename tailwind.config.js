@@ -22,6 +22,18 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        geniePurple: {
+          50: "#f2ebf9",
+          100: "#dcd0f1",
+          200: "#c3a1e8",
+          300: "#9e6ddc",
+          400: "#7a3bce",
+          500: "#614bc3",
+          600: "#563fba",
+          700: "#493499",
+          800: "#3b2a73",
+          900: "#2f2250",
+        },
         primary: {
           DEFAULT: "#614bc3",
         },
@@ -69,6 +81,7 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "bounce-short": "bounce 1s ease-in-out 1.5",
       },
     },
   },
