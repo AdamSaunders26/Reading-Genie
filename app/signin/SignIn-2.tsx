@@ -5,18 +5,20 @@ import { Input } from "@/components/ui/input";
 import { saveField, auth, initFirebase, db } from "../firebase/config";
 
 import React, { useState, useEffect } from "react";
-
-import { IoFootballOutline } from "react-icons/io5";
-import { IoFlaskOutline } from "react-icons/io5";
-import { HiOutlineSparkles } from "react-icons/hi2";
-import { HiOutlinePaintBrush } from "react-icons/hi2";
+import { IconContext } from "react-icons";
+import {
+  IoFootballOutline,
+  IoFlaskOutline,
+  IoCheckbox,
+  IoCheckboxOutline,
+} from "react-icons/io5";
+import { HiOutlineSparkles, HiOutlinePaintBrush } from "react-icons/hi2";
 import { TbPick } from "react-icons/tb";
 import { PiPalette } from "react-icons/pi";
 import { GiDinosaurBones } from "react-icons/gi";
 import { LiaSkullCrossbonesSolid } from "react-icons/lia";
 import { FaOtter } from "react-icons/fa6";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-import { MdOutlineCheckBox } from "react-icons/md";
+import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Image from "next/image";
 
@@ -26,16 +28,16 @@ export default function SignIn2({
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
 }) {
   // @ts-ignore
-  const toggleInterest = (section, interest) => {
-    if (!mySelected.hasOwnProperty(section)) {
-      mySelected[section] = {};
-    }
-    if (mySelected[section].hasOwnProperty(interest)) {
-      delete mySelected[section][interest];
-    } else {
-      mySelected[section][interest] = true;
-    }
-  };
+  // const toggleInterest = (section, interest) => {
+  //   if (!mySelected.hasOwnProperty(section)) {
+  //     mySelected[section] = {};
+  //   }
+  //   if (mySelected[section].hasOwnProperty(interest)) {
+  //     delete mySelected[section][interest];
+  //   } else {
+  //     mySelected[section][interest] = true;
+  //   }
+  // };
 
   const [userId, setUserId] = useState(null);
 
@@ -114,11 +116,14 @@ export default function SignIn2({
     getUser();
     if (userId) {
       console.log("SAVING", userId, makeArray(selected.interests));
-      saveField(["genie-users", userId], {
-        interests: makeArray(selected.interests),
-        contentTypes: makeArray(selected.contentTypes),
-        contentLengths: makeArray(selected.contentLengths),
-      });
+      saveField(
+        ["genie-users", userId] as const,
+        {
+          interests: makeArray(selected.interests),
+          contentTypes: makeArray(selected.contentTypes),
+          contentLengths: makeArray(selected.contentLengths),
+        } as any
+      ); // Add 'as any' to bypass the type checking
     }
   }, [selected, userId]);
 
@@ -130,14 +135,25 @@ export default function SignIn2({
     Long: "several paragraphs",
   };
 
-  const clicked = "bg-[#d9f7ed] border border-2 border-primary";
-  const notClicked = "bg-secondary border border-border";
-  const iconClicked = "bg-[#d9f7ed] border border-2 border-primary h-20 w-20";
-  const iconNotClicked = "bg-secondary border border-border h-20 w-20";
+  const contentLengthsDisplay = {
+    Short: "(1-2 sentences)",
+    Medium: "(a paragraph)",
+    Long: "(multiple paragraphs)",
+  };
+
+  const clicked =
+    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg";
+  const notClicked =
+    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg";
+  const iconClicked =
+    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20 font-light";
+  const iconNotClicked =
+    "bg-secondary border border-border h-20 w-20 font-light";
 
   console.log(selected);
+
   return (
-    <div className="flex flex-col m-4 p-4 gap-4">
+    <div className="flex flex-col justify-between m-4 p-4 gap-4">
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
@@ -153,18 +169,28 @@ export default function SignIn2({
               key={idx}
               // @ts-ignore
               className={
-                selected.interests[interest] ? iconClicked : iconNotClicked
+                selected.interests[interest as keyof typeof selected.interests]
+                  ? iconClicked
+                  : iconNotClicked
               }
               onClick={() => {
                 setSelected((curr) => {
                   const newSelected = { ...curr, ...interests };
-                  newSelected.interests[interest] = true;
+                  newSelected.interests[
+                    interest as keyof typeof newSelected.interests
+                  ] = true;
                   return newSelected;
                 });
               }}
             >
               <div className="flex flex-col items-center">
-                <span className="p-2">{iconIndex.interests[interest]}</span>
+                <span className="p-2">
+                  {
+                    iconIndex.interests[
+                      interest as keyof typeof iconIndex.interests
+                    ]
+                  }
+                </span>
                 <span>{interest}</span>
               </div>
             </Button>
@@ -179,18 +205,35 @@ export default function SignIn2({
           onClick={() => {
             setSelected((curr) => {
               const newSelected = { ...curr, ...contentTypes };
-              newSelected.contentTypes[contentType] = true;
+              newSelected.contentTypes[
+                contentType as keyof typeof newSelected.contentTypes
+              ] = true;
               return newSelected;
             });
             // toggleInterest("interests", interest);
           }}
           key={idx}
-          className={selected.contentTypes[contentType] ? clicked : notClicked}
+          className={
+            selected.contentTypes[
+              contentType as keyof typeof selected.contentTypes
+            ]
+              ? clicked
+              : notClicked
+          }
         >
-          {contentType}
+          <IconContext.Provider value={{ size: "28px" }}>
+            {selected.contentTypes[
+              contentType as keyof typeof selected.contentTypes
+            ] ? (
+              <MdCheckBox color="#614bc3" />
+            ) : (
+              <MdCheckBoxOutlineBlank />
+            )}
+          </IconContext.Provider>
+          <div className="mt-1">{contentType}</div>
         </Button>
       ))}
-      <h1 className="text-2xl font-semibold text-primary text-center ">
+      <h1 className="text-2xl font-semibold text-primary text-center">
         Length of content
       </h1>
       {Object.keys(contentLengths).map((contentLength, idx) => (
@@ -198,27 +241,45 @@ export default function SignIn2({
           onClick={() => {
             setSelected((curr) => {
               const newSelected = { ...curr, ...contentLengths };
-              newSelected.contentLengths[contentLength] = true;
+              newSelected.contentLengths[
+                contentLength as keyof typeof newSelected.contentLengths
+              ] = true;
               return newSelected;
             });
             // toggleInterest("interests", interest);
           }}
           key={idx}
           className={
-            selected.contentLengths[contentLength] ? clicked : notClicked
+            selected.contentLengths[
+              contentLength as keyof typeof selected.contentLengths
+            ]
+              ? clicked
+              : notClicked
           }
         >
-          {contentLength}
+          <IconContext.Provider value={{ size: "28px" }}>
+            {selected.contentLengths[
+              contentLength as keyof typeof selected.contentLengths
+            ] ? (
+              <MdCheckBox color="#614bc3" />
+            ) : (
+              <MdCheckBoxOutlineBlank />
+            )}
+          </IconContext.Provider>
+          <div className="mt-1">
+            {contentLength} {contentLengthsDisplay[contentLength]}
+          </div>
         </Button>
       ))}
       <Button
         onClick={() => {
           setCurrentStage(3);
         }}
-        className="text-white w-full rounded-full"
+        className="text-white w-full rounded-full mt-4"
       >
         Next
       </Button>
+      <div className="flex justify-center h-[20px]">&nbsp;</div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export default function SignInPage() {
   type StageProps = {
     setCurrentStage: (stage: number) => void;
   };
-  let mainClass = "flex flex-col justify-between h-[100dvh] rounded-md";
+  let mainClass = "flex justify-center h-[100dvh]";
   const stageIndex: Record<number, React.ReactElement<StageProps>> = {
     0: <SignIn0 setCurrentStage={setCurrentStage} />,
     1: <SignIn1 setCurrentStage={setCurrentStage} />,
@@ -18,5 +18,9 @@ export default function SignInPage() {
     3: <SignIn3 setCurrentStage={setCurrentStage} />,
   };
 
-  return <main className={mainClass}>{stageIndex[currentStage]}</main>;
+  return (
+    <>
+      <main className={mainClass}>{stageIndex[currentStage]}</main>
+    </>
+  );
 }

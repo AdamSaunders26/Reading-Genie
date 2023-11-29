@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
@@ -16,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
-import { FaEyeSlash } from "react-icons/fa";
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -43,6 +44,8 @@ export default function SignIn0({
     console.log(values);
     setCurrentStage(1);
   }
+
+  const [showPass, setShowPass] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center text-center m-4 p-4">
@@ -96,13 +99,23 @@ export default function SignIn0({
                 <div className="flex items-center">
                   <FormControl>
                     <Input
-                      type="password"
+                      type={showPass ? "text" : "password"}
                       className="w-64 border-xl"
                       placeholder=""
                       {...field}
                     />
                   </FormControl>
-                  <FaEyeSlash className="-ml-8" />
+                  <label
+                    onClick={() => setShowPass(!showPass)}
+                    className=""
+                    htmlFor="toggle"
+                  >
+                    {showPass ? (
+                      <FaEye className="-ml-8" />
+                    ) : (
+                      <FaEyeSlash className="-ml-8" />
+                    )}
+                  </label>
                 </div>
                 <FormDescription></FormDescription>
                 <FormMessage />

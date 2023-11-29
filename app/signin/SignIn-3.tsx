@@ -21,38 +21,39 @@ export default function SignIn3({
   const [inputValue, setInputValue] = useState("");
   console.log(inputValue);
   return (
-    <section className="flex flex-col items-center gap-16 m-4 mx-8">
-      <div className="flex flex-col ">
-        <Image
-          src={RGlogo}
-          alt="Reading Genie logo"
-          className="w-24 place-self-center"
-        />
-        <h2 className="text-2xl font-semibold text-primary text-center ">
-          How often would you like your child to use Reading Genie?
-        </h2>
-        <Slider
-          className="pb-2 pt-4"
-          value={goalsValue}
-          onValueChange={(e) => {
-            setGoalsValue(e);
-          }}
-          defaultValue={[0]}
-          max={6}
-          step={1}
-        />
-        <div className="flex justify-between">
-          <p>1</p>
-          <p>2</p>
-          <p>3</p>
-          <p>4</p>
-          <p>5</p>
-          <p>6</p>
-          <p>7</p>
+    <div className="flex flex-col justify-between m-4 p-4 gap-4 w-[400px]">
+      <section className="flex flex-col items-center gap-16 m-4 mx-8">
+        <div className="flex flex-col">
+          <Image
+            src={RGlogo}
+            alt="Reading Genie logo"
+            className="w-24 place-self-center"
+          />
+          <h2 className="text-2xl font-semibold text-primary text-center ">
+            How often would you like your child to use Reading Genie?
+          </h2>
+          <Slider
+            className="pb-2 pt-4"
+            value={goalsValue}
+            onValueChange={(e) => {
+              setGoalsValue(e);
+            }}
+            defaultValue={[0]}
+            max={6}
+            step={1}
+          />
+          <div className="flex justify-between">
+            <p>1</p>
+            <p>2</p>
+            <p>3</p>
+            <p>4</p>
+            <p>5</p>
+            <p>6</p>
+            <p>7</p>
+          </div>
+          <p className="place-self-center">Per week</p>
         </div>
-        <p className="place-self-center">Per week</p>
-      </div>
-      {/* <div>
+        {/* <div>
         <h2 className="text-3xl">Genie Lamps - {lampsValue}</h2>
         <p>
           Text about really important stuff that will be filled with great and
@@ -76,63 +77,65 @@ export default function SignIn3({
         </div>
         <p>Yet more incredibly well chosen text that is just delightful</p>
       </div> */}
-      {/* <div className="flex  space-x-2 items-center">
+        {/* <div className="flex  space-x-2 items-center">
         <Checkbox id="independent" />
         <label htmlFor="independent" className="pt-1">
           Independent?
         </label>
       </div> */}
-      <div className="flex flex-col gap-8 ">
-        <h2 className="text-3xl font-semibold text-primary text-center">
-          Rewards
-        </h2>
-        <div>
-          <p className="text-center">
-            The best reward is a personalised reward you and your child agree
-            on.
-          </p>
-          <p className="text-center">
-            Example: Extra pocket money, a treat, a balloon ride, you decide!
-          </p>
-        </div>
-        {buttonClicked ? null : (
-          <Button
-            onClick={() => {
-              console.log("click");
-              setButtonClicked(true);
-            }}
-            className="bg-secondary border-border w-16 h-16 text-4xl border-2 place-self-center pt-4"
-          >
-            {currentEmoji}
-          </Button>
-        )}
-        {buttonClicked ? (
-          <div className="place-self-center">
-            <EmojiPicker
-              height={400}
-              lazyLoadEmojis={true}
-              onEmojiClick={(e) => {
-                setButtonClicked(false);
-                setCurrentEmoji(e.emoji);
+        <div className="flex flex-col gap-8 ">
+          <h2 className="text-3xl font-semibold text-primary text-center">
+            Rewards
+          </h2>
+          <div>
+            <p className="text-center">
+              The best reward is a personalised reward you and your child agree
+              on.
+            </p>
+            <p className="text-center">
+              Example: Extra pocket money, a treat, a balloon ride, you decide!
+            </p>
+          </div>
+          {buttonClicked ? null : (
+            <Button
+              onClick={() => {
+                console.log("click");
+                setButtonClicked(true);
               }}
+              className="bg-secondary border-border w-16 h-16 text-4xl border-2 place-self-center pt-4"
+            >
+              {currentEmoji}
+            </Button>
+          )}
+          {buttonClicked ? (
+            <div className="place-self-center">
+              <EmojiPicker
+                height={400}
+                lazyLoadEmojis={true}
+                onEmojiClick={(e) => {
+                  setButtonClicked(false);
+                  setCurrentEmoji(e.emoji);
+                }}
+              />
+            </div>
+          ) : null}
+          <div>
+            <p>Reward title</p>
+            <Input
+              type="text"
+              placeholder="Enter reward title"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setInputValue(e.target.value)
+              }
+              value={inputValue}
             />
           </div>
-        ) : null}
-        <div>
-          <p>Reward title</p>
-          <Input
-            type="text"
-            placeholder="Enter reward title"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setInputValue(e.target.value)
-            }
-            value={inputValue}
-          />
         </div>
-      </div>
-      <Link href="/" className="w-full">
-        <Button className="text-white w-full rounded-full">Next</Button>
-      </Link>
-    </section>
+        <Link href="/" className="w-full">
+          <Button className="text-white w-full rounded-full">Next</Button>
+        </Link>
+      </section>
+      <div className="flex justify-center h-[20px]">&nbsp;</div>
+    </div>
   );
 }
