@@ -122,13 +122,13 @@ export default function SignIn2({
   };
 
   const clicked =
-    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg";
+    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:bg-geniePurple-200";
   const notClicked =
-    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg";
+    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg hover:bg-geniePurple-200";
   const iconClicked =
-    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20  text-primary";
+    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20  text-primary hover:bg-geniePurple-200";
   const iconNotClicked =
-    "bg-secondary border border-border h-20 w-20 font-light";
+    "bg-secondary border border-border h-20 w-20 font-light hover:bg-geniePurple-200";
 
   console.log(selected);
 
