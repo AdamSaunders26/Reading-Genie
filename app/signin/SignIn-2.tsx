@@ -175,8 +175,8 @@ export default function SignIn2({
             selected.contentTypes[
               contentType as keyof typeof selected.contentTypes
             ]
-              ? clicked
-              : notClicked
+              ? clicked + " py-6 "
+              : notClicked + " py-6 "
           }
         >
           <IconContext.Provider value={{ size: "28px" }}>
@@ -204,8 +204,8 @@ export default function SignIn2({
             selected.contentLengths[
               contentLength as keyof typeof selected.contentLengths
             ]
-              ? clicked
-              : notClicked
+              ? clicked + " py-6 "
+              : notClicked + " py-6 "
           }
         >
           <IconContext.Provider value={{ size: "28px" }}>
