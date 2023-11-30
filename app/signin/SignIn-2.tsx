@@ -126,7 +126,7 @@ export default function SignIn2({
   const notClicked =
     "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg";
   const iconClicked =
-    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20 font-light";
+    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20  text-primary";
   const iconNotClicked =
     "bg-secondary border border-border h-20 w-20 font-light";
 
