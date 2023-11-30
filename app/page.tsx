@@ -22,6 +22,7 @@ import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import LikeButtons from "./LikeButtons";
+import { DocumentData } from "firebase/firestore";
 
 const askGenie = async (uid: any, body: string, instructions: any) => {
   console.log("asdas", instructions);
@@ -40,14 +41,16 @@ export default function Home() {
   const [moreLoading, setMoreLoading] = useState(false);
   const [differentLoading, setDifferentLoading] = useState(false);
   const [firstMessage, setFirstMessage] = useState(true);
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState<DocumentData | null>(null);
   const [clicks, setClicks] = useState(0);
 
   const start = async () => {
     const uid = await initFirebase();
     console.log(uid);
     const record = await getUserRecord(uid);
-    setUserData(record);
+    if (record) {
+      setUserData(record);
+    }
     console.log("RECORD", record);
     onData(userId, setDbData);
     setUserId(uid);
@@ -72,13 +75,11 @@ export default function Home() {
         top: boxRef?.current?.scrollHeight,
         behavior: "smooth",
       });
-      // console.log('213423', instructions)
-      // askGenie(userId, inputValue, 'ehllo?');
     }
   }
 
   return (
-    <div className="flex justify-center h-[100dvh] ">
+    <div className=" h-[100dvh] ">
       <main className="flex flex-col justify-center  h-[100dvh] bg-secondary  ">
         <header className="flex justify-between items-center shadow-lg bg-primary w-full">
           <div className="flex gap-2">

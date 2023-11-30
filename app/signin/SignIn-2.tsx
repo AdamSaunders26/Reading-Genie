@@ -122,13 +122,13 @@ export default function SignIn2({
   };
 
   const clicked =
-    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg";
+    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed]";
   const notClicked =
-    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg";
+    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-secondary";
   const iconClicked =
-    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20 font-light";
+    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20  text-primary hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] ";
   const iconNotClicked =
-    "bg-secondary border border-border h-20 w-20 font-light";
+    "bg-secondary border border-border h-20 w-20 font-light hover:lg:bg-geniePurple-200 hover:bg-secondary ";
 
   console.log(selected);
 
@@ -175,8 +175,8 @@ export default function SignIn2({
             selected.contentTypes[
               contentType as keyof typeof selected.contentTypes
             ]
-              ? clicked
-              : notClicked
+              ? clicked + " py-6 "
+              : notClicked + " py-6 "
           }
         >
           <IconContext.Provider value={{ size: "28px" }}>
@@ -204,8 +204,8 @@ export default function SignIn2({
             selected.contentLengths[
               contentLength as keyof typeof selected.contentLengths
             ]
-              ? clicked
-              : notClicked
+              ? clicked + " py-6 "
+              : notClicked + " py-6 "
           }
         >
           <IconContext.Provider value={{ size: "28px" }}>
