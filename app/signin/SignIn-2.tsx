@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { saveField, auth, initFirebase, db } from "../firebase/config";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { IconContext } from "react-icons";
 import {
   IoFootballOutline,
@@ -21,50 +21,28 @@ import { FaOtter } from "react-icons/fa6";
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Image from "next/image";
+import { initialState, topicReducer } from "./topicReducer";
 
 export default function SignIn2({
   setCurrentStage,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  // @ts-ignore
-  // const toggleInterest = (section, interest) => {
-  //   if (!mySelected.hasOwnProperty(section)) {
-  //     mySelected[section] = {};
-  //   }
-  //   if (mySelected[section].hasOwnProperty(interest)) {
-  //     delete mySelected[section][interest];
-  //   } else {
-  //     mySelected[section][interest] = true;
-  //   }
-  // };
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const [userId, setUserId] = useState(null);
+  const [selected, dispatch] = useReducer(topicReducer, initialState);
 
-  const [selected, setSelected] = useState({
-    interests: {
-      Football: false,
-      Science: false,
-      Magic: false,
-      "Make-up": false,
-      Minecraft: false,
-      "Art & Craft": false,
-      Dinosaurs: false,
-      Pirates: false,
-      Animals: false,
-    },
-    contentTypes: {
-      facts: false,
-      riddles: false,
-      jokes: false,
-      spells: false,
-    },
-    contentLengths: {
-      short: false,
-      medium: false,
-      spells: false,
-    },
-  });
+  function toggleInterest(interest: string) {
+    dispatch({ type: "TOGGLE_INTEREST", payload: interest });
+  }
+
+  function toggleContentType(contentType: string) {
+    dispatch({ type: "TOGGLE_CONTENT_TYPE", payload: contentType });
+  }
+
+  function toggleContentLength(contentLength: string) {
+    dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
+  }
 
   const iconSize = "h-6 w-6";
 
@@ -80,7 +58,42 @@ export default function SignIn2({
       Pirates: <LiaSkullCrossbonesSolid className={iconSize} />,
       Animals: <FaOtter className={iconSize} />,
     },
+  } as const;
+
+  const getIconByInterest = (interest: string) => {
+    return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
+
+  const getUser = async () => {
+    const userId = await initFirebase();
+    setUserId(userId);
+  };
+
+  const makeArray = (obj: Record<string, boolean>): (string | undefined)[] => {
+    return Object.keys(obj)
+      .map((key) => {
+        if (obj[key] === true) {
+          return key;
+        }
+        // if (typeof obj[key] == "string") {
+        //   return obj[key];
+        // }
+        // Commented this out as I think we're only passing boolean values into it
+      })
+      .filter((i) => i);
+  };
+
+  useEffect(() => {
+    getUser();
+    if (userId) {
+      console.log("SAVING", userId, makeArray(selected.interests));
+      saveField(["genie-users", userId], {
+        interests: makeArray(selected.interests),
+        contentTypes: makeArray(selected.contentTypes),
+        contentLengths: makeArray(selected.contentLengths),
+      });
+    }
+  }, [selected, userId]);
 
   const interests = [
     "Football",
@@ -94,39 +107,6 @@ export default function SignIn2({
     "Animals",
   ];
 
-  const getUser = async () => {
-    const userId = await initFirebase();
-    setUserId(userId);
-  };
-
-  const makeArray = (obj) => {
-    return Object.keys(obj)
-      .map((key) => {
-        if (obj[key] === true) {
-          return key;
-        }
-        if (typeof obj[key] == "string") {
-          return obj[key];
-        }
-      })
-      .filter((i) => i);
-  };
-
-  useEffect(() => {
-    getUser();
-    if (userId) {
-      console.log("SAVING", userId, makeArray(selected.interests));
-      saveField(
-        ["genie-users", userId] as const,
-        {
-          interests: makeArray(selected.interests),
-          contentTypes: makeArray(selected.contentTypes),
-          contentLengths: makeArray(selected.contentLengths),
-        } as any
-      ); // Add 'as any' to bypass the type checking
-    }
-  }, [selected, userId]);
-
   const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];
 
   const contentLengths = {
@@ -135,7 +115,7 @@ export default function SignIn2({
     Long: "several paragraphs",
   };
 
-  const contentLengthsDisplay = {
+  const contentLengthsDisplay: Record<string, string> = {
     Short: "(1-2 sentences)",
     Medium: "(a paragraph)",
     Long: "(multiple paragraphs)",
@@ -167,30 +147,15 @@ export default function SignIn2({
           return (
             <Button
               key={idx}
-              // @ts-ignore
               className={
-                selected.interests[interest as keyof typeof selected.interests]
-                  ? iconClicked
-                  : iconNotClicked
+                selected.interests[interest] ? iconClicked : iconNotClicked
               }
               onClick={() => {
-                setSelected((curr) => {
-                  const newSelected = { ...curr, ...interests };
-                  newSelected.interests[
-                    interest as keyof typeof newSelected.interests
-                  ] = true;
-                  return newSelected;
-                });
+                toggleInterest(interest);
               }}
             >
               <div className="flex flex-col items-center">
-                <span className="p-2">
-                  {
-                    iconIndex.interests[
-                      interest as keyof typeof iconIndex.interests
-                    ]
-                  }
-                </span>
+                <span className="p-2">{getIconByInterest(interest)}</span>
                 <span>{interest}</span>
               </div>
             </Button>
@@ -203,14 +168,7 @@ export default function SignIn2({
       {contentTypes.map((contentType, idx) => (
         <Button
           onClick={() => {
-            setSelected((curr) => {
-              const newSelected = { ...curr, ...contentTypes };
-              newSelected.contentTypes[
-                contentType as keyof typeof newSelected.contentTypes
-              ] = true;
-              return newSelected;
-            });
-            // toggleInterest("interests", interest);
+            toggleContentType(contentType);
           }}
           key={idx}
           className={
@@ -239,14 +197,7 @@ export default function SignIn2({
       {Object.keys(contentLengths).map((contentLength, idx) => (
         <Button
           onClick={() => {
-            setSelected((curr) => {
-              const newSelected = { ...curr, ...contentLengths };
-              newSelected.contentLengths[
-                contentLength as keyof typeof newSelected.contentLengths
-              ] = true;
-              return newSelected;
-            });
-            // toggleInterest("interests", interest);
+            toggleContentLength(contentLength);
           }}
           key={idx}
           className={
