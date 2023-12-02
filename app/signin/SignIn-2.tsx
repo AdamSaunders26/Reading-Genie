@@ -115,7 +115,7 @@ export default function SignIn2({
               }}
             >
               <div className="flex flex-col items-center">
-                <span className="p-2 text-3xl">
+                <span className="p-2 text-3xl drop-shadow-xl">
                   {getIconByInterest(interest)}
                 </span>
                 <span className=" whitespace-normal leading-6 text-xl">
