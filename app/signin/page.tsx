@@ -22,7 +22,13 @@ export default function SignInPage() {
         dispatch={dispatch}
       />
     ),
-    1: <SignIn1 setCurrentStage={setCurrentStage} />,
+    1: (
+      <SignIn1
+        setCurrentStage={setCurrentStage}
+        selected={selected}
+        dispatch={dispatch}
+      />
+    ),
     2: (
       <SignIn2
         setCurrentStage={setCurrentStage}

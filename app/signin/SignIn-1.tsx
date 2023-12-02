@@ -18,6 +18,7 @@ import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import SkipButton from "./components/SkipButton";
 import BackButton from "./components/BackButton";
+import { Action, State } from "./topicReducer";
 
 const formSchema = z.object({
   childNickName: z.string().min(2, {
@@ -28,10 +29,16 @@ const formSchema = z.object({
 
 export default function SignIn1({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
-  // 1. Define your form.
+  function toggleChildDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,6 +46,9 @@ export default function SignIn1({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    for (const detail in values) {
+      toggleChildDetails(detail, (values as any)[detail]);
+    }
     setCurrentStage(2);
   }
 
