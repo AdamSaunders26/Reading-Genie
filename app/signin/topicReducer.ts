@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { contentLengths, contentTypes, topics } from "./topics";
 
 export interface State {
   interests: Record<string, boolean>;
@@ -43,26 +44,19 @@ export const topicReducer = (state: State, action: Action): State => {
 };
 
 export const initialState: State = {
-  interests: {
-    Football: false,
-    Science: false,
-    Magic: false,
-    "Make-up": false,
-    Minecraft: false,
-    "Art & Craft": false,
-    Dinosaurs: false,
-    Pirates: false,
-    Animals: false,
-  },
-  contentTypes: {
-    facts: false,
-    riddles: false,
-    jokes: false,
-    spells: false,
-  },
-  contentLengths: {
-    short: false,
-    medium: false,
-    spells: false,
-  },
+  interests: Object.fromEntries(
+    topics.map((topic) => {
+      return [topic, false];
+    })
+  ),
+  contentTypes: Object.fromEntries(
+    contentTypes.map((contentType) => {
+      return [contentType, false];
+    })
+  ),
+  contentLengths: Object.fromEntries(
+    contentLengths.map((contentLength) => {
+      return [contentLength.split(" ")[0], false];
+    })
+  ),
 };
