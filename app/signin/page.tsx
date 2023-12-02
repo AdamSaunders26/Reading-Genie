@@ -13,9 +13,15 @@ export default function SignInPage() {
   type StageProps = {
     setCurrentStage: (stage: number) => void;
   };
-
+  console.log(selected);
   const stageIndex: Record<number, React.ReactElement<StageProps>> = {
-    0: <SignIn0 setCurrentStage={setCurrentStage} />,
+    0: (
+      <SignIn0
+        setCurrentStage={setCurrentStage}
+        selected={selected}
+        dispatch={dispatch}
+      />
+    ),
     1: <SignIn1 setCurrentStage={setCurrentStage} />,
     2: (
       <SignIn2

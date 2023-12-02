@@ -24,8 +24,6 @@ export default function SignIn2({
 }) {
   const [userId, setUserId] = useState<string | null>(null);
 
-  // const [selected, dispatch] = useReducer(topicReducer, initialState);
-
   function toggleInterest(interest: string) {
     dispatch({ type: "TOGGLE_INTEREST", payload: interest });
   }

@@ -5,12 +5,14 @@ export interface State {
   interests: Record<string, boolean>;
   contentTypes: Record<string, boolean>;
   contentLengths: Record<string, boolean>;
+  parentDetails: Record<string, string>;
 }
 
 export type Action =
   | { type: "TOGGLE_INTEREST"; payload: string }
   | { type: "TOGGLE_CONTENT_TYPE"; payload: string }
-  | { type: "TOGGLE_CONTENT_LENGTH"; payload: string };
+  | { type: "TOGGLE_CONTENT_LENGTH"; payload: string }
+  | { type: "TOGGLE_PARENT_DETAILS"; payload: string; input: string };
 
 export const topicReducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -38,6 +40,14 @@ export const topicReducer = (state: State, action: Action): State => {
           [action.payload]: !state.contentLengths[action.payload],
         },
       };
+    case "TOGGLE_PARENT_DETAILS":
+      return {
+        ...state,
+        parentDetails: {
+          ...state.parentDetails,
+          [action.payload]: action.input,
+        },
+      };
     default:
       return state;
   }
@@ -59,4 +69,9 @@ export const initialState: State = {
       return [contentLength.split(" ")[0], false];
     })
   ),
+  parentDetails: {
+    username: "",
+    userEmail: "",
+    userPassword: "",
+  },
 };

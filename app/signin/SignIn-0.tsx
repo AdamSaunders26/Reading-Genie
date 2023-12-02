@@ -19,6 +19,7 @@ import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SkipButton from "./components/SkipButton";
+import { Action, State } from "./topicReducer";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -32,17 +33,25 @@ const formSchema = z.object({
 
 export default function SignIn0({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
-  // 1. Define your form.
+  function toggleParentDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    for (const detail in values) {
+      toggleParentDetails(detail, (values as any)[detail]);
+    }
     setCurrentStage(1);
   }
 
