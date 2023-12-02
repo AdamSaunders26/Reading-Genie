@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { contentLengths, contentTypes, topics } from "./topics";
+import { contentLengths, contentTypes, topics } from "./topicsData";
 
 export interface State {
   interests: Record<string, boolean>;

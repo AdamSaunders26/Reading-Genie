@@ -8,19 +8,23 @@ import React, { useState, useEffect, useReducer } from "react";
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Image from "next/image";
-import { initialState, topicReducer } from "./topicReducer";
-import { contentLengths, contentTypes, topics } from "./topics";
+import { Action, State, initialState, topicReducer } from "./topicReducer";
+import { contentLengths, contentTypes, iconIndex, topics } from "./topicsData";
 import BackButton from "./components/BackButton";
 import SkipButton from "./components/SkipButton";
 
 export default function SignIn2({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
   const [userId, setUserId] = useState<string | null>(null);
 
-  const [selected, dispatch] = useReducer(topicReducer, initialState);
+  // const [selected, dispatch] = useReducer(topicReducer, initialState);
 
   function toggleInterest(interest: string) {
     dispatch({ type: "TOGGLE_INTEREST", payload: interest });
@@ -33,22 +37,6 @@ export default function SignIn2({
   function toggleContentLength(contentLength: string) {
     dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
   }
-
-  const iconIndex = {
-    interests: {
-      Animals: "🐾",
-      "Art & Craft": "🎨",
-      Cheerleading: "👯‍♀️",
-      "Descendants movie": "🎬",
-      Gymnastics: "🤸",
-      Magic: "🪄",
-      "Make up": "💄",
-      "Monster High movie": "🎬",
-      Nature: "🌿",
-      Space: "🪐",
-      Teeth: "🦷",
-    },
-  } as const;
 
   const getIconByInterest = (interest: string) => {
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];

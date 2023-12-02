@@ -23,6 +23,7 @@ import { FaThumbsDown } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import LikeButtons from "./LikeButtons";
 import { DocumentData } from "firebase/firestore";
+import SettingsButton from "./components/SettingsButton";
 
 const askGenie = async (uid: any, body: string, instructions: any) => {
   console.log("asdas", instructions);
@@ -92,7 +93,8 @@ export default function Home() {
           </div>
           <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
           <div className="w-24 flex items-center justify-center">
-            <FaGear className="w-6 h-6 text-white" />
+            {/* <FaGear className="w-6 h-6 text-white" /> */}
+            <SettingsButton />
           </div>
         </header>
         <section className="flex flex-1 flex-col overflow-hidden justify-between w-full ">
