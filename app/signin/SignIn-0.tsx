@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import SkipButton from "./components/SkipButton";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -48,10 +49,11 @@ export default function SignIn0({
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center text-center m-4 p-4">
+    <div className="flex flex-col items-center justify-start text-center m-4 p-4">
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
+        priority
         className="w-24 place-self-center"
       />
       <h2 className="text-2xl font-semibold text-primary text-center">
@@ -122,9 +124,12 @@ export default function SignIn0({
               </FormItem>
             )}
           />
-          <Button className="text-white w-full rounded-full" type="submit">
-            Sign-up
-          </Button>
+          <div className="flex gap-4">
+            <Button className="text-white w-full rounded-full" type="submit">
+              Sign-up
+            </Button>
+            <SkipButton setCurrentStage={setCurrentStage} />
+          </div>
         </form>
       </Form>
     </div>

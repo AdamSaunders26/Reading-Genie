@@ -10,6 +10,8 @@ import RGlogo from "../../public/Reading Genie v.2.png";
 import Image from "next/image";
 import { initialState, topicReducer } from "./topicReducer";
 import { contentLengths, contentTypes, topics } from "./topics";
+import BackButton from "./components/BackButton";
+import SkipButton from "./components/SkipButton";
 
 export default function SignIn2({
   setCurrentStage,
@@ -31,8 +33,6 @@ export default function SignIn2({
   function toggleContentLength(contentLength: string) {
     dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
   }
-
-  const iconSize = "h-6 w-6";
 
   const iconIndex = {
     interests: {
@@ -93,10 +93,12 @@ export default function SignIn2({
   console.log(selected);
 
   return (
-    <div className="flex flex-col justify-between m-4 p-4 gap-4 ">
+    <div className="flex flex-col justify-start m-4 p-4  gap-4 ">
+      <BackButton setCurrentStage={setCurrentStage} />
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
+        priority
         className="w-24 place-self-center"
       />
       <h1 className="text-2xl font-semibold text-primary text-center ">
@@ -181,14 +183,18 @@ export default function SignIn2({
           <div className="mt-1">{contentLength}</div>
         </Button>
       ))}
-      <Button
-        onClick={() => {
-          setCurrentStage(3);
-        }}
-        className="text-white w-full rounded-full mt-4"
-      >
-        Next
-      </Button>
+      <div className="flex gap-4 mt-4">
+        <Button
+          onClick={() => {
+            setCurrentStage(3);
+          }}
+          className="text-white w-full rounded-full "
+        >
+          Next
+        </Button>
+        <SkipButton setCurrentStage={setCurrentStage} />
+      </div>
+      {/* This bottom div is weird and should be replaced at some point */}
       <div className="flex justify-center h-[20px]">&nbsp;</div>
     </div>
   );

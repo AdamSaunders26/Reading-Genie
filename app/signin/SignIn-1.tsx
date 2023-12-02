@@ -16,6 +16,8 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
+import SkipButton from "./components/SkipButton";
+import BackButton from "./components/BackButton";
 
 const formSchema = z.object({
   childNickName: z.string().min(2, {
@@ -41,10 +43,12 @@ export default function SignIn1({
   }
 
   return (
-    <div className="flex flex-col justify-center items-center text-center m-4 p-4">
+    <div className="flex flex-col justify-start text-center m-4 p-4">
+      <BackButton setCurrentStage={setCurrentStage} />
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
+        priority
         className="w-24 place-self-center"
       />
       <h2 className="text-2xl font-semibold text-primary text-center">
@@ -85,9 +89,12 @@ export default function SignIn1({
               </FormItem>
             )}
           />
-          <Button className="text-white w-full rounded-full" type="submit">
-            Next
-          </Button>
+          <div className="flex gap-4">
+            <Button className="text-white w-full rounded-full" type="submit">
+              Next
+            </Button>
+            <SkipButton setCurrentStage={setCurrentStage} />
+          </div>
         </form>
       </Form>
     </div>

@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="h-[100dvh] w-full " lang="en">
+    <html className="h-[100dvh] w-full overflow-y-scroll " lang="en">
       <body className={league_spartan.className}>{children}</body>
     </html>
   );
