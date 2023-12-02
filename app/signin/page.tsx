@@ -65,7 +65,13 @@ export default function SignInPage() {
         dispatch={dispatch}
       />
     ),
-    3: <SignIn3 setCurrentStage={setCurrentStage} />,
+    3: (
+      <SignIn3
+        setCurrentStage={setCurrentStage}
+        selected={selected}
+        dispatch={dispatch}
+      />
+    ),
   };
 
   return (

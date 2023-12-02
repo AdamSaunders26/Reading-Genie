@@ -9,23 +9,32 @@ import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Link from "next/link";
 import BackButton from "./components/BackButton";
+import { Action, State } from "./topicReducer";
 
 export default function SignIn3({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
   const [goalsValue, setGoalsValue] = useState<number[]>([0]);
-  // const [lampsValue, setLampsValue] = useState<number[]>([15]);
   const [currentEmoji, setCurrentEmoji] = useState<string>("🏆");
   const [buttonClicked, setButtonClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
-  function submitHandler() {
-    console.log({ goalsValue });
-    console.log({ currentEmoji });
-    console.log({ inputValue });
+  function toggleRewardDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_REWARD_DETAILS", payload: type, input: details });
   }
+
+  function submitHandler() {
+    toggleRewardDetails("targetFrequency", goalsValue.toString());
+    toggleRewardDetails("rewardEmoji", currentEmoji);
+    toggleRewardDetails("rewardName", inputValue);
+  }
+
   return (
     <div className="flex flex-col justify-start m-4 p-4 gap-4  ">
       <BackButton setCurrentStage={setCurrentStage} />
