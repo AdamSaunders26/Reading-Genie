@@ -18,9 +18,5 @@ export default function SignInPage() {
     3: <SignIn3 setCurrentStage={setCurrentStage} />,
   };
 
-  return (
-    <>
-      <main className={mainClass}>{stageIndex[currentStage]}</main>
-    </>
-  );
+  return <main className={mainClass}>{stageIndex[currentStage]}</main>;
 }

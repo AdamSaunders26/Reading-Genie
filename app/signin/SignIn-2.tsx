@@ -5,23 +5,11 @@ import { Input } from "@/components/ui/input";
 import { saveField, auth, initFirebase, db } from "../firebase/config";
 
 import React, { useState, useEffect, useReducer } from "react";
-import { IconContext } from "react-icons";
-import {
-  IoFootballOutline,
-  IoFlaskOutline,
-  IoCheckbox,
-  IoCheckboxOutline,
-} from "react-icons/io5";
-import { HiOutlineSparkles, HiOutlinePaintBrush } from "react-icons/hi2";
-import { TbPick } from "react-icons/tb";
-import { PiPalette } from "react-icons/pi";
-import { GiDinosaurBones } from "react-icons/gi";
-import { LiaSkullCrossbonesSolid } from "react-icons/lia";
-import { FaOtter } from "react-icons/fa6";
 import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Image from "next/image";
 import { initialState, topicReducer } from "./topicReducer";
+import { contentLengths, contentTypes, topics } from "./topics";
 
 export default function SignIn2({
   setCurrentStage,
@@ -48,15 +36,17 @@ export default function SignIn2({
 
   const iconIndex = {
     interests: {
-      Football: <IoFootballOutline className={iconSize} />,
-      Science: <IoFlaskOutline className={iconSize} />,
-      Magic: <HiOutlineSparkles className={iconSize} />,
-      "Make-up": <HiOutlinePaintBrush className={iconSize} />,
-      Minecraft: <TbPick className={iconSize} />,
-      "Art & Craft": <PiPalette className={iconSize} />,
-      Dinosaurs: <GiDinosaurBones className={iconSize} />,
-      Pirates: <LiaSkullCrossbonesSolid className={iconSize} />,
-      Animals: <FaOtter className={iconSize} />,
+      Animals: "🐾",
+      "Art & Craft": "🎨",
+      Cheerleading: "👯‍♀️",
+      "Descendants movie": "🎬",
+      Gymnastics: "🤸",
+      Magic: "🪄",
+      "Make up": "💄",
+      "Monster High movie": "🎬",
+      Nature: "🌿",
+      Space: "🪐",
+      Teeth: "🦷",
     },
   } as const;
 
@@ -75,10 +65,6 @@ export default function SignIn2({
         if (obj[key] === true) {
           return key;
         }
-        // if (typeof obj[key] == "string") {
-        //   return obj[key];
-        // }
-        // Commented this out as I think we're only passing boolean values into it
       })
       .filter((i) => i);
   };
@@ -95,45 +81,19 @@ export default function SignIn2({
     }
   }, [selected, userId]);
 
-  const interests = [
-    "Football",
-    "Science",
-    "Magic",
-    "Make-up",
-    "Minecraft",
-    "Art & Craft",
-    "Dinosaurs",
-    "Pirates",
-    "Animals",
-  ];
-
-  const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];
-
-  const contentLengths = {
-    Short: "one to two sentences",
-    Medium: "a paragraph",
-    Long: "several paragraphs",
-  };
-
-  const contentLengthsDisplay: Record<string, string> = {
-    Short: "(1-2 sentences)",
-    Medium: "(a paragraph)",
-    Long: "(multiple paragraphs)",
-  };
-
   const clicked =
-    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed]";
+    "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] py-6 ";
   const notClicked =
-    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-secondary";
+    "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-secondary py-6 ";
   const iconClicked =
-    "bg-[#d9f7ed] border border-2 border-primary h-20 w-20  text-primary hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] ";
+    "bg-[#d9f7ed] border border-2 border-primary  h-full   text-primary hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] ";
   const iconNotClicked =
-    "bg-secondary border border-border h-20 w-20 font-light hover:lg:bg-geniePurple-200 hover:bg-secondary ";
+    "bg-secondary border border-2 border-border h-full   hover:lg:bg-geniePurple-200 hover:bg-secondary ";
 
   console.log(selected);
 
   return (
-    <div className="flex flex-col justify-between m-4 p-4 gap-4">
+    <div className="flex flex-col justify-between m-4 p-4 gap-4 ">
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
@@ -142,8 +102,8 @@ export default function SignIn2({
       <h1 className="text-2xl font-semibold text-primary text-center ">
         What do they care about?
       </h1>
-      <div className="grid grid-cols-3 gap-4">
-        {interests.map((interest, idx) => {
+      <div className="grid grid-cols-2 grid-rows-4  gap-x-8 gap-y-4 ">
+        {topics.map((interest, idx) => {
           return (
             <Button
               key={idx}
@@ -155,15 +115,19 @@ export default function SignIn2({
               }}
             >
               <div className="flex flex-col items-center">
-                <span className="p-2">{getIconByInterest(interest)}</span>
-                <span>{interest}</span>
+                <span className="p-2 text-3xl">
+                  {getIconByInterest(interest)}
+                </span>
+                <span className=" whitespace-normal leading-6 text-xl">
+                  {interest}
+                </span>
               </div>
             </Button>
           );
         })}
       </div>
       <h1 className="text-2xl font-semibold text-primary text-center ">
-        What content to they enjoy?
+        What content do they enjoy?
       </h1>
       {contentTypes.map((contentType, idx) => (
         <Button
@@ -175,51 +139,46 @@ export default function SignIn2({
             selected.contentTypes[
               contentType as keyof typeof selected.contentTypes
             ]
-              ? clicked + " py-6 "
-              : notClicked + " py-6 "
+              ? clicked
+              : notClicked
           }
         >
-          <IconContext.Provider value={{ size: "28px" }}>
-            {selected.contentTypes[
-              contentType as keyof typeof selected.contentTypes
-            ] ? (
-              <MdCheckBox color="#614bc3" />
-            ) : (
-              <MdCheckBoxOutlineBlank />
-            )}
-          </IconContext.Provider>
+          {selected.contentTypes[
+            contentType as keyof typeof selected.contentTypes
+          ] ? (
+            <MdCheckBox className="h-6 w-6 text-[#614bc3]" />
+          ) : (
+            <MdCheckBoxOutlineBlank className="h-6 w-6" />
+          )}
           <div className="mt-1">{contentType}</div>
         </Button>
       ))}
       <h1 className="text-2xl font-semibold text-primary text-center">
         Length of content
       </h1>
-      {Object.keys(contentLengths).map((contentLength, idx) => (
+      {contentLengths.map((contentLength, idx) => (
         <Button
           onClick={() => {
-            toggleContentLength(contentLength);
+            toggleContentLength(contentLength.split(" ")[0]);
           }}
           key={idx}
           className={
             selected.contentLengths[
-              contentLength as keyof typeof selected.contentLengths
+              contentLength.split(
+                " "
+              )[0] as keyof typeof selected.contentLengths
             ]
-              ? clicked + " py-6 "
-              : notClicked + " py-6 "
+              ? clicked
+              : notClicked
           }
         >
-          <IconContext.Provider value={{ size: "28px" }}>
-            {selected.contentLengths[
-              contentLength as keyof typeof selected.contentLengths
-            ] ? (
-              <MdCheckBox color="#614bc3" />
-            ) : (
-              <MdCheckBoxOutlineBlank />
-            )}
-          </IconContext.Provider>
-          <div className="mt-1">
-            {contentLength} {contentLengthsDisplay[contentLength]}
-          </div>
+          {selected.contentLengths[contentLength.split(" ")[0]] ? (
+            <MdCheckBox className="h-6 w-6 text-[#614bc3]" />
+          ) : (
+            <MdCheckBoxOutlineBlank className="h-6 w-6" />
+          )}
+
+          <div className="mt-1">{contentLength}</div>
         </Button>
       ))}
       <Button
