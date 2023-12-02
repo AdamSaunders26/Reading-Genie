@@ -5,10 +5,39 @@ import SignIn1 from "./SignIn-1";
 import SignIn3 from "./SignIn-3";
 import SignIn2 from "./SignIn-2";
 import { initialState, topicReducer } from "./topicReducer";
+import { initFirebase, saveField } from "../firebase/config";
 
 export default function SignInPage() {
   const [currentStage, setCurrentStage] = useState(0);
   const [selected, dispatch] = useReducer(topicReducer, initialState);
+  const [userId, setUserId] = useState<string | null>(null);
+
+  const getUser = async () => {
+    const userId = await initFirebase();
+    setUserId(userId);
+  };
+
+  const makeArray = (obj: Record<string, boolean>): (string | undefined)[] => {
+    return Object.keys(obj)
+      .map((key) => {
+        if (obj[key] === true) {
+          return key;
+        }
+      })
+      .filter((i) => i);
+  };
+
+  useEffect(() => {
+    getUser();
+    if (userId) {
+      console.log("SAVING", userId, makeArray(selected.interests));
+      saveField(["genie-users", userId], {
+        interests: makeArray(selected.interests),
+        contentTypes: makeArray(selected.contentTypes),
+        contentLengths: makeArray(selected.contentLengths),
+      });
+    }
+  }, [selected, userId]);
 
   type StageProps = {
     setCurrentStage: (stage: number) => void;

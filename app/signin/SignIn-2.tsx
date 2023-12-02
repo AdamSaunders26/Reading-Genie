@@ -22,7 +22,7 @@ export default function SignIn2({
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
-  const [userId, setUserId] = useState<string | null>(null);
+  // const [userId, setUserId] = useState<string | null>(null);
 
   function toggleInterest(interest: string) {
     dispatch({ type: "TOGGLE_INTEREST", payload: interest });
@@ -40,32 +40,32 @@ export default function SignIn2({
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
 
-  const getUser = async () => {
-    const userId = await initFirebase();
-    setUserId(userId);
-  };
+  // const getUser = async () => {
+  //   const userId = await initFirebase();
+  //   setUserId(userId);
+  // };
 
-  const makeArray = (obj: Record<string, boolean>): (string | undefined)[] => {
-    return Object.keys(obj)
-      .map((key) => {
-        if (obj[key] === true) {
-          return key;
-        }
-      })
-      .filter((i) => i);
-  };
+  // const makeArray = (obj: Record<string, boolean>): (string | undefined)[] => {
+  //   return Object.keys(obj)
+  //     .map((key) => {
+  //       if (obj[key] === true) {
+  //         return key;
+  //       }
+  //     })
+  //     .filter((i) => i);
+  // };
 
-  useEffect(() => {
-    getUser();
-    if (userId) {
-      console.log("SAVING", userId, makeArray(selected.interests));
-      saveField(["genie-users", userId], {
-        interests: makeArray(selected.interests),
-        contentTypes: makeArray(selected.contentTypes),
-        contentLengths: makeArray(selected.contentLengths),
-      });
-    }
-  }, [selected, userId]);
+  // useEffect(() => {
+  //   getUser();
+  //   if (userId) {
+  //     console.log("SAVING", userId, makeArray(selected.interests));
+  //     saveField(["genie-users", userId], {
+  //       interests: makeArray(selected.interests),
+  //       contentTypes: makeArray(selected.contentTypes),
+  //       contentLengths: makeArray(selected.contentLengths),
+  //     });
+  //   }
+  // }, [selected, userId]);
 
   const clicked =
     "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] py-6 ";
