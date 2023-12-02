@@ -17,7 +17,9 @@ export default function SignInPage() {
     setUserId(userId);
   };
 
-  const makeArray = (obj: Record<string, boolean>): (string | undefined)[] => {
+  const makeArray = (
+    obj: Record<string, boolean> | Record<string, string>
+  ): (string | undefined)[] => {
     return Object.keys(obj)
       .map((key) => {
         if (obj[key] === true) {
@@ -35,6 +37,9 @@ export default function SignInPage() {
         interests: makeArray(selected.interests),
         contentTypes: makeArray(selected.contentTypes),
         contentLengths: makeArray(selected.contentLengths),
+        parentDetails: makeArray(selected.parentDetails),
+        childDetails: makeArray(selected.childDetails),
+        rewardDetails: makeArray(selected.rewardDetails),
       });
     }
   }, [selected, userId]);
