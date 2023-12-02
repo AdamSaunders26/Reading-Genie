@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
+import SkipButton from "./components/SkipButton";
+import { Action, State } from "./topicReducer";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -31,27 +33,36 @@ const formSchema = z.object({
 
 export default function SignIn0({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
-  // 1. Define your form.
+  function toggleParentDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    for (const detail in values) {
+      toggleParentDetails(detail, (values as any)[detail]);
+    }
     setCurrentStage(1);
   }
 
   const [showPass, setShowPass] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center text-center m-4 p-4">
+    <div className="flex flex-col items-center justify-start text-center m-4 p-4">
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
+        priority
         className="w-24 place-self-center"
       />
       <h2 className="text-2xl font-semibold text-primary text-center">
@@ -122,9 +133,12 @@ export default function SignIn0({
               </FormItem>
             )}
           />
-          <Button className="text-white w-full rounded-full" type="submit">
-            Sign-up
-          </Button>
+          <div className="flex gap-4">
+            <Button className="text-white w-full rounded-full" type="submit">
+              Sign-up
+            </Button>
+            <SkipButton setCurrentStage={setCurrentStage} />
+          </div>
         </form>
       </Form>
     </div>

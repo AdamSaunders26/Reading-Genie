@@ -17,8 +17,18 @@ export const contentLengths = [
   "Long (multiple paragraphs)",
 ];
 
-// export const contentLengthsDisplay: Record<string, string> = {
-//   Short: "(1-2 sentences)",
-//   Medium: "(a paragraph)",
-//   Long: "(multiple paragraphs)",
-// };
+export const iconIndex = {
+  interests: {
+    Animals: "🐾",
+    "Art & Craft": "🎨",
+    Cheerleading: "👯‍♀️",
+    "Descendants movie": "🎬",
+    Gymnastics: "🤸",
+    Magic: "🪄",
+    "Make up": "💄",
+    "Monster High movie": "🎬",
+    Nature: "🌿",
+    Space: "🪐",
+    Teeth: "🦷",
+  },
+} as const;

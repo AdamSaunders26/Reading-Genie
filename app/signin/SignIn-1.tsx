@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
+import SkipButton from "./components/SkipButton";
+import BackButton from "./components/BackButton";
+import { Action, State } from "./topicReducer";
 
 const formSchema = z.object({
   childNickName: z.string().min(2, {
@@ -26,10 +29,16 @@ const formSchema = z.object({
 
 export default function SignIn1({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
-  // 1. Define your form.
+  function toggleChildDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,14 +46,19 @@ export default function SignIn1({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
+    for (const detail in values) {
+      toggleChildDetails(detail, (values as any)[detail]);
+    }
     setCurrentStage(2);
   }
 
   return (
-    <div className="flex flex-col justify-center items-center text-center m-4 p-4">
+    <div className="flex flex-col justify-start text-center m-4 p-4">
+      <BackButton setCurrentStage={setCurrentStage} />
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
+        priority
         className="w-24 place-self-center"
       />
       <h2 className="text-2xl font-semibold text-primary text-center">
@@ -85,9 +99,12 @@ export default function SignIn1({
               </FormItem>
             )}
           />
-          <Button className="text-white w-full rounded-full" type="submit">
-            Next
-          </Button>
+          <div className="flex gap-4">
+            <Button className="text-white w-full rounded-full" type="submit">
+              Next
+            </Button>
+            <SkipButton setCurrentStage={setCurrentStage} />
+          </div>
         </form>
       </Form>
     </div>

@@ -8,21 +8,37 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import RGlogo from "../../public/Reading Genie v.2.png";
 import Link from "next/link";
+import BackButton from "./components/BackButton";
+import { Action, State } from "./topicReducer";
 
 export default function SignIn3({
   setCurrentStage,
+  selected,
+  dispatch,
 }: {
   setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
+  selected: State;
+  dispatch: React.Dispatch<Action>;
 }) {
   const [goalsValue, setGoalsValue] = useState<number[]>([0]);
-  // const [lampsValue, setLampsValue] = useState<number[]>([15]);
   const [currentEmoji, setCurrentEmoji] = useState<string>("🏆");
   const [buttonClicked, setButtonClicked] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  console.log(inputValue);
+
+  function toggleRewardDetails(type: string, details: string) {
+    dispatch({ type: "TOGGLE_REWARD_DETAILS", payload: type, input: details });
+  }
+
+  function submitHandler() {
+    toggleRewardDetails("targetFrequency", goalsValue.toString());
+    toggleRewardDetails("rewardEmoji", currentEmoji);
+    toggleRewardDetails("rewardName", inputValue);
+  }
+
   return (
-    <div className="flex flex-col justify-between m-4 p-4 gap-4 w-[400px]">
-      <section className="flex flex-col items-center gap-16 m-4 mx-8">
+    <div className="flex flex-col justify-start m-4 p-4 gap-4  ">
+      <BackButton setCurrentStage={setCurrentStage} />
+      <section className="flex flex-col items-center gap-4 m-4 mx-8">
         <div className="flex flex-col">
           <Image
             src={RGlogo}
@@ -51,38 +67,8 @@ export default function SignIn3({
             <p>6</p>
             <p>7</p>
           </div>
-          <p className="place-self-center">Per week</p>
+          <p className="place-self-center">Times per week</p>
         </div>
-        {/* <div>
-        <h2 className="text-3xl">Genie Lamps - {lampsValue}</h2>
-        <p>
-          Text about really important stuff that will be filled with great and
-          well selected choice of vocabulary.
-        </p>
-        <Slider
-          className="pb-2 pt-4"
-          value={lampsValue}
-          onValueChange={(e) => {
-            setLampsValue(e);
-          }}
-          defaultValue={[15]}
-          max={30}
-          step={1}
-        />
-        <div className="flex justify-between">
-          <p>0</p>
-          <p>10</p>
-          <p>20</p>
-          <p>30</p>
-        </div>
-        <p>Yet more incredibly well chosen text that is just delightful</p>
-      </div> */}
-        {/* <div className="flex  space-x-2 items-center">
-        <Checkbox id="independent" />
-        <label htmlFor="independent" className="pt-1">
-          Independent?
-        </label>
-      </div> */}
         <div className="flex flex-col gap-8 ">
           <h2 className="text-3xl font-semibold text-primary text-center">
             Rewards
@@ -132,10 +118,15 @@ export default function SignIn3({
           </div>
         </div>
         <Link href="/" className="w-full">
-          <Button className="text-white w-full rounded-full">Next</Button>
+          <Button
+            className="text-white w-full rounded-full"
+            onClick={submitHandler}
+          >
+            Next
+          </Button>
         </Link>
       </section>
-      <div className="flex justify-center h-[20px]">&nbsp;</div>
+      {/* <div className="flex justify-center h-[20px]">&nbsp;</div> */}
     </div>
   );
 }
