@@ -20,7 +20,7 @@ import greengenie from "../public/greengenie.svg";
 import lamp from "../public/lamp.svg";
 import { FaSpinner } from "react-icons/fa6";
 import { FaThumbsDown } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LikeButtons from "./LikeButtons";
 import { DocumentData } from "firebase/firestore";
 import SettingsButton from "./components/SettingsButton";
@@ -58,9 +58,16 @@ export default function Home() {
     return uid;
   };
 
+  const searchParams = useSearchParams();
+  const skipIntro = searchParams.get("skip") == "true";
+  console.log(skipIntro);
+
   useEffect(() => {
     start();
     console.log("useEffect", userId);
+    if (skipIntro) {
+      setFirstMessage(false);
+    }
   }, [userId]);
 
   if (clicks == 3) {
@@ -254,7 +261,7 @@ export default function Home() {
                       )} about ${nowData?.interests.join(" or ")}`;
                       askGenie(userId, instructions, "instructions").then(
                         () => {
-                          setLoading(false);
+                          setMoreLoading(false);
                           setFirstMessage(false);
                         }
                       );
@@ -302,7 +309,7 @@ export default function Home() {
                       )}. But be really creative`;
                       askGenie(userId, instructions, "instructions").then(
                         () => {
-                          setLoading(false);
+                          setDifferentLoading(false);
                           setFirstMessage(false);
                         }
                       );

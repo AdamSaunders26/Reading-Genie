@@ -20,6 +20,7 @@ import RGlogo from "../../public/Reading Genie v.2.png";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import SkipButton from "./components/SkipButton";
 import { Action, State } from "./topicReducer";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -32,27 +33,33 @@ const formSchema = z.object({
 });
 
 export default function SignIn0({
-  setCurrentStage,
   selected,
   dispatch,
 }: {
-  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
+  const router = useRouter();
+
   function toggleParentDetails(type: string, details: string) {
     dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      userEmail: "",
+      userPassword: "",
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     for (const detail in values) {
       toggleParentDetails(detail, (values as any)[detail]);
     }
-    setCurrentStage(1);
+
+    router.push("?stage=1");
   }
 
   const [showPass, setShowPass] = useState(false);
@@ -137,7 +144,7 @@ export default function SignIn0({
             <Button className="text-white w-full rounded-full" type="submit">
               Sign-up
             </Button>
-            <SkipButton setCurrentStage={setCurrentStage} />
+            <SkipButton />
           </div>
         </form>
       </Form>

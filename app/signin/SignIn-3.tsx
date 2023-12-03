@@ -12,11 +12,9 @@ import BackButton from "./components/BackButton";
 import { Action, State } from "./topicReducer";
 
 export default function SignIn3({
-  setCurrentStage,
   selected,
   dispatch,
 }: {
-  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
@@ -37,7 +35,7 @@ export default function SignIn3({
 
   return (
     <div className="flex flex-col justify-start m-4 p-4 gap-4  ">
-      <BackButton setCurrentStage={setCurrentStage} />
+      <BackButton />
       <section className="flex flex-col items-center gap-4 m-4 mx-8">
         <div className="flex flex-col">
           <Image
