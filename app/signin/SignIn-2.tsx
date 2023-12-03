@@ -12,13 +12,12 @@ import { Action, State, initialState, topicReducer } from "./topicReducer";
 import { contentLengths, contentTypes, iconIndex, topics } from "./topicsData";
 import BackButton from "./components/BackButton";
 import SkipButton from "./components/SkipButton";
+import { useRouter } from "next/navigation";
 
 export default function SignIn2({
-  setCurrentStage,
   selected,
   dispatch,
 }: {
-  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
@@ -38,6 +37,8 @@ export default function SignIn2({
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
 
+  const router = useRouter();
+
   const clicked =
     "bg-[#d9f7ed] border border-2 border-primary justify-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] py-6 ";
   const notClicked =
@@ -49,7 +50,7 @@ export default function SignIn2({
 
   return (
     <div className="flex flex-col justify-start m-4 p-4  gap-4 ">
-      <BackButton setCurrentStage={setCurrentStage} />
+      <BackButton />
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
@@ -141,13 +142,13 @@ export default function SignIn2({
       <div className="flex gap-4 mt-4">
         <Button
           onClick={() => {
-            setCurrentStage(3);
+            router.push("?stage=3");
           }}
           className="text-white w-full rounded-full "
         >
           Next
         </Button>
-        <SkipButton setCurrentStage={setCurrentStage} />
+        <SkipButton />
       </div>
       {/* This bottom div is weird and should be replaced at some point */}
       <div className="flex justify-center h-[20px]">&nbsp;</div>

@@ -6,9 +6,10 @@ import SignIn3 from "./SignIn-3";
 import SignIn2 from "./SignIn-2";
 import { initialState, topicReducer } from "./topicReducer";
 import { initFirebase, saveField } from "../firebase/config";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 
 export default function SignInPage() {
-  const [currentStage, setCurrentStage] = useState(0);
+  const [currentStages, setCurrentStage] = useState(0);
   const [selected, dispatch] = useReducer(topicReducer, initialState);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -28,6 +29,11 @@ export default function SignInPage() {
       })
       .filter((i) => i);
   };
+
+  const searchParams = useSearchParams();
+  const currentStage = searchParams.get("stage")
+    ? Number(searchParams.get("stage"))
+    : 0;
 
   useEffect(() => {
     getUser();
@@ -49,34 +55,10 @@ export default function SignInPage() {
   };
   console.log(selected);
   const stageIndex: Record<number, React.ReactElement<StageProps>> = {
-    0: (
-      <SignIn0
-        setCurrentStage={setCurrentStage}
-        selected={selected}
-        dispatch={dispatch}
-      />
-    ),
-    1: (
-      <SignIn1
-        setCurrentStage={setCurrentStage}
-        selected={selected}
-        dispatch={dispatch}
-      />
-    ),
-    2: (
-      <SignIn2
-        setCurrentStage={setCurrentStage}
-        selected={selected}
-        dispatch={dispatch}
-      />
-    ),
-    3: (
-      <SignIn3
-        setCurrentStage={setCurrentStage}
-        selected={selected}
-        dispatch={dispatch}
-      />
-    ),
+    0: <SignIn0 selected={selected} dispatch={dispatch} />,
+    1: <SignIn1 selected={selected} dispatch={dispatch} />,
+    2: <SignIn2 selected={selected} dispatch={dispatch} />,
+    3: <SignIn3 selected={selected} dispatch={dispatch} />,
   };
 
   return (

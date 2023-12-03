@@ -19,6 +19,7 @@ import RGlogo from "../../public/Reading Genie v.2.png";
 import SkipButton from "./components/SkipButton";
 import BackButton from "./components/BackButton";
 import { Action, State } from "./topicReducer";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   childNickName: z.string().min(2, {
@@ -28,11 +29,9 @@ const formSchema = z.object({
 });
 
 export default function SignIn1({
-  setCurrentStage,
   selected,
   dispatch,
 }: {
-  setCurrentStage: React.Dispatch<React.SetStateAction<number>>;
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
@@ -48,17 +47,19 @@ export default function SignIn1({
     },
   });
 
+  const router = useRouter();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
     for (const detail in values) {
       toggleChildDetails(detail, (values as any)[detail]);
     }
-    setCurrentStage(2);
+    router.push("?stage=2");
   }
 
   return (
     <div className="flex flex-col justify-start text-center m-4 p-4">
-      <BackButton setCurrentStage={setCurrentStage} />
+      <BackButton />
       <Image
         src={RGlogo}
         alt="Reading Genie logo"
@@ -107,7 +108,7 @@ export default function SignIn1({
             <Button className="text-white w-full rounded-full" type="submit">
               Next
             </Button>
-            <SkipButton setCurrentStage={setCurrentStage} />
+            <SkipButton />
           </div>
         </form>
       </Form>
