@@ -35,6 +35,9 @@ export default function SignInPage() {
     ? Number(searchParams.get("stage"))
     : 0;
 
+  console.log(searchParams.get("stage"));
+  console.log(searchParams.get("genie"));
+
   useEffect(() => {
     getUser();
     if (userId) {
