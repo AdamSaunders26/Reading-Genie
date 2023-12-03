@@ -42,6 +42,10 @@ export default function SignIn1({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      childNickName: "",
+      childBirthDate: "",
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
