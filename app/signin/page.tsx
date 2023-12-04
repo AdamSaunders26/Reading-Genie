@@ -7,9 +7,9 @@ import SignIn2 from "./SignIn-2";
 import { initialState, topicReducer } from "./topicReducer";
 import { initFirebase, saveField } from "../firebase/config";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { makeArray } from "./components/utils";
 
 export default function SignInPage() {
-  const [currentStages, setCurrentStage] = useState(0);
   const [selected, dispatch] = useReducer(topicReducer, initialState);
   const [userId, setUserId] = useState<string | null>(null);
 
@@ -18,25 +18,10 @@ export default function SignInPage() {
     setUserId(userId);
   };
 
-  const makeArray = (
-    obj: Record<string, boolean> | Record<string, string>
-  ): (string | undefined)[] => {
-    return Object.keys(obj)
-      .map((key) => {
-        if (obj[key] === true) {
-          return key;
-        }
-      })
-      .filter((i) => i);
-  };
-
   const searchParams = useSearchParams();
   const currentStage = searchParams.get("stage")
     ? Number(searchParams.get("stage"))
     : 0;
-
-  console.log(searchParams.get("stage"));
-  console.log(searchParams.get("genie"));
 
   useEffect(() => {
     getUser();
@@ -53,11 +38,10 @@ export default function SignInPage() {
     }
   }, [selected, userId]);
 
-  type StageProps = {
-    setCurrentStage: (stage: number) => void;
-  };
-  console.log(selected);
-  const stageIndex: Record<number, React.ReactElement<StageProps>> = {
+  const stageIndex: Record<
+    number,
+    React.ReactElement<{ setCurrentStage: (stage: number) => void }>
+  > = {
     0: <SignIn0 selected={selected} dispatch={dispatch} />,
     1: <SignIn1 selected={selected} dispatch={dispatch} />,
     2: <SignIn2 selected={selected} dispatch={dispatch} />,
