@@ -104,3 +104,11 @@ export const initialState: State = {
     rewardName: "",
   },
 };
+
+export function toggleParentDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
+}
