@@ -12,18 +12,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
-import { FaGear } from "react-icons/fa6";
-import { FaThumbsUp } from "react-icons/fa6";
+import { FaThumbsDown,FaGear,FaThumbsUp,FaSpinner } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
+import genieRoughSpeech from "../public/greengenie.svg";
 import lamp from "../public/lamp.svg";
-import { FaSpinner } from "react-icons/fa6";
-import { FaThumbsDown } from "react-icons/fa";
 import { useRouter, useSearchParams } from "next/navigation";
 import LikeButtons from "./LikeButtons";
 import { DocumentData } from "firebase/firestore";
 import SettingsButton from "./components/SettingsButton";
+import { TypeAnimation } from "react-type-animation";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const askGenie = async (uid: any, body: string, instructions: any) => {
   console.log("asdas", instructions);
@@ -86,6 +86,13 @@ export default function Home() {
     }
   }
 
+  const [visibileLike, setVisibleLike] = useState(false);
+  const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+
+  function randoNum(min: number, max: number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   return (
     <div className=" h-[100dvh] ">
       <main className="flex flex-col justify-center  h-[100dvh] bg-secondary  ">
@@ -117,7 +124,7 @@ export default function Home() {
               >
                 <div className="flex w-full">
                   <div className="w-full">
-                    <p className=" bg-white h-fit w-full rounded-t-md p-3 ">
+                    <p className="text-2xl bg-white h-fit w-full rounded-t-md p-3 ">
                       Hi Timmy, hit the button below to get started!
                     </p>
                   </div>
@@ -140,28 +147,61 @@ export default function Home() {
                 ref={boxRef}
                 className="flex flex-col gap-6 p-3"
               >
-                {dbData
-                  ? dbData.map((data, index) => {
-                      return (
-                        <div key={index} className="flex w-full">
-                          <div className="w-full">
-                            <p
-                              key={index}
-                              className=" bg-white h-fit w-full rounded-t-md p-3 "
-                            >
-                              {data}
-                            </p>
-                            <LikeButtons />
-                          </div>
-                          <Image
-                            src={greengenie}
-                            alt="reading genie"
-                            className="w-12 h-12 rounded-full bg-lightaccent mx-2"
+                <div className="flex w-full">
+                  <div>
+                    <div className="flex w-full">
+                      <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
+                        {dbData ? (
+                          <TypeAnimation
+                            cursor={false}
+                            className={CURSOR_CLASS_NAME}
+                            splitter={(str) => str.split(/(?= )/)}
+                            sequence={[
+                              dbData[dbData.length - 1],
+                              (el) => el?.classList.remove(CURSOR_CLASS_NAME),
+                              () => {
+                                setVisibleLike(true);
+                              },
+                              3000,
+                            ]}
+                            wrapper="span"
+                            repeat={0}
+                            speed={{
+                              type: "keyStrokeDelayInMs",
+                              value: randoNum(400, 800),
+                            }}
+                            style={{
+                              whiteSpace: "pre-line",
+                              display: "inline-block",
+                            }}
                           />
-                        </div>
-                      );
-                    })
-                  : null}
+                        ) : null}
+                      </p>
+                      <div>
+                        <Image
+                          src={genieRoughSpeech}
+                          alt="reading genie"
+                          className="w-12 h-12 rounded-full bg-lightaccent mx-2 fixed top-20 right-0"
+                        />
+                      </div>
+                    </div>
+                    <div className="mr-12">
+                      {visibileLike ? <LikeButtons /> : null}
+                    </div>
+                  </div>
+
+                  <style global jsx>{`
+                    .custom-type-animation-cursor::after {
+                      content: "|";
+                      animation: cursor 1.1s infinite step-start;
+                    }
+                    @keyframes cursor {
+                      50% {
+                        opacity: 0;
+                      }
+                    }
+                  `}</style>
+                </div>
               </div>
             </div>
           )}
@@ -307,6 +347,7 @@ export default function Home() {
                       )} about ${nowData?.interests.join(
                         " or "
                       )}. But be really creative`;
+
                       askGenie(userId, instructions, "instructions").then(
                         () => {
                           setDifferentLoading(false);
