@@ -112,3 +112,11 @@ export function toggleParentDetails(
 ) {
   dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
 }
+
+export function toggleChildDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
+}

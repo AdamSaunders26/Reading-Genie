@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+// import { z } from "zod";
 
 export function zodParentForm() {
   const parentFormSchema = z.object({
@@ -22,4 +23,22 @@ export function zodParentForm() {
     },
   });
   return { parentFormSchema, parentForm };
+}
+
+export function zodChildForm() {
+  const childFormSchema = z.object({
+    childNickName: z.string().min(2, {
+      message: "Nickname must be at least 2 characters.",
+    }),
+    childBirthDate: z.string(),
+  });
+
+  const childForm = useForm<z.infer<typeof childFormSchema>>({
+    resolver: zodResolver(childFormSchema),
+    defaultValues: {
+      childNickName: "",
+      childBirthDate: "",
+    },
+  });
+  return { childFormSchema, childForm };
 }
