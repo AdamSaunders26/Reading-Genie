@@ -141,3 +141,11 @@ export function toggleContentLength(
 ) {
   dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
 }
+
+export function toggleRewardDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_REWARD_DETAILS", payload: type, input: details });
+}
