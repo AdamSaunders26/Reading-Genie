@@ -120,3 +120,24 @@ export function toggleChildDetails(
 ) {
   dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
 }
+
+export function toggleInterest(
+  interest: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_INTEREST", payload: interest });
+}
+
+export function toggleContentType(
+  contentType: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CONTENT_TYPE", payload: contentType });
+}
+
+export function toggleContentLength(
+  contentLength: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
+}
