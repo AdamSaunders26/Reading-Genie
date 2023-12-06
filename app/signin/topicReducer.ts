@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { contentLengths, contentTypes, topics } from "./topicsData";
 
 export interface State {
@@ -104,3 +104,48 @@ export const initialState: State = {
     rewardName: "",
   },
 };
+
+export function toggleParentDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_PARENT_DETAILS", payload: type, input: details });
+}
+
+export function toggleChildDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
+}
+
+export function toggleInterest(
+  interest: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_INTEREST", payload: interest });
+}
+
+export function toggleContentType(
+  contentType: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CONTENT_TYPE", payload: contentType });
+}
+
+export function toggleContentLength(
+  contentLength: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_CONTENT_LENGTH", payload: contentLength });
+}
+
+export function toggleRewardDetails(
+  type: string,
+  details: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "TOGGLE_REWARD_DETAILS", payload: type, input: details });
+}
