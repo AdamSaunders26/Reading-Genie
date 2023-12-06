@@ -6,7 +6,7 @@ import SignIn3 from "./SignIn-3";
 import SignIn2 from "./SignIn-2";
 import { initialState, topicReducer } from "./topicReducer";
 import { initFirebase, saveField } from "../firebase/config";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { makeArray } from "./components/utils";
 
 export default function SignInPage() {

@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Action, State } from "./topicReducer";
+import React from "react";
+import { Action } from "./topicReducer";
 import ParentDetailsForm from "./components/ParentDetailsForm";
 import ReadingGenieLogo from "./components/ReadingGenieLogo";
 

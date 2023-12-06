@@ -1,23 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { saveField, auth, initFirebase, db } from "../firebase/config";
-
-import React, { useState, useEffect, useReducer } from "react";
-import { MdCheckBoxOutlineBlank, MdCheckBox } from "react-icons/md";
-import RGlogo from "../../public/Reading Genie v.2.png";
-import Image from "next/image";
-import {
-  Action,
-  State,
-  initialState,
-  toggleContentLength,
-  toggleContentType,
-  toggleInterest,
-  topicReducer,
-} from "./topicReducer";
-import { contentLengths, contentTypes, iconIndex, topics } from "./topicsData";
+import React from "react";
+import { Action, State } from "./topicReducer";
 import BackButton from "./components/BackButton";
 import SkipButton from "./components/SkipButton";
 import { useRouter } from "next/navigation";

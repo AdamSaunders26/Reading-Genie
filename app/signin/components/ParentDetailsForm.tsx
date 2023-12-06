@@ -17,7 +17,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Action, toggleParentDetails } from "../topicReducer";
 import { useRouter } from "next/navigation";
-import { zodParentForm } from "./zod";
+import { ZodParentForm } from "./zod";
 
 export default function ParentDetailsForm({
   dispatch,
@@ -26,7 +26,7 @@ export default function ParentDetailsForm({
 }) {
   const [showPass, setShowPass] = useState(false);
   const router = useRouter();
-  const { parentFormSchema, parentForm } = zodParentForm();
+  const { parentFormSchema, parentForm } = ZodParentForm();
 
   function onSubmit(values: z.infer<typeof parentFormSchema>) {
     for (const detail in values) {

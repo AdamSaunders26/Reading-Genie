@@ -1,9 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import { z } from "zod";
 
-export function zodParentForm() {
+export function ZodParentForm() {
   const parentFormSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -25,7 +24,7 @@ export function zodParentForm() {
   return { parentFormSchema, parentForm };
 }
 
-export function zodChildForm() {
+export function ZodChildForm() {
   const childFormSchema = z.object({
     childNickName: z.string().min(2, {
       message: "Nickname must be at least 2 characters.",

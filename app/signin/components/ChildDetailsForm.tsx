@@ -10,11 +10,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SkipButton from "./SkipButton";
-
 import { Action, toggleChildDetails } from "../topicReducer";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { zodChildForm } from "./zod";
+import { ZodChildForm } from "./zod";
 
 export default function ChildDetailsForm({
   dispatch,
@@ -22,7 +21,7 @@ export default function ChildDetailsForm({
   dispatch: React.Dispatch<Action>;
 }) {
   const router = useRouter();
-  const { childFormSchema, childForm } = zodChildForm();
+  const { childFormSchema, childForm } = ZodChildForm();
 
   function onSubmit(values: z.infer<typeof childFormSchema>) {
     for (const detail in values) {

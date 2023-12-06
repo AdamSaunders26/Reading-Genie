@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useRouter, useSearchParams } from "next/navigation";
+
 export default function SkipButton() {
   const searchParams = useSearchParams();
   const currentStage = searchParams.get("stage")
