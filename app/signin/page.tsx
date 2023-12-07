@@ -26,9 +26,14 @@ export default function SignInPage() {
   useEffect(() => {
     getUser();
     if (userId) {
-      console.log("SAVING", userId, makeArray(selected.interests));
+      const chosenTopics = [];
+      for (const topic in selected.categories) {
+        chosenTopics.push(makeArray(selected.categories[topic]));
+      }
+
+      console.log("SAVING", userId, chosenTopics.flat());
       saveField(["genie-users", userId], {
-        interests: makeArray(selected.interests),
+        interests: chosenTopics.flat(),
         contentTypes: makeArray(selected.contentTypes),
         contentLengths: makeArray(selected.contentLengths),
         parentDetails: makeArray(selected.parentDetails),

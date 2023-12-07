@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { contentLengths } from "../topicsData";
+import { contentLengths } from "../topics";
 import { Action, State, toggleContentLength } from "../topicReducer";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 
@@ -17,8 +17,8 @@ export default function ContentLengthsList({
 }) {
   const { clicked, notClicked } = buttonClasses;
   return (
-    <>
-      <h1 className="text-2xl font-semibold text-primary text-center">
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-semibold text-primary text-center mt-4">
         Length of content
       </h1>
       {contentLengths.map((contentLength, idx) => (
@@ -46,6 +46,6 @@ export default function ContentLengthsList({
           <div className="mt-1">{contentLength}</div>
         </Button>
       ))}
-    </>
+    </div>
   );
 }

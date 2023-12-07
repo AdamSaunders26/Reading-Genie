@@ -8,7 +8,7 @@ export default function ReadingGenieLogo() {
       alt="Reading Genie logo"
       priority={true}
       placeholder="blur"
-      className="w-24 place-self-center"
+      className="w-24  place-self-center"
     />
   );
 }
