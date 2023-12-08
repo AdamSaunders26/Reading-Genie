@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
-import { FaThumbsDown,FaGear,FaThumbsUp,FaSpinner } from "react-icons/fa6";
+import { FaThumbsDown, FaGear, FaThumbsUp, FaSpinner } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
@@ -89,6 +89,37 @@ export default function Home() {
   const [visibileLike, setVisibleLike] = useState(false);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
 
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  function scrollToBottom() {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView(false);
+    }
+  }
+  let sequenceArray: [string, () => void, number][] | null = null;
+  function responseFormatter() {
+    if (dbData) {
+      const response = dbData[dbData.length - 1];
+      const splitResponse = response.split(" ");
+      const delay = 100;
+      let previousPhrase = "";
+      sequenceArray = splitResponse.map(
+        (word): [string, () => void, number] => {
+          previousPhrase += ` ${word}`;
+          return [
+            previousPhrase,
+            () => {
+              scrollToBottom();
+            },
+            delay,
+          ];
+        }
+      );
+      console.log(sequenceArray);
+    }
+  }
+  responseFormatter();
+
   function randoNum(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -125,7 +156,7 @@ export default function Home() {
                 <div className="flex w-full">
                   <div className="w-full">
                     <p className="text-2xl bg-white h-fit w-full rounded-t-md p-3 ">
-                      Hi Timmy, hit the button below to get started!
+                      Hi Nieve, hit the button below to get started!
                     </p>
                   </div>
                   <Image
@@ -151,25 +182,28 @@ export default function Home() {
                   <div>
                     <div className="flex w-full">
                       <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
-                        {dbData ? (
+                        {dbData && sequenceArray ? (
                           <TypeAnimation
+                            ref={contentRef}
                             cursor={false}
                             className={CURSOR_CLASS_NAME}
-                            splitter={(str) => str.split(/(?= )/)}
-                            sequence={[
-                              dbData[dbData.length - 1],
-                              (el) => el?.classList.remove(CURSOR_CLASS_NAME),
-                              () => {
-                                setVisibleLike(true);
-                              },
-                              3000,
-                            ]}
+                            // splitter={(str) => str.split(/(?= )/)}
+                            sequence={sequenceArray.flat()}
+                            // sequence={[
+                            //   dbData[dbData.length - 1],
+                            //   (el) => el?.classList.remove(CURSOR_CLASS_NAME),
+                            //   () => {
+                            //     setVisibleLike(true);
+                            //   },
+                            //   3000,
+                            // ]}
                             wrapper="span"
                             repeat={0}
-                            speed={{
-                              type: "keyStrokeDelayInMs",
-                              value: randoNum(400, 800),
-                            }}
+                            speed={70}
+                            // speed={{
+                            //   type: "keyStrokeDelayInMs",
+                            //   value: randoNum(400, 800),
+                            // }}
                             style={{
                               whiteSpace: "pre-line",
                               display: "inline-block",
