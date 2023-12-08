@@ -31,25 +31,17 @@ export default function TopicsList({
       </h1>
       <div className="flex gap-4 flex-wrap justify-center">
         {categoryList.map((cat, index) => {
-          const [clicked, setClicked] =
-            currentButton == "Clubs" ? useState(true) : useState(false);
-
           const baseClass = "text-2xl text-white py-6 hover:bg-geniePurple ";
           return (
             <Button
               key={index}
               className={
-                clicked && currentButton === cat
+                currentButton === cat
                   ? baseClass + "bg-geniePurple-800"
                   : baseClass
               }
               onClick={() => {
-                clicked
-                  ? setCurrentButton(cat)
-                  : setClicked((curr) => {
-                      curr ? setCurrentButton("") : setCurrentButton(cat);
-                      return !curr;
-                    });
+                setCurrentButton(cat);
                 setCurrentTopics(categories[cat]);
               }}
             >
