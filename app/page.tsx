@@ -115,7 +115,6 @@ export default function Home() {
           ];
         }
       );
-      console.log(sequenceArray);
     }
   }
   responseFormatter();
@@ -288,9 +287,11 @@ export default function Home() {
                           length - 1
                         ] as keyof typeof lengths
                       ];
-                    const instructions = `In ${textLength}, tell me some ${
+                    const instructions = `In ${textLength}, tell me some interesting ${
                       nowData?.contentTypes[0]
-                    } about ${nowData?.interests.join(" or ")}`;
+                    } about ${nowData?.interests.join(
+                      " or "
+                    )} which are suitable for an 8 year old`;
                     askGenie(userId, instructions, "instructions").then(() => {
                       setLoading(false);
                       setFirstMessage(false);
@@ -334,7 +335,7 @@ export default function Home() {
                         " or "
                       )} about ${nowData?.interests.join(" or ")}`;
                       askGenie(userId, instructions, "instructions").then(
-                        () => {
+                        (o) => {
                           setMoreLoading(false);
                           setFirstMessage(false);
                         }
