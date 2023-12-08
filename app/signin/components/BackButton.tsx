@@ -8,19 +8,17 @@ export default function BackButton() {
   const currentStage = searchParams.get("stage")
     ? Number(searchParams.get("stage"))
     : 0;
-  const backToGenie = searchParams.get("genie");
 
   return (
     <Button
       className="text-white w-fit rounded-full"
       onClick={(e) => {
         e.preventDefault();
-        backToGenie
-          ? router.push(`/?skip=true`)
-          : router.push(`?stage=${currentStage - 1}`);
+
+        router.push(`?stage=${currentStage - 1}`);
       }}
     >
-      {backToGenie ? "Back to Genie" : "Back"}
+      Back
     </Button>
   );
 }

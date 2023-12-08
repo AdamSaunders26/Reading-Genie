@@ -61,7 +61,6 @@ export default function TopicsList({
                   : iconNotClicked
               }
               onClick={() => {
-                // toggleInterest(interest, dispatch);
                 toggleCategory(currentButton, interest, dispatch);
               }}
             >
