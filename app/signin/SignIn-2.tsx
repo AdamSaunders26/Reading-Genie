@@ -1,15 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useState } from "react";
 import { Action, State } from "./topicReducer";
 import BackButton from "./components/BackButton";
 import SkipButton from "./components/SkipButton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ReadingGenieLogo from "./components/ReadingGenieLogo";
 import TopicsList from "./components/TopicsList";
 import ContentTypesList from "./components/ContentTypesList";
 import ContentLengthsList from "./components/ContentLengthsList";
+import { Switch } from "@/components/ui/switch";
+import RandomTopics from "./components/RandomTopics";
 
 export default function SignIn2({
   selected,
@@ -19,6 +21,7 @@ export default function SignIn2({
   dispatch: React.Dispatch<Action>;
 }) {
   const router = useRouter();
+  const [randomTopics, setRandomTopics] = useState(false);
 
   const buttonClasses = {
     clicked:
@@ -26,14 +29,29 @@ export default function SignIn2({
     notClicked:
       "flex justify-start bg-secondary border border-border justify-items-start gap-4 font-light text-lg hover:lg:bg-geniePurple-200 hover:bg-secondary py-6 ",
   };
-
+  const searchParams = useSearchParams();
+  const backToGenie = searchParams.get("genie");
   return (
     <div className="flex flex-col justify-start m-4 p-4   ">
       <div className="flex flex-col">
-        <BackButton />
+        <div className="flex justify-between items-center">
+          <BackButton />
+          <div className="flex  gap-2">
+            Random
+            <Switch
+              onCheckedChange={() => {
+                setRandomTopics((curr) => !curr);
+              }}
+            />
+          </div>
+        </div>
         <ReadingGenieLogo />
       </div>
-      <TopicsList selected={selected} dispatch={dispatch} />
+      {randomTopics ? (
+        <RandomTopics selected={selected} dispatch={dispatch} />
+      ) : (
+        <TopicsList selected={selected} dispatch={dispatch} />
+      )}
       <ContentTypesList
         selected={selected}
         dispatch={dispatch}
@@ -47,11 +65,11 @@ export default function SignIn2({
       <div className="flex gap-4 mt-4">
         <Button
           onClick={() => {
-            router.push("?stage=3");
+            backToGenie ? router.push(`/?skip=true`) : router.push("?stage=3");
           }}
           className="text-white w-full rounded-full "
         >
-          Next
+          {backToGenie ? "Back to Genie" : "Next"}
         </Button>
         <SkipButton />
       </div>
