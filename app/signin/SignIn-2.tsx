@@ -28,9 +28,11 @@ export default function SignIn2({
   };
 
   return (
-    <div className="flex flex-col justify-start m-4 p-4  gap-4 ">
-      <BackButton />
-      <ReadingGenieLogo />
+    <div className="flex flex-col justify-start m-4 p-4   ">
+      <div className="flex flex-col">
+        <BackButton />
+        <ReadingGenieLogo />
+      </div>
       <TopicsList selected={selected} dispatch={dispatch} />
       <ContentTypesList
         selected={selected}

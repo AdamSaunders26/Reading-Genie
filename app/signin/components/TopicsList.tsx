@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Action, State, toggleInterest } from "../topicReducer";
-import { iconIndex, topics } from "../topicsData";
+import { Action, State, toggleCategory, toggleInterest } from "../topicReducer";
+
+import { useState } from "react";
+import { categories, iconIndex } from "../topics";
 
 export default function TopicsList({
   selected,
@@ -13,26 +15,54 @@ export default function TopicsList({
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
 
+  const categoryList = Object.keys(categories);
+  const [currentButton, setCurrentButton] = useState("Clubs");
+  const [currentTopics, setCurrentTopics] = useState(categories["Clubs"]);
+
   const iconClicked =
-    "bg-[#d9f7ed] border border-2 border-primary  h-full   text-primary hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] ";
+    "bg-[#d9f7ed] border border-2 border-primary h-full text-primary hover:lg:bg-geniePurple-200 hover:bg-[#d9f7ed] ";
   const iconNotClicked =
-    "bg-secondary border border-2 border-border h-full   hover:lg:bg-geniePurple-200 hover:bg-secondary ";
+    "bg-secondary border border-2 border-border h-full hover:lg:bg-geniePurple-200 hover:bg-secondary ";
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold text-primary text-center ">
         What do they care about?
       </h1>
-      <div className="grid grid-cols-2 grid-rows-4  gap-x-8 gap-y-4 ">
-        {topics.map((interest, idx) => {
+      <div className="flex gap-4 flex-wrap justify-center">
+        {categoryList.map((cat, index) => {
+          const baseClass = "text-2xl text-white py-6 hover:bg-geniePurple ";
+          return (
+            <Button
+              key={index}
+              className={
+                currentButton === cat
+                  ? baseClass + "bg-geniePurple-800"
+                  : baseClass
+              }
+              onClick={() => {
+                setCurrentButton(cat);
+                setCurrentTopics(categories[cat]);
+              }}
+            >
+              {cat}
+            </Button>
+          );
+        })}
+      </div>
+      <div className="grid grid-cols-2 auto-rows-auto  gap-x-8 gap-y-4 ">
+        {Object.keys(currentTopics).map((interest, idx) => {
           return (
             <Button
               key={idx}
               className={
-                selected.interests[interest] ? iconClicked : iconNotClicked
+                selected.categories[currentButton][interest]
+                  ? iconClicked
+                  : iconNotClicked
               }
               onClick={() => {
-                toggleInterest(interest, dispatch);
+                // toggleInterest(interest, dispatch);
+                toggleCategory(currentButton, interest, dispatch);
               }}
             >
               <div className="flex flex-col items-center">
@@ -47,6 +77,6 @@ export default function TopicsList({
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

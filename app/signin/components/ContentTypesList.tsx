@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { contentTypes } from "../topicsData";
+import { contentTypes } from "../topics";
 import { Action, State, toggleContentType } from "../topicReducer";
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 
@@ -18,8 +18,8 @@ export default function ContentTypesList({
   const { clicked, notClicked } = buttonClasses;
 
   return (
-    <>
-      <h1 className="text-2xl font-semibold text-primary text-center ">
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-semibold text-primary text-center mt-4 ">
         What content do they enjoy?
       </h1>
       {contentTypes.map((contentType, idx) => (
@@ -46,6 +46,6 @@ export default function ContentTypesList({
           <div className="mt-1">{contentType}</div>
         </Button>
       ))}
-    </>
+    </div>
   );
 }
