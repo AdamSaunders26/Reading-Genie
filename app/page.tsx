@@ -39,7 +39,7 @@ export default function Home() {
   const [firstMessage, setFirstMessage] = useState(true);
   const [userData, setUserData] = useState<DocumentData | null>(null);
   const [clicks, setClicks] = useState(0);
-  const [currentMessage, setCurrentMessage] = useState(null);
+  const [currentMessage, setCurrentMessage] = useState<string | null>(null);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
     console.log("asdas", instructions);
@@ -72,6 +72,12 @@ export default function Home() {
     }
   }, [userId]);
 
+  // useEffect(() => {
+  //   responseFormatter();
+  //   console.log(currentMessage);
+  //   console.log(sequenceArray);
+  // }, [currentMessage]);
+
   if (clicks == 3) {
     router.push("/reward");
   }
@@ -98,14 +104,16 @@ export default function Home() {
       contentRef.current.scrollIntoView(false);
     }
   }
-  let sequenceArray: [string, () => void, number][] | null = null;
+  // let sequenceArray: [string, () => void, number][] | null = null;
   function responseFormatter() {
-    if (dbData) {
-      const response = dbData[dbData.length - 1];
-      const splitResponse = response.split(" ");
+    if (currentMessage) {
+      // console.log(currMessage);
+      // const response = dbData[dbData.length - 1];
+      // const splitResponse = response.split(" ");
+      const splitResponse = currentMessage.split(" ");
       const delay = 100;
       let previousPhrase = "";
-      sequenceArray = splitResponse.map(
+      const sequenceArray = splitResponse.map(
         (word): [string, () => void, number] => {
           previousPhrase += ` ${word}`;
           return [
@@ -117,9 +125,12 @@ export default function Home() {
           ];
         }
       );
+      return sequenceArray.flat();
+      console.log(sequenceArray);
     }
+    return "Something went wrong. Please refresh and try again.";
   }
-  responseFormatter();
+  // responseFormatter();
 
   function randoNum(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -183,34 +194,24 @@ export default function Home() {
                   <div>
                     <div className="flex w-full">
                       <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
-                        {currentMessage && sequenceArray ? (
+                        {currentMessage ? (
                           <TypeAnimation
                             ref={contentRef}
                             cursor={false}
                             className={CURSOR_CLASS_NAME}
                             // splitter={(str) => str.split(/(?= )/)}
-                            sequence={sequenceArray.flat()}
-                            // sequence={[
-                            //   dbData[dbData.length - 1],
-                            //   (el) => el?.classList.remove(CURSOR_CLASS_NAME),
-                            //   () => {
-                            //     setVisibleLike(true);
-                            //   },
-                            //   3000,
-                            // ]}
+                            sequence={responseFormatter() as any}
                             wrapper="span"
                             repeat={0}
                             speed={70}
-                            // speed={{
-                            //   type: "keyStrokeDelayInMs",
-                            //   value: randoNum(400, 800),
-                            // }}
                             style={{
                               whiteSpace: "pre-line",
                               display: "inline-block",
                             }}
                           />
-                        ) : null}
+                        ) : (
+                          "borked"
+                        )}
                       </p>
                       <div>
                         <Image
