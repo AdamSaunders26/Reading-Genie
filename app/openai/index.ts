@@ -94,12 +94,16 @@ async function createThread(userSid = "", instructions = "") {
   }
 }
 
-async function createRun(assistant_id: string, thread_id: string, instructions) {
+async function createRun(
+  assistant_id: string,
+  thread_id: string,
+  instructions: string
+) {
   try {
-    console.log('INS', instructions)
+    console.log("INS", instructions);
     const runJob = await client.beta.threads.runs.create(thread_id, {
       assistant_id,
-      instructions: instructions
+      instructions: instructions,
     });
     console.log("RUN CREATED", runJob);
     return runJob;
@@ -136,7 +140,7 @@ async function tidyText(inputText: string) {
   return answer;
 }
 
-async function addMessage(userSid: string, body: string, instructions) {
+async function addMessage(userSid: string, body: string, instructions: string) {
   let returned = false;
   let thread_id = await getThreadId(userSid);
 

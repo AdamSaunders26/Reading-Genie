@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { addMessage } from "./openai/index";
-import { FaThumbsDown,FaGear,FaThumbsUp,FaSpinner } from "react-icons/fa6";
+import { FaThumbsDown, FaGear, FaThumbsUp, FaSpinner } from "react-icons/fa6";
 import textlogo from "../public/text-logo.svg";
 import { GiStarSwirl } from "react-icons/gi";
 import greengenie from "../public/greengenie.svg";
@@ -39,13 +39,13 @@ export default function Home() {
   const [firstMessage, setFirstMessage] = useState(true);
   const [userData, setUserData] = useState<DocumentData | null>(null);
   const [clicks, setClicks] = useState(0);
-  const [currentMessage, setCurrentMessage] = useState(null);
+  const [currentMessage, setCurrentMessage] = useState<string | null>(null);
 
-const askGenie = async (uid: any, body: string, instructions: any) => {
-  console.log("asdas", instructions);
-  const message = await addMessage(uid, body, instructions);
-  setCurrentMessage(message.response);
-};
+  const askGenie = async (uid: any, body: string, instructions: any) => {
+    console.log("asdas", instructions);
+    const message = await addMessage(uid, body, instructions);
+    setCurrentMessage(message.response);
+  };
 
   const start = async () => {
     const uid = await initFirebase();
@@ -72,6 +72,12 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
     }
   }, [userId]);
 
+  // useEffect(() => {
+  //   responseFormatter();
+  //   console.log(currentMessage);
+  //   console.log(sequenceArray);
+  // }, [currentMessage]);
+
   if (clicks == 3) {
     router.push("/reward");
   }
@@ -90,6 +96,41 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
 
   const [visibileLike, setVisibleLike] = useState(false);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+
+  const contentRef = useRef<HTMLDivElement | null>(null);
+
+  function scrollToBottom() {
+    if (contentRef.current) {
+      contentRef.current.scrollIntoView(false);
+    }
+  }
+  // let sequenceArray: [string, () => void, number][] | null = null;
+  function responseFormatter() {
+    if (currentMessage) {
+      // console.log(currMessage);
+      // const response = dbData[dbData.length - 1];
+      // const splitResponse = response.split(" ");
+      const splitResponse = currentMessage.split(" ");
+      const delay = 100;
+      let previousPhrase = "";
+      const sequenceArray = splitResponse.map(
+        (word): [string, () => void, number] => {
+          previousPhrase += ` ${word}`;
+          return [
+            previousPhrase,
+            () => {
+              scrollToBottom();
+            },
+            delay,
+          ];
+        }
+      );
+      return sequenceArray.flat();
+      console.log(sequenceArray);
+    }
+    return "Something went wrong. Please refresh and try again.";
+  }
+  // responseFormatter();
 
   function randoNum(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -155,29 +196,22 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
                       <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
                         {currentMessage ? (
                           <TypeAnimation
+                            ref={contentRef}
                             cursor={false}
                             className={CURSOR_CLASS_NAME}
-                            splitter={(str) => str.split(/(?= )/)}
-                            sequence={[
-                              currentMessage,
-                              (el) => el?.classList.remove(CURSOR_CLASS_NAME),
-                              () => {
-                                setVisibleLike(true);
-                              },
-                              3000,
-                            ]}
+                            // splitter={(str) => str.split(/(?= )/)}
+                            sequence={responseFormatter() as any}
                             wrapper="span"
                             repeat={0}
-                            speed={{
-                              type: "keyStrokeDelayInMs",
-                              value: randoNum(50, 300),
-                            }}
+                            speed={70}
                             style={{
                               whiteSpace: "pre-line",
                               display: "inline-block",
                             }}
                           />
-                        ) : null}
+                        ) : (
+                          "borked"
+                        )}
                       </p>
                       <div>
                         <Image
@@ -256,9 +290,11 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
                           length - 1
                         ] as keyof typeof lengths
                       ];
-                    const instructions = `In ${textLength}, tell me some ${
+                    const instructions = `In ${textLength}, tell me some interesting ${
                       nowData?.contentTypes[0]
-                    } about ${nowData?.interests.join(" or ")}`;
+                    } about ${nowData?.interests.join(
+                      " or "
+                    )} which are suitable for an 8 year old`;
                     askGenie(userId, instructions, "instructions").then(() => {
                       setLoading(false);
                       setFirstMessage(false);
@@ -302,7 +338,7 @@ const askGenie = async (uid: any, body: string, instructions: any) => {
                         " or "
                       )} about ${nowData?.interests.join(" or ")}`;
                       askGenie(userId, instructions, "instructions").then(
-                        () => {
+                        (o) => {
                           setMoreLoading(false);
                           setFirstMessage(false);
                         }
