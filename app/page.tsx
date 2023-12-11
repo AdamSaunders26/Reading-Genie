@@ -25,11 +25,6 @@ import SettingsButton from "./components/SettingsButton";
 import { TypeAnimation } from "react-type-animation";
 import ScrollToBottom from "react-scroll-to-bottom";
 
-const askGenie = async (uid: any, body: string, instructions: any) => {
-  console.log("asdas", instructions);
-  await addMessage(uid, body, instructions);
-};
-
 export default function Home() {
   const router = useRouter();
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -44,6 +39,13 @@ export default function Home() {
   const [firstMessage, setFirstMessage] = useState(true);
   const [userData, setUserData] = useState<DocumentData | null>(null);
   const [clicks, setClicks] = useState(0);
+  const [currentMessage, setCurrentMessage] = useState(null);
+
+  const askGenie = async (uid: any, body: string, instructions: any) => {
+    console.log("asdas", instructions);
+    const message = await addMessage(uid, body, instructions);
+    setCurrentMessage(message.response);
+  };
 
   const start = async () => {
     const uid = await initFirebase();
@@ -141,7 +143,7 @@ export default function Home() {
           </div>
         </header>
         <section className="flex flex-1 flex-col overflow-hidden justify-between w-full ">
-          {firstMessage ? (
+          {!currentMessage ? (
             <div
               ref={sectionRef}
               id="fuckyoureact"
@@ -181,7 +183,7 @@ export default function Home() {
                   <div>
                     <div className="flex w-full">
                       <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
-                        {dbData && sequenceArray ? (
+                        {currentMessage && sequenceArray ? (
                           <TypeAnimation
                             ref={contentRef}
                             cursor={false}
