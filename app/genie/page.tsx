@@ -24,6 +24,9 @@ import { DocumentData } from "firebase/firestore";
 import SettingsButton from "../components/SettingsButton";
 import { TypeAnimation } from "react-type-animation";
 import ScrollToBottom from "react-scroll-to-bottom";
+import Header from "./components/Header";
+import GenerateButton from "./components/GenerateButton";
+import TypewriterAnimation from "./components/TypewriterAnimation";
 
 export default function Home() {
   const router = useRouter();
@@ -36,15 +39,20 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [differentLoading, setDifferentLoading] = useState(false);
-  const [firstMessage, setFirstMessage] = useState(true);
+
   const [userData, setUserData] = useState<DocumentData | null>(null);
   const [clicks, setClicks] = useState(0);
-  const [currentMessage, setCurrentMessage] = useState<string | null>(null);
+  const [currentMessage, setCurrentMessage] = useState<
+    (string | (() => void) | number)[] | null
+  >(null);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
     console.log("asdas", instructions);
+    setLoading(true);
+    setCurrentMessage(null);
     const message = await addMessage(uid, body, instructions);
-    setCurrentMessage(message.response);
+
+    setCurrentMessage(responseFormatter(message.response));
   };
 
   const start = async () => {
@@ -67,32 +75,7 @@ export default function Home() {
   useEffect(() => {
     start();
     console.log("useEffect", userId);
-    if (skipIntro) {
-      setFirstMessage(false);
-    }
   }, [userId]);
-
-  // useEffect(() => {
-  //   responseFormatter();
-  //   console.log(currentMessage);
-  //   console.log(sequenceArray);
-  // }, [currentMessage]);
-
-  if (clicks == 3) {
-    router.push("/reward");
-  }
-
-  async function submitHandler(e: FormEvent) {
-    e.preventDefault();
-    if (inputRef.current) {
-      addDocument(inputRef?.current?.value);
-      inputRef.current.value = "";
-      sectionRef?.current?.scrollTo({
-        top: boxRef?.current?.scrollHeight,
-        behavior: "smooth",
-      });
-    }
-  }
 
   const [visibileLike, setVisibleLike] = useState(false);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
@@ -104,33 +87,27 @@ export default function Home() {
       contentRef.current.scrollIntoView(false);
     }
   }
-  // let sequenceArray: [string, () => void, number][] | null = null;
-  function responseFormatter() {
-    if (currentMessage) {
-      // console.log(currMessage);
-      // const response = dbData[dbData.length - 1];
-      // const splitResponse = response.split(" ");
-      const splitResponse = currentMessage.split(" ");
-      const delay = 100;
-      let previousPhrase = "";
-      const sequenceArray = splitResponse.map(
-        (word): [string, () => void, number] => {
-          previousPhrase += ` ${word}`;
-          return [
-            previousPhrase,
-            () => {
-              scrollToBottom();
-            },
-            delay,
-          ];
-        }
-      );
-      return sequenceArray.flat();
-      console.log(sequenceArray);
-    }
-    return "Something went wrong. Please refresh and try again.";
+
+  function responseFormatter(message: string) {
+    const splitResponse = message.split(" ");
+    const delay = 100;
+    let previousPhrase = "";
+    const sequenceArray = splitResponse.map(
+      (word): [string, () => void, number] => {
+        previousPhrase += ` ${word}`;
+        return [
+          previousPhrase,
+          () => {
+            scrollToBottom();
+          },
+          delay,
+        ];
+      }
+    );
+    setLoading(false);
+    return sequenceArray.flat();
   }
-  // responseFormatter();
+  console.log(!currentMessage);
 
   function randoNum(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -139,269 +116,74 @@ export default function Home() {
   return (
     <div className=" h-[100dvh] ">
       <main className="flex flex-col justify-center  h-[100dvh] bg-secondary  ">
-        <header className="flex justify-between items-center shadow-lg bg-primary w-full">
-          <div className="flex gap-2">
-            <Image
-              src={lamp}
-              alt="reading genie lamp"
-              className="w-20 -ml-2 pt-1"
-            />
-            <p className="text-white -ml-3 pt-1">0</p>
-          </div>
-          <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
-          <div className="w-24 flex items-center justify-center">
-            <SettingsButton />
-          </div>
-        </header>
+        <Header />
         <section className="flex flex-1 flex-col overflow-hidden justify-between w-full ">
-          {!currentMessage ? (
-            <div
-              ref={sectionRef}
-              id="fuckyoureact"
-              className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
-            >
-              <div
-                id="chatbox"
-                ref={boxRef}
-                className="flex flex-col gap-6 pl-3 py-3"
-              >
-                <div className="flex w-full">
-                  <div className="w-full">
-                    <p className="text-2xl bg-white h-fit w-full rounded-t-md p-3 ">
-                      Hi Nieve, hit the button below to get started!
-                    </p>
-                  </div>
-                  <Image
-                    src={greengenie}
-                    alt="reading genie"
-                    className="w-12 h-12 rounded-full bg-lightaccent mx-2"
-                  />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div
-              ref={sectionRef}
-              id="fuckyoureact"
-              className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
-            >
-              <div
-                id="chatbox"
-                ref={boxRef}
-                className="flex flex-col gap-6 p-3"
-              >
-                <div className="flex w-full">
-                  <div>
-                    <div className="flex w-full">
-                      <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
-                        {currentMessage ? (
-                          <TypeAnimation
-                            ref={contentRef}
-                            cursor={false}
-                            className={CURSOR_CLASS_NAME}
-                            // splitter={(str) => str.split(/(?= )/)}
-                            sequence={responseFormatter() as any}
-                            wrapper="span"
-                            repeat={0}
-                            speed={70}
-                            style={{
-                              whiteSpace: "pre-line",
-                              display: "inline-block",
-                            }}
-                          />
-                        ) : null}
-                      </p>
-                      <div>
-                        <Image
-                          src={genieRoughSpeech}
-                          alt="reading genie"
-                          className="w-12 h-12 rounded-full bg-lightaccent mx-2 fixed top-20 right-0"
+          <div
+            ref={sectionRef}
+            id="fuckyoureact"
+            className="overflow-scroll gap-2 overflow-x-hidden w-full h-full"
+          >
+            <div id="chatbox" ref={boxRef} className="flex flex-col gap-6 p-3">
+              <div className="flex w-full">
+                <div>
+                  <div className="flex w-full">
+                    <p className="flex bg-white h-fit w-full rounded-t-md p-3 mr-12 text-3xl">
+                      {currentMessage ? (
+                        <TypeAnimation
+                          ref={contentRef}
+                          cursor={false}
+                          className={CURSOR_CLASS_NAME}
+                          sequence={currentMessage}
+                          wrapper="span"
+                          repeat={0}
+                          speed={70}
+                          style={{
+                            whiteSpace: "pre-line",
+                            display: "inline-block",
+                          }}
                         />
-                      </div>
-                    </div>
-                    <div className="mr-12">
-                      {visibileLike ? <LikeButtons /> : null}
+                      ) : loading ? (
+                        <span className="animate-pulse">
+                          Hold on tight, a wish in flight, through the stars,
+                          gleaming bright.
+                        </span>
+                      ) : (
+                        "Hit the button below to generate a byte."
+                      )}
+                    </p>
+                    <div>
+                      <Image
+                        src={genieRoughSpeech}
+                        alt="reading genie"
+                        className="w-12 h-12 rounded-full bg-lightaccent mx-2 fixed top-20 right-0"
+                      />
                     </div>
                   </div>
-
-                  <style global jsx>{`
-                    .custom-type-animation-cursor::after {
-                      content: "|";
-                      animation: cursor 1.1s infinite step-start;
-                    }
-                    @keyframes cursor {
-                      50% {
-                        opacity: 0;
-                      }
-                    }
-                  `}</style>
+                  <div className="mr-12">
+                    {visibileLike ? <LikeButtons /> : null}
+                  </div>
                 </div>
+                <TypewriterAnimation />
               </div>
             </div>
-          )}
-          {/* <form onSubmit={submitHandler} className="w-full flex gap-2 p-2">
-          <div className="w-full rounded-l flex">
-            <Input
-              ref={inputRef}
-              className="rounded-r-none"
-              type="text"
-              placeholder="Enter message"
-            />
-            <Button className="rounded-l-none" type="submit">
-              Submit
-            </Button>
           </div>
-        </form> */}
-          <div className="m-4 w-full pr-8">
-            {firstMessage ? (
-              <Button
-                onClick={async () => {
-                  setLoading(true);
-                  const lengths = {
-                    Short: "one or two sentences",
-                    Medium: "a paragraph",
-                    Long: "several paragraphs",
-                  };
-                  const nowData = await getUserRecord(userId);
-                  if (nowData?.contentLengths) {
-                    const length = Object.keys(nowData?.contentLengths).length;
-                    const lengths: {
-                      Short: string;
-                      Medium: string;
-                      Long: string;
-                    } = {
-                      Short: "one or two sentences",
-                      Medium: "a paragraph",
-                      Long: "several paragraphs",
-                    };
-                    console.log(
-                      lengths[
-                        nowData?.contentLengths[
-                          length - 1
-                        ] as keyof typeof lengths
-                      ],
-                      length
-                    );
-                    const textLength =
-                      lengths[
-                        nowData?.contentLengths[
-                          length - 1
-                        ] as keyof typeof lengths
-                      ];
-                    const instructions = `In ${textLength}, tell me some interesting ${
-                      nowData?.contentTypes[0]
-                    } about ${nowData?.interests.join(
-                      " or "
-                    )} which are suitable for an 8 year old`;
-                    askGenie(userId, instructions, "instructions").then(() => {
-                      setLoading(false);
-                      setFirstMessage(false);
-                    });
-                  }
-                }}
-                className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
-              >
-                {loading ? <FaSpinner className="animate-spin" /> : "Show me!"}
-              </Button>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <Button
-                  onClick={async () => {
-                    setMoreLoading(true);
-                    const lengths = {
-                      Short: "one or two sentences",
-                      Medium: "a paragraph",
-                      Long: "several paragraphs",
-                    };
-                    const nowData = await getUserRecord(userId);
-                    if (nowData?.contentLengths) {
-                      const length = Object.keys(
-                        nowData?.contentLengths
-                      ).length;
-                      console.log(
-                        lengths[
-                          nowData?.contentLengths[
-                            length - 1
-                          ] as keyof typeof lengths
-                        ],
-                        length
-                      );
-                      const textLength =
-                        lengths[
-                          nowData?.contentLengths[
-                            length - 1
-                          ] as keyof typeof lengths
-                        ];
-                      const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(
-                        " or "
-                      )} about ${nowData?.interests.join(" or ")}`;
-                      askGenie(userId, instructions, "instructions").then(
-                        (o) => {
-                          setMoreLoading(false);
-                          setFirstMessage(false);
-                        }
-                      );
-                    }
-                  }}
-                  className="bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
-                >
-                  {moreLoading ? (
-                    <FaSpinner className="animate-spin" />
-                  ) : (
-                    "More like that"
-                  )}
-                </Button>
-                <Button
-                  onClick={async () => {
-                    setDifferentLoading(true);
-                    const lengths = {
-                      Short: "one or two sentences",
-                      Medium: "a paragraph",
-                      Long: "several paragraphs",
-                    };
-                    const nowData = await getUserRecord(userId);
-                    if (nowData?.contentLengths) {
-                      const length = Object.keys(
-                        nowData?.contentLengths
-                      ).length;
-                      console.log(
-                        lengths[
-                          nowData?.contentLengths[
-                            length - 1
-                          ] as keyof typeof lengths
-                        ],
-                        length
-                      );
-                      const textLength =
-                        lengths[
-                          nowData?.contentLengths[
-                            length - 1
-                          ] as keyof typeof lengths
-                        ];
-                      const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(
-                        " or "
-                      )} about ${nowData?.interests.join(
-                        " or "
-                      )}. But be really creative`;
-
-                      askGenie(userId, instructions, "instructions").then(
-                        () => {
-                          setDifferentLoading(false);
-                          setFirstMessage(false);
-                        }
-                      );
-                    }
-                  }}
-                  className="bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full text-2xl font-semibold h-12 text-accent "
-                >
-                  {differentLoading ? (
-                    <FaSpinner className="animate-spin" />
-                  ) : (
-                    "Something different"
-                  )}
-                </Button>
-              </div>
-            )}
+          <div className="m-4 w-full pr-8 flex flex-col gap-2">
+            <GenerateButton
+              setGenerate={setLoading}
+              loading={moreLoading}
+              setLoading={setMoreLoading}
+              askGenie={askGenie}
+              userId={userId}
+              type="more"
+            />
+            <GenerateButton
+              setGenerate={setLoading}
+              loading={differentLoading}
+              setLoading={setDifferentLoading}
+              askGenie={askGenie}
+              userId={userId}
+              type="different"
+            />
           </div>
         </section>
       </main>
