@@ -30,7 +30,7 @@ export default function SignIn3({
         <RewardSlider dispatch={dispatch} />
         <RewardEmoji dispatch={dispatch} />
         <RewardTitle dispatch={dispatch} />
-        <Link href="/" className="w-full mt-4">
+        <Link href="/genie" className="w-full mt-4">
           <Button className="text-white w-full rounded-full">Next</Button>
         </Link>
       </section>
