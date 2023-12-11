@@ -1,7 +1,7 @@
 import Image from "next/image";
 import lamp from "../../../public/lamp.svg";
 import textlogo from "../../../public/text-logo.svg";
-import SettingsButton from "@/app/components/SettingsButton";
+import SettingsButton from "@/app/genie/components/SettingsButton";
 
 export default function Header() {
   return (
