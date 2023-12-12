@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FaSpinner } from "react-icons/fa6";
 
 interface Props {
+  setVisibleLike: React.Dispatch<React.SetStateAction<boolean>>;
   setGenerate: React.Dispatch<React.SetStateAction<boolean>>;
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function GenerateButton({
+  setVisibleLike,
   setGenerate,
   loading,
   setLoading,
@@ -26,6 +28,7 @@ export default function GenerateButton({
       : "bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full text-2xl font-semibold h-12 text-accent ";
 
   async function buttonHandler() {
+    setVisibleLike(false);
     setLoading(true);
     const lengths = {
       Short: "one or two sentences",

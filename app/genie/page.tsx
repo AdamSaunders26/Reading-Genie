@@ -63,7 +63,6 @@ export default function Home() {
 
   const start = async () => {
     const uid = await initFirebase();
-    console.log(uid);
     const record = await getUserRecord(uid);
     if (record) {
       setUserData(record);
@@ -78,38 +77,37 @@ export default function Home() {
     start();
   }, [userId]);
 
-  console.log(visibleLike);
   return (
-    <div className=" h-[100dvh] ">
-      <main className="flex flex-col justify-center  h-[100dvh] bg-secondary  ">
-        <Header />
-        <section className="flex flex-1 flex-col overflow-hidden justify-between w-full ">
-          <TypewriterText
-            currentMessage={currentMessage}
-            contentRef={contentRef}
-            loading={loading}
-            visibleLike={visibleLike}
+    <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
+      <Header />
+      <section className="flex flex-1 flex-col overflow-hidden justify-between w-full p-4">
+        <TypewriterText
+          currentMessage={currentMessage}
+          contentRef={contentRef}
+          loading={loading}
+          visibleLike={visibleLike}
+        />
+        <div className=" w-full flex flex-col gap-2">
+          <GenerateButton
+            setVisibleLike={setVisibleLike}
+            setGenerate={setLoading}
+            loading={moreLoading}
+            setLoading={setMoreLoading}
+            askGenie={askGenie}
+            userId={userId}
+            type="more"
           />
-          <div className="m-8 w-full  flex flex-col gap-2">
-            <GenerateButton
-              setGenerate={setLoading}
-              loading={moreLoading}
-              setLoading={setMoreLoading}
-              askGenie={askGenie}
-              userId={userId}
-              type="more"
-            />
-            <GenerateButton
-              setGenerate={setLoading}
-              loading={differentLoading}
-              setLoading={setDifferentLoading}
-              askGenie={askGenie}
-              userId={userId}
-              type="different"
-            />
-          </div>
-        </section>
-      </main>
-    </div>
+          <GenerateButton
+            setVisibleLike={setVisibleLike}
+            setGenerate={setLoading}
+            loading={differentLoading}
+            setLoading={setDifferentLoading}
+            askGenie={askGenie}
+            userId={userId}
+            type="different"
+          />
+        </div>
+      </section>
+    </main>
   );
 }

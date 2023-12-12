@@ -19,37 +19,39 @@ export default function TypewriterText({
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
 
   return (
-    <div className="flex flex-col w-full overflow-scroll mx-4 mt-4 ">
-      <div ref={contentRef} className="flex flex-col w-full ">
-        <p className="flex bg-white h-fit w-full rounded-t-md p-3  text-3xl">
-          {currentMessage ? (
-            <TypeAnimation
-              cursor={false}
-              className={CURSOR_CLASS_NAME}
-              sequence={currentMessage}
-              wrapper="span"
-              repeat={0}
-              speed={70}
-              style={{
-                whiteSpace: "pre-line",
-                display: "inline-block",
-              }}
-            />
-          ) : loading ? (
-            <span className="animate-pulse">
-              Hold on tight, a wish in flight, through the stars, gleaming
-              bright.
-            </span>
-          ) : (
-            "Hit the button below to generate a byte."
-          )}
-        </p>
+    <div className="flex flex-col w-full overflow-scroll ">
+      <div ref={contentRef} className="flex  justify-between w-full ">
+        <div className="flex-col flex">
+          <p className="flex flex-col bg-white h-fit  rounded-t-md p-3   text-3xl">
+            {currentMessage ? (
+              <TypeAnimation
+                cursor={false}
+                className={CURSOR_CLASS_NAME}
+                sequence={currentMessage}
+                wrapper="span"
+                repeat={0}
+                speed={20}
+                style={{
+                  whiteSpace: "pre-line",
+                  display: "inline-block",
+                }}
+              />
+            ) : loading ? (
+              <span className="animate-pulse">
+                Hold on tight, a wish is in flight, through the stars, gleaming
+                bright.
+              </span>
+            ) : (
+              "Hit the button below to generate a byte."
+            )}
+          </p>
+          <div className="">{visibleLike ? <LikeButtons /> : null}</div>
+        </div>
         <Image
           src={genieRoughSpeech}
           alt="reading genie"
-          className="w-12 h-12 rounded-full bg-lightaccent mx-2 fixed top-20 right-0"
+          className="w-12 h-12 rounded-full bg-lightaccent ml-2 "
         />
-        <div className="">{visibleLike ? <LikeButtons /> : null}</div>
       </div>
       <style global jsx>{`
         .custom-type-animation-cursor::after {

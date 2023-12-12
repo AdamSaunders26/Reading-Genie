@@ -18,7 +18,6 @@ export default function RandomTopics({
       allTopics.push({ [cat]: topic });
     }
   }
-  console.log(allTopics);
 
   const [randomTopics, setRandomTopics] = useState<topicItem[]>([]);
   const [refresh, setRefresh] = useState(0);
