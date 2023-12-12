@@ -65,7 +65,6 @@ export async function addDocument(data: string) {
 }
 
 export async function saveField(path: [string, string], value: any) {
-  console.log();
   try {
     const savedDoc = await setDoc(doc(db, ...path), value, { merge: true });
     console.log("Saved", savedDoc);

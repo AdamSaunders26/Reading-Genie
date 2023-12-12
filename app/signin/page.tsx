@@ -42,7 +42,7 @@ export default function SignInPage() {
       });
     }
   }, [selected, userId]);
-  console.log(selected);
+
   const stageIndex: Record<
     number,
     React.ReactElement<{ setCurrentStage: (stage: number) => void }>
