@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { onData, initFirebase, getUserRecord } from "../firebase/config";
 import { addMessage } from "../openai/index";
 import { DocumentData } from "firebase/firestore";
@@ -8,12 +8,14 @@ import Header from "./components/Header";
 import GenerateButton from "./components/GenerateButton";
 import TypewriterText from "./components/TypewriterText";
 import { responseFormatter } from "../utils";
+import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
   const [userData, setUserData] = useState<DocumentData | null>(null); //Not sure about this either
 
-  const [userId, setUserId] = useState<string | null>(null);
+  const { userId, setUserId } = useContext<GenieContextType>(genieContext);
+
   const [loading, setLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
   const [differentLoading, setDifferentLoading] = useState(false);

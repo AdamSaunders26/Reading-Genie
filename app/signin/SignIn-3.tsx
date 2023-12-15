@@ -1,7 +1,7 @@
 "use client";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import ReadingGenieLogo from "./components/ReadingGenieLogo";
 import RewardSlider from "./components/RewardSlider";
 import RewardEmoji from "./components/RewardEmoji";
 import RewardTitle from "./components/RewardTitle";
+import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function SignIn3({
   selected,
@@ -22,6 +23,8 @@ export default function SignIn3({
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
+  const { newResponse, setNewResponse } =
+    useContext<GenieContextType>(genieContext);
   return (
     <div className="flex flex-col justify-start m-4 p-4  ">
       <BackButton />
@@ -31,7 +34,14 @@ export default function SignIn3({
         <RewardEmoji dispatch={dispatch} />
         <RewardTitle dispatch={dispatch} />
         <Link href="/genie" className="w-full mt-4">
-          <Button className="text-white w-full rounded-full">Next</Button>
+          <Button
+            onClick={() => {
+              setNewResponse(true);
+            }}
+            className="text-white w-full rounded-full"
+          >
+            Next
+          </Button>
         </Link>
       </section>
     </div>

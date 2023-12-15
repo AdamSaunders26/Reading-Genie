@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import SignIn0 from "./SignIn-0";
 import SignIn1 from "./SignIn-1";
 import SignIn3 from "./SignIn-3";
@@ -8,10 +8,11 @@ import { initialState, topicReducer } from "./topicReducer";
 import { initFirebase, saveField } from "../firebase/config";
 import { useSearchParams } from "next/navigation";
 import { makeArray } from "./components/utils";
+import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function SignInPage() {
-  const [selected, dispatch] = useReducer(topicReducer, initialState);
-  const [userId, setUserId] = useState<string | null>(null);
+  const { selected, dispatch, userId, setUserId } =
+    useContext<GenieContextType>(genieContext);
 
   const getUser = async () => {
     const userId = await initFirebase();
@@ -25,7 +26,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     getUser();
-    if (userId) {
+    if (userId && selected) {
       const chosenTopics = [];
       for (const topic in selected.categories) {
         chosenTopics.push(makeArray(selected.categories[topic]));

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, League_Spartan } from "next/font/google";
 
 import "./globals.css";
+import { GenieProvider } from "./context/ReadingGenieContext";
 
 const inter = Inter({ subsets: ["latin"] });
 const league_spartan = League_Spartan({ subsets: ["latin"] });
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html className="h-[100dvh] w-full overflow-x-hidden  " lang="en">
-      <body className={league_spartan.className}>{children}</body>
+      <GenieProvider>
+        <body className={league_spartan.className}>{children}</body>
+      </GenieProvider>
     </html>
   );
 }

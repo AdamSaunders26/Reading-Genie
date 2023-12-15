@@ -31,7 +31,7 @@ export const categories: Categories = {
   },
   TV: {
     Thundermans: false,
-    "Ivy Bean": false,
+    "Ivy & Bean": false,
     "Monster High 1": false,
     "Monster High 2": false,
   },
@@ -71,7 +71,7 @@ export const iconIndex = {
     Space: "🪐",
     Swimming: "🏊",
     Thundermans: "⚡",
-    "Ivy Bean": "🌱",
+    "Ivy & Bean": "👭",
     "Monster High 1": "🎬",
     "Monster High 2": "🎬",
     "Digestive system": "🧠",

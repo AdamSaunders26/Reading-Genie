@@ -1,8 +1,12 @@
+import {
+  GenieContextType,
+  genieContext,
+} from "@/app/context/ReadingGenieContext";
 import { getUserRecord } from "@/app/firebase/config";
 import geniePrompt from "@/app/prompt/geniePrompt";
 import { randoNum } from "@/app/utils";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa6";
 
 interface Props {
@@ -24,6 +28,9 @@ export default function GenerateButton({
   askGenie,
   type,
 }: Props) {
+  const { newResponse, setNewResponse } =
+    useContext<GenieContextType>(genieContext);
+
   const buttonText = type === "more" ? "More like that" : "Something different";
   const buttonClass =
     type === "more"
@@ -34,9 +41,9 @@ export default function GenerateButton({
     setVisibleLike(false);
     setLoading(true);
     const lengths = {
-      Short: "one or two sentences",
-      Medium: "a paragraph",
-      Long: "several paragraphs",
+      Short: "one or two sentences, maximum 70 characters a sentence ",
+      Medium: "a paragraph, between 200 and 250 characters",
+      Long: "several paragraphs, each should be between 200 and 250 characters",
     };
 
     const nowData = await getUserRecord(userId);
@@ -54,15 +61,16 @@ export default function GenerateButton({
       )} about ${nowData?.interests.join(" or ")}`;
 
       const randContentType =
-        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length)];
+        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
       const randInterest =
-        nowData?.interests[randoNum(0, nowData?.interests.length)];
+        nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
       const prompt = geniePrompt(textLength, randContentType, randInterest);
 
       askGenie(userId, prompt, "instructions").then((o) => {
         setLoading(false);
       });
+      setNewResponse(false);
       //   askGenie(userId, instructions, "instructions").then((o) => {
       //     setLoading(false);
       //   });
@@ -70,11 +78,12 @@ export default function GenerateButton({
   }
 
   useEffect(() => {
-    if (type === "more") {
+    if (type === "more" && newResponse) {
       setGenerate(true);
       buttonHandler();
+      console.log(1);
     }
-  }, [userId]);
+  }, [userId, newResponse]);
 
   return (
     <Button

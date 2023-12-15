@@ -137,12 +137,12 @@ export function toggleChildDetails(
   dispatch({ type: "TOGGLE_CHILD_DETAILS", payload: type, input: details });
 }
 
-export function toggleInterest(
-  interest: string,
-  dispatch: React.Dispatch<Action>
-) {
-  dispatch({ type: "TOGGLE_INTEREST", payload: interest });
-}
+// export function toggleInterest(
+//   interest: string,
+//   dispatch: React.Dispatch<Action>
+// ) {
+//   dispatch({ type: "TOGGLE_INTEREST", payload: interest });
+// }
 
 export function toggleCategory(
   category: string,
