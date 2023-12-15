@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Action, State } from "./topicReducer";
 import BackButton from "./components/BackButton";
 import SkipButton from "./components/SkipButton";
@@ -12,6 +12,8 @@ import ContentTypesList from "./components/ContentTypesList";
 import ContentLengthsList from "./components/ContentLengthsList";
 import { Switch } from "@/components/ui/switch";
 import RandomTopics from "./components/RandomTopics";
+import Link from "next/link";
+import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function SignIn2({
   selected,
@@ -20,7 +22,9 @@ export default function SignIn2({
   selected: State;
   dispatch: React.Dispatch<Action>;
 }) {
-  const router = useRouter();
+  const { newResponse, setNewResponse } =
+    useContext<GenieContextType>(genieContext);
+
   const [randomTopics, setRandomTopics] = useState(false);
 
   const buttonClasses = {
@@ -63,14 +67,16 @@ export default function SignIn2({
         buttonClasses={buttonClasses}
       />
       <div className="flex gap-4 mt-4">
-        <Button
-          onClick={() => {
-            backToGenie ? router.push(`/genie`) : router.push("?stage=3");
-          }}
-          className="text-white w-full rounded-full "
-        >
-          {backToGenie ? "Back to Genie" : "Next"}
-        </Button>
+        <Link href={backToGenie ? `/genie` : "?stage=3"}>
+          <Button
+            onClick={() => {
+              setNewResponse(true);
+            }}
+            className="text-white w-full rounded-full "
+          >
+            {backToGenie ? "Back to Genie" : "Next"}
+          </Button>
+        </Link>
         <SkipButton />
       </div>
       {/* This bottom div is weird and should be replaced at some point */}

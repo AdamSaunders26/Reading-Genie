@@ -27,6 +27,7 @@ export default function ContentTypesList({
           onClick={() => {
             toggleContentType(contentType, dispatch);
           }}
+          disabled={contentType !== "Facts"}
           key={idx}
           className={
             selected.contentTypes[
