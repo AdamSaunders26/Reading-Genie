@@ -8,7 +8,7 @@ export default function LikeButtons() {
   const buttonClass =
     "text-center flex-1 flex items-center justify-center gap-2 py-2 rounded-b-md  ";
   return (
-    <div className="flex justify-between text-xl w-full bg-primary text-white rounded-b-md ">
+    <div className="flex justify-between text-xl w-full  bg-primary text-white rounded-b-md ">
       <p
         className={
           likeButton ? buttonClass + " bg-geniePurple-700 " : buttonClass

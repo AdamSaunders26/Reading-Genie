@@ -1,33 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import {
-  addDocument,
-  db,
-  onData,
-  initFirebase,
-  getUserRecord,
-} from "../firebase/config";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useEffect, useRef, useState } from "react";
+import { onData, initFirebase, getUserRecord } from "../firebase/config";
 import { addMessage } from "../openai/index";
-import { FaThumbsDown, FaGear, FaThumbsUp, FaSpinner } from "react-icons/fa6";
-import textlogo from "../../public/text-logo.svg";
-import { GiStarSwirl } from "react-icons/gi";
-import greengenie from "../../public/greengenie.svg";
-import genieRoughSpeech from "../../public/greengenie.svg";
-import lamp from "../../public/lamp.svg";
-import { useRouter, useSearchParams } from "next/navigation";
-import LikeButtons from "./components/LikeButtons";
 import { DocumentData } from "firebase/firestore";
-import SettingsButton from "./components/SettingsButton";
-import { TypeAnimation } from "react-type-animation";
-import ScrollToBottom from "react-scroll-to-bottom";
 import Header from "./components/Header";
 import GenerateButton from "./components/GenerateButton";
-import TypewriterAnimation from "./components/TypewriterAnimation";
-import TypewriteText, { scrollToBottom } from "./components/TypewriterText";
 import TypewriterText from "./components/TypewriterText";
 import { responseFormatter } from "../utils";
 
@@ -87,7 +65,7 @@ export default function Home() {
           loading={loading}
           visibleLike={visibleLike}
         />
-        <div className=" w-full flex flex-col gap-2">
+        <div className=" w-full flex flex-col mt-4 gap-2">
           <GenerateButton
             setVisibleLike={setVisibleLike}
             setGenerate={setLoading}

@@ -44,9 +44,11 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-export async function getUserRecord(uid) {
-  const rec = await getDoc(doc(db, "genie-users", uid));
-  return rec.data();
+export async function getUserRecord(uid: string | null) {
+  if (uid) {
+    const rec = await getDoc(doc(db, "genie-users", uid));
+    return rec.data();
+  }
 }
 
 export async function initFirebase() {
@@ -73,7 +75,10 @@ export async function saveField(path: [string, string], value: any) {
   }
 }
 
-export function onData(uid, setDbData) {
+export function onData(
+  uid: string | null,
+  setDbData: React.Dispatch<React.SetStateAction<string[] | null>>
+) {
   console.log("onData auth", uid);
   if (!uid) return;
   const q = query(
