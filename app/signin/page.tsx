@@ -11,9 +11,8 @@ import { makeArray } from "./components/utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function SignInPage() {
-  // const [selected, dispatch] = useReducer(topicReducer, initialState);
-  const [userId, setUserId] = useState<string | null>(null);
-  const { selected, dispatch } = useContext<GenieContextType>(genieContext);
+  const { selected, dispatch, userId, setUserId } =
+    useContext<GenieContextType>(genieContext);
 
   const getUser = async () => {
     const userId = await initFirebase();

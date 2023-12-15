@@ -16,18 +16,23 @@ import {
 export interface GenieContextType {
   selected: State | null;
   dispatch: React.Dispatch<Action> | null;
+  userId: string | null;
+  setUserId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const genieContext = createContext<GenieContextType>({
   selected: null,
   dispatch: null,
+  userId: null,
+  setUserId: () => null,
 });
 
 export function GenieProvider({ children }: { children: ReactNode }) {
   const [selected, dispatch] = useReducer(topicReducer, initialState);
-  console.log(selected);
+  const [userId, setUserId] = useState<string | null>(null);
+
   return (
-    <genieContext.Provider value={{ selected, dispatch }}>
+    <genieContext.Provider value={{ selected, dispatch, userId, setUserId }}>
       {children}
     </genieContext.Provider>
   );
