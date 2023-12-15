@@ -65,7 +65,7 @@ export default function Home() {
           loading={loading}
           visibleLike={visibleLike}
         />
-        <div className=" w-full flex flex-col gap-2">
+        <div className=" w-full flex flex-col mt-4 gap-2">
           <GenerateButton
             setVisibleLike={setVisibleLike}
             setGenerate={setLoading}

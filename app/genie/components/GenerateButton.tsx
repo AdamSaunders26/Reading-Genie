@@ -1,4 +1,6 @@
 import { getUserRecord } from "@/app/firebase/config";
+import geniePrompt from "@/app/prompt/geniePrompt";
+import { randoNum } from "@/app/utils";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { FaSpinner } from "react-icons/fa6";
@@ -50,9 +52,20 @@ export default function GenerateButton({
       const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(
         " or "
       )} about ${nowData?.interests.join(" or ")}`;
-      askGenie(userId, instructions, "instructions").then((o) => {
+
+      const randContentType =
+        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length)];
+      const randInterest =
+        nowData?.interests[randoNum(0, nowData?.interests.length)];
+
+      const prompt = geniePrompt(textLength, randContentType, randInterest);
+
+      askGenie(userId, prompt, "instructions").then((o) => {
         setLoading(false);
       });
+      //   askGenie(userId, instructions, "instructions").then((o) => {
+      //     setLoading(false);
+      //   });
     }
   }
 
