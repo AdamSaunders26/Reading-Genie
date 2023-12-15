@@ -1,5 +1,6 @@
 import { getUserRecord } from "@/app/firebase/config";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 import { FaSpinner } from "react-icons/fa6";
 
 interface Props {
@@ -35,7 +36,9 @@ export default function GenerateButton({
       Medium: "a paragraph",
       Long: "several paragraphs",
     };
+
     const nowData = await getUserRecord(userId);
+
     if (nowData?.contentLengths) {
       const length = Object.keys(nowData?.contentLengths).length;
       console.log(
@@ -52,6 +55,13 @@ export default function GenerateButton({
       });
     }
   }
+
+  useEffect(() => {
+    if (type === "more") {
+      setGenerate(true);
+      buttonHandler();
+    }
+  }, [userId]);
 
   return (
     <Button
