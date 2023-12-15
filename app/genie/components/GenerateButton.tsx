@@ -54,9 +54,9 @@ export default function GenerateButton({
       )} about ${nowData?.interests.join(" or ")}`;
 
       const randContentType =
-        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length)];
+        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
       const randInterest =
-        nowData?.interests[randoNum(0, nowData?.interests.length)];
+        nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
       const prompt = geniePrompt(textLength, randContentType, randInterest);
 

@@ -65,7 +65,7 @@ export default function SignIn2({
       <div className="flex gap-4 mt-4">
         <Button
           onClick={() => {
-            backToGenie ? router.push(`/?skip=true`) : router.push("?stage=3");
+            backToGenie ? router.push(`/genie`) : router.push("?stage=3");
           }}
           className="text-white w-full rounded-full "
         >
