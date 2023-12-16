@@ -53,7 +53,11 @@ export default function SignIn2({
         buttonClasses={buttonClasses}
       />
       <div className="flex gap-4 mt-4">
-        <Link href={backToGenie ? `/genie` : "?stage=3"}>
+        <SkipButton />
+        <Link
+          className="text-white w-full rounded-full "
+          href={backToGenie ? `/genie` : "?stage=3"}
+        >
           <Button
             onClick={() => {
               setNewResponse(true);
@@ -63,7 +67,6 @@ export default function SignIn2({
             {backToGenie ? "Back to Genie" : "Next"}
           </Button>
         </Link>
-        <SkipButton />
       </div>
       {/* This bottom div is weird and should be replaced at some point */}
       <div className="flex justify-center h-[20px]">&nbsp;</div>

@@ -65,10 +65,10 @@ export default function ChildDetailsForm({
           )}
         />
         <div className="flex gap-4">
+          <SkipButton />
           <Button className="text-white w-full rounded-full" type="submit">
             Next
           </Button>
-          <SkipButton />
         </div>
       </form>
     </Form>
