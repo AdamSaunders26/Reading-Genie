@@ -31,6 +31,7 @@ export default function CustomTopicInput({ setNewTopic }: Props) {
           if (dispatch) {
             addCustomTopic(inputValue, dispatch);
           }
+          setInputValue("");
         }}
       >
         <FaPlus />

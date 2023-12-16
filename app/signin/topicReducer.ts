@@ -88,7 +88,7 @@ export const topicReducer = (state: State, action: Action): State => {
         ...state,
         categories: {
           ...state.categories,
-          custom: {
+          Custom: {
             ...state.categories.custom,
             [action.payload]: false,
           },
