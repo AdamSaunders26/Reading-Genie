@@ -38,24 +38,10 @@ export default function SignIn2({
   return (
     <div className="flex flex-col justify-start m-4 p-4   ">
       <div className="flex flex-col">
-        <div className="flex justify-between items-center">
-          <BackButton />
-          <div className="flex  gap-2">
-            Random
-            <Switch
-              onCheckedChange={() => {
-                setRandomTopics((curr) => !curr);
-              }}
-            />
-          </div>
-        </div>
+        <BackButton />
         <ReadingGenieLogo />
       </div>
-      {randomTopics ? (
-        <RandomTopics selected={selected} dispatch={dispatch} />
-      ) : (
-        <TopicsList selected={selected} dispatch={dispatch} />
-      )}
+      <RandomTopics selected={selected} dispatch={dispatch} />
       <ContentTypesList
         selected={selected}
         dispatch={dispatch}

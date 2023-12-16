@@ -15,6 +15,7 @@ export interface State {
 export type Action =
   // | { type: "TOGGLE_INTEREST"; payload: string }
   | { type: "TOGGLE_CATEGORY"; payload: string; input: string }
+  | { type: "ADD_CUSTOM_TOPIC"; payload: string }
   | { type: "TOGGLE_CONTENT_TYPE"; payload: string }
   | { type: "TOGGLE_CONTENT_LENGTH"; payload: string }
   | { type: "TOGGLE_PARENT_DETAILS"; payload: string; input: string }
@@ -82,7 +83,17 @@ export const topicReducer = (state: State, action: Action): State => {
           },
         },
       };
-
+    case "ADD_CUSTOM_TOPIC":
+      return {
+        ...state,
+        categories: {
+          ...state.categories,
+          custom: {
+            ...state.categories.custom,
+            [action.payload]: false,
+          },
+        },
+      };
     default:
       return state;
   }
@@ -172,4 +183,11 @@ export function toggleRewardDetails(
   dispatch: React.Dispatch<Action>
 ) {
   dispatch({ type: "TOGGLE_REWARD_DETAILS", payload: type, input: details });
+}
+
+export function addCustomTopic(
+  topic: string,
+  dispatch: React.Dispatch<Action>
+) {
+  dispatch({ type: "ADD_CUSTOM_TOPIC", payload: topic });
 }

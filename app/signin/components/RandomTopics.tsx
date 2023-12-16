@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { iconIndex } from "../topics";
 import { Action, State, toggleCategory } from "../topicReducer";
 import { useEffect, useState } from "react";
+import CustomTopicInput from "./CustomTopicInput";
 
 export default function RandomTopics({
   selected,
@@ -21,6 +22,7 @@ export default function RandomTopics({
 
   const [randomTopics, setRandomTopics] = useState<topicItem[]>([]);
   const [refresh, setRefresh] = useState(0);
+
   useEffect(() => {
     function getRandomNum(maxNum: number) {
       return Math.floor(Math.random() * maxNum);
@@ -28,7 +30,7 @@ export default function RandomTopics({
 
     const randomInterests: topicItem[] = [];
 
-    while (randomInterests.length < 8) {
+    while (randomInterests.length < 6) {
       const newTopic = allTopics[getRandomNum(allTopics.length)];
       if (!randomInterests.includes(newTopic)) {
         randomInterests.push(newTopic);
@@ -38,6 +40,22 @@ export default function RandomTopics({
     setRandomTopics(randomInterests);
   }, [refresh]);
 
+  const [newTopic, setNewTopic] = useState<string | null>(null);
+  console.log(newTopic);
+
+  useEffect(() => {
+    if (newTopic) {
+      setRandomTopics((curr) => {
+        const newArr = [...curr];
+        newArr.pop();
+        newArr.unshift({ Custom: newTopic });
+        console.log(newArr);
+        return newArr;
+      });
+    }
+  }, [newTopic]);
+
+  console.log(randomTopics);
   const getIconByInterest = (interest: string) => {
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
@@ -52,7 +70,8 @@ export default function RandomTopics({
       <h1 className="text-2xl font-semibold text-primary text-center ">
         What do they care about?
       </h1>
-      <div className="grid grid-cols-2 grid-rows-4  gap-x-8 gap-y-4 ">
+      <CustomTopicInput setNewTopic={setNewTopic} />
+      <div className="grid grid-cols-2 grid-rows-3  gap-x-8 gap-y-4 ">
         {randomTopics.map((interest, idx) => {
           let category = "";
           let topic = "";
@@ -74,7 +93,7 @@ export default function RandomTopics({
             >
               <div className="flex flex-col items-center">
                 <span className="p-2 text-3xl drop-shadow-xl">
-                  {getIconByInterest(topic)}
+                  {category === "Custom" ? "🌟" : getIconByInterest(topic)}
                 </span>
                 <span className=" whitespace-normal leading-6 text-xl">
                   {topic}
