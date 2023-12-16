@@ -47,6 +47,7 @@ export const categories: Categories = {
     Elves: false,
     "Arts and Crafts": false,
   },
+  Custom: {},
 };
 
 export const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];

@@ -102,10 +102,10 @@ export default function ParentDetailsForm({
           )}
         />
         <div className="flex gap-4">
+          <SkipButton />
           <Button className="text-white w-full rounded-full" type="submit">
             Sign-up
           </Button>
-          <SkipButton />
         </div>
       </form>
     </Form>
