@@ -16,8 +16,8 @@ export default function Home() {
 
   const { userId, setUserId } = useContext<GenieContextType>(genieContext);
 
-  const [loading, setLoading] = useState(true);
-  const [moreLoading, setMoreLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(false);
   const [differentLoading, setDifferentLoading] = useState(false);
   const [currentMessage, setCurrentMessage] = useState<
     (string | (() => void) | number)[] | null
