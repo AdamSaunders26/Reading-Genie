@@ -2,6 +2,8 @@ import Image from "next/image";
 import { TypeAnimation } from "react-type-animation";
 import genieRoughSpeech from "../../../public/greengenie.svg";
 import LikeButtons from "@/app/genie/components/LikeButtons";
+import LoadingBubble from "./LoadingBubble";
+import { IoTriangle } from "react-icons/io5";
 
 interface Props {
   currentMessage: (string | number | (() => void))[] | null;
@@ -20,9 +22,18 @@ export default function TypewriterText({
 
   return (
     <div className="flex flex-col w-full overflow-scroll ">
-      <div ref={contentRef} className="flex  justify-between w-full ">
-        <div className="flex-col flex">
-          <p className="flex flex-col bg-white h-fit  rounded-t-md p-3   text-3xl">
+      <div
+        ref={contentRef}
+        className="flex  justify-between overflow-x-hidden w-full "
+      >
+        <div className="flex-col flex w-full">
+          <p
+            className={
+              loading
+                ? `flex flex-col  h-fit w-full rounded-t-md p-3   text-3xl`
+                : `flex flex-col bg-white h-fit w-full rounded-t-md p-3   text-3xl`
+            }
+          >
             {currentMessage ? (
               <TypeAnimation
                 cursor={false}
@@ -37,21 +48,31 @@ export default function TypewriterText({
                 }}
               />
             ) : loading ? (
-              <span className="animate-pulse">
-                Hold on tight, a wish is in flight, through the stars, gleaming
-                bright.
-              </span>
+              // <span className="animate-pulse">
+              //   Hold on tight, a wish is in flight, through the stars, gleaming
+              //   bright.
+              // </span>
+              <LoadingBubble />
             ) : (
               "Hit the button below to generate a byte."
             )}
           </p>
           <div className="">{visibleLike ? <LikeButtons /> : null}</div>
         </div>
-        <Image
-          src={genieRoughSpeech}
-          alt="reading genie"
-          className="w-12 h-12 rounded-full bg-lightaccent ml-2 "
-        />
+        <div className={loading ? "mt-[18rem]" : "flex"}>
+          {loading ? null : (
+            <IoTriangle className="text-white rotate-90 -ml-1 mt-2 h-6 w-6" />
+          )}
+          <Image
+            src={genieRoughSpeech}
+            alt="reading genie"
+            className={
+              loading
+                ? "w-12 h-12 rounded-full  place-self-end bg-lightaccent "
+                : "w-12 h-12 rounded-full  bg-lightaccent "
+            }
+          />
+        </div>
       </div>
       <style global jsx>{`
         .custom-type-animation-cursor::after {
