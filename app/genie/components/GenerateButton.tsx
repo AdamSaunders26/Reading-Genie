@@ -77,13 +77,13 @@ export default function GenerateButton({
     }
   }
 
-  useEffect(() => {
-    if (type === "more" && newResponse) {
-      setGenerate(true);
-      buttonHandler();
-      console.log(1);
-    }
-  }, [userId, newResponse]);
+  // useEffect(() => {
+  //   if (type === "more" && newResponse) {
+  //     setGenerate(true);
+  //     buttonHandler();
+  //     console.log(1);
+  //   }
+  // }, [userId, newResponse]);
 
   return (
     <Button
