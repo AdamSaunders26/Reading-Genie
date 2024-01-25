@@ -6,7 +6,7 @@ export default function LoadingBubble() {
     <Image
       src={bubble}
       alt="loading bubble"
-      className="left-0 w-max absolute right-0 top-12 "
+      className="left-0 w-max h-max max-h-[40rem] absolute right-0 top-12 "
     />
   );
 }
