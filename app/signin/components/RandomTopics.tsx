@@ -3,6 +3,7 @@ import { iconIndex } from "../topics";
 import { Action, State, toggleCategory } from "../topicReducer";
 import { useEffect, useState } from "react";
 import CustomTopicInput from "./CustomTopicInput";
+import { MdRefresh } from "react-icons/md";
 
 export default function RandomTopics({
   selected,
@@ -104,12 +105,12 @@ export default function RandomTopics({
         })}
       </div>
       <Button
-        className="w-fit text-white text-xl place-self-center"
+        className="w-fit h-fit text-white text-xl place-self-center rounded-full p-4 active:bg-geniePurple-700"
         onClick={() => {
           setRefresh((curr) => ++curr);
         }}
       >
-        Refresh list
+        <MdRefresh />
       </Button>
     </div>
   );

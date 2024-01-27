@@ -42,7 +42,7 @@ export default function SignIn2({
         <ReadingGenieLogo />
       </div>
       <RandomTopics selected={selected} dispatch={dispatch} />
-      <ContentTypesList
+      {/* <ContentTypesList
         selected={selected}
         dispatch={dispatch}
         buttonClasses={buttonClasses}
@@ -51,7 +51,7 @@ export default function SignIn2({
         selected={selected}
         dispatch={dispatch}
         buttonClasses={buttonClasses}
-      />
+      /> */}
       <div className="flex gap-4 mt-4">
         <SkipButton />
         <Link
