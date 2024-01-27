@@ -48,10 +48,6 @@ export default function TypewriterText({
                 }}
               />
             ) : loading ? (
-              // <span className="animate-pulse">
-              //   Hold on tight, a wish is in flight, through the stars, gleaming
-              //   bright.
-              // </span>
               <LoadingBubble />
             ) : (
               "Hit the button below to generate a byte."

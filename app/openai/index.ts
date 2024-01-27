@@ -146,7 +146,8 @@ async function addMessage(userSid: string, body: string, instructions: string) {
 
   const addedMessage = await createMessage(thread_id, body);
 
-  const runStarted = await createRun(assistantId, thread_id, instructions);
+  const runStarted = await createRun(assistantId, thread_id);
+  console.log(runStarted);
   const response = await loopRunAndReturn(thread_id, runStarted.id);
 
   await addDoc(collection(db, "genie-users", userSid, "messages"), {
