@@ -42,24 +42,21 @@ export default function GenerateButton({
 
     const nowData = await getUserRecord(userId);
 
-    if (nowData?.contentLengths) {
-      const length = Object.keys(nowData?.contentLengths).length;
-      console.log(
-        lengths[nowData?.contentLengths[length - 1] as keyof typeof lengths],
-        length
-      );
-      const textLength =
-        lengths[nowData?.contentLengths[length - 1] as keyof typeof lengths];
-      const instructions = `In ${textLength}, tell me some ${nowData?.contentTypes.join(
-        " or "
-      )} about ${nowData?.interests.join(" or ")}`;
-
+    if (nowData) {
+      const allContentTypes = [
+        "fact",
+        "joke",
+        "riddle",
+        "poem",
+        "would you rather",
+        "poll",
+      ];
       const randContentType =
-        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
+        allContentTypes[randoNum(0, allContentTypes.length - 1)];
       const randInterest =
         nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
-      const prompt = geniePrompt(textLength, randContentType, randInterest);
+      const prompt = geniePrompt(randContentType, randInterest);
 
       askGenie(userId, prompt, "instructions").then((o) => {
         setLoading(false);
@@ -81,11 +78,7 @@ export default function GenerateButton({
         "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
       }
     >
-      {loading ? (
-        <FaSpinner className="animate-spin" />
-      ) : (
-        <HiOutlineSparkles className="animate-pulse" />
-      )}
+      {loading ? <FaSpinner className="animate-spin" /> : <HiOutlineSparkles />}
     </Button>
   );
 }

@@ -1,13 +1,8 @@
-export default function geniePrompt(
-  textLength: string,
-  contentType: string,
-  interest: string
-) {
-  console.log({ textLength });
+export default function geniePrompt(contentType: string, interest: string) {
   console.log({ contentType });
   console.log({ interest });
   switch (contentType) {
-    case "Facts":
+    case "fact":
       return `${contentType} about ${interest} `;
     default:
       return `${contentType}`;
