@@ -31,7 +31,7 @@ export default function Home() {
     setLoading(true);
     setCurrentMessage(null);
     const message = await addMessage(uid, body, instructions);
-    // console.log(JSON.parse(message.response));
+    // console.log(JSON.parse(message.response)); Can't be parsed successfully until the playground instructions are updated.
     console.log(message.response);
     setCurrentMessage(
       responseFormatter(
