@@ -8,6 +8,7 @@ import { randoNum } from "@/app/utils";
 import { Button } from "@/components/ui/button";
 import { useContext, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa6";
+import { HiOutlineSparkles } from "react-icons/hi2";
 
 interface Props {
   setVisibleLike: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,16 +27,9 @@ export default function GenerateButton({
   setLoading,
   userId,
   askGenie,
-  type,
 }: Props) {
   const { newResponse, setNewResponse } =
     useContext<GenieContextType>(genieContext);
-
-  const buttonText = type === "more" ? "More like that" : "Something different";
-  const buttonClass =
-    type === "more"
-      ? "bg-accent active:bg-lightaccent hover:bg-accent w-full rounded-full text-white text-2xl font-semibold h-12 "
-      : "bg-lightaccent active:bg-accent hover:bg-lightaccent border-2 border-accent w-full rounded-full text-2xl font-semibold h-12 text-accent ";
 
   async function buttonHandler() {
     setVisibleLike(false);
@@ -77,23 +71,21 @@ export default function GenerateButton({
     }
   }
 
-  // useEffect(() => {
-  //   if (type === "more" && newResponse) {
-  //     setGenerate(true);
-  //     buttonHandler();
-  //     console.log(1);
-  //   }
-  // }, [userId, newResponse]);
-
   return (
     <Button
       onClick={() => {
         setGenerate(true);
         buttonHandler();
       }}
-      className={buttonClass}
+      className={
+        "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
+      }
     >
-      {loading ? <FaSpinner className="animate-spin" /> : buttonText}
+      {loading ? (
+        <FaSpinner className="animate-spin" />
+      ) : (
+        <HiOutlineSparkles className="animate-pulse" />
+      )}
     </Button>
   );
 }

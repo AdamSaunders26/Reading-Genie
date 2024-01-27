@@ -69,7 +69,7 @@ export default function Home() {
           loading={loading}
           visibleLike={visibleLike}
         />
-        <div className=" w-full flex flex-col mt-4 gap-2">
+        <div className=" w-full flex flex-col justify-center mt-4 gap-2">
           <GenerateButton
             setVisibleLike={setVisibleLike}
             setGenerate={setLoading}
@@ -77,16 +77,6 @@ export default function Home() {
             setLoading={setMoreLoading}
             askGenie={askGenie}
             userId={userId}
-            type="more"
-          />
-          <GenerateButton
-            setVisibleLike={setVisibleLike}
-            setGenerate={setLoading}
-            loading={differentLoading}
-            setLoading={setDifferentLoading}
-            askGenie={askGenie}
-            userId={userId}
-            type="different"
           />
         </div>
       </section>
