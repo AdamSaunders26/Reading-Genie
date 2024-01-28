@@ -24,6 +24,13 @@ export default function Home() {
   >(null);
   const [visibleLike, setVisibleLike] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const [currentByte, setCurrentByte] = useState<any | null>(null);
+  console.log(currentByte);
+  const demoWouldYouRather = {
+    contentType: "would you rather",
+    body: "Would you rather have a pet dinosaur or a pet dragon?",
+    options: ["Pet dinosaur 🦖", "Pet dragon 🐉"],
+  };
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
     console.log("INSTRUCTIONS", instructions);
@@ -32,10 +39,13 @@ export default function Home() {
     setCurrentMessage(null);
     const message = await addMessage(uid, body, instructions);
     // console.log(JSON.parse(message.response)); Can't be parsed successfully until the playground instructions are updated.
+
+    setCurrentByte(demoWouldYouRather);
+
     console.log(message.response);
     setCurrentMessage(
       responseFormatter(
-        message.response,
+        demoWouldYouRather.body,
         contentRef,
         setVisibleLike,
         setLoading
@@ -68,6 +78,7 @@ export default function Home() {
           contentRef={contentRef}
           loading={loading}
           visibleLike={visibleLike}
+          currentByte={currentByte}
         />
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
           <GenerateButton
