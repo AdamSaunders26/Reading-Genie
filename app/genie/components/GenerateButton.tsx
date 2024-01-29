@@ -38,10 +38,10 @@ export default function GenerateButton({
 
     if (nowData) {
       const allContentTypes = [
-        "fact",
-        "joke",
-        "riddle",
-        "poem",
+        // "fact",
+        // "joke",
+        // "riddle",
+        // "poem",
         "would you rather",
         "poll",
       ];

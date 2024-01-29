@@ -7,7 +7,7 @@ import { DocumentData } from "firebase/firestore";
 import Header from "./components/Header";
 import GenerateButton from "./components/GenerateButton";
 import TypewriterText from "./components/TypewriterText";
-import { responseFormatter } from "../utils";
+import { replaceQuotationMarks, responseFormatter } from "../utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 
 export default function Home() {
@@ -25,11 +25,22 @@ export default function Home() {
   const [visibleLike, setVisibleLike] = useState(false);
   const contentRef = useRef<HTMLDivElement | null>(null);
   const [currentByte, setCurrentByte] = useState<any | null>(null);
-  console.log(currentByte);
+
   const demoWouldYouRather = {
     contentType: "would you rather",
     body: "Would you rather have a pet dinosaur or a pet dragon?",
     options: ["Pet dinosaur 🦖", "Pet dragon 🐉"],
+  };
+
+  const demoPoll = {
+    contentType: "poll",
+    body: "What's your favourite gymnastics position?",
+    options: ["Base", "Flyer", "Backspot"],
+    responses: [
+      "Bases in cheerleading typically provide the foundation and support for building pyramids and stunts. They are usually the ones who lift and support the flyers.",
+      "Flyers are the cheerleaders who are lifted into the air during stunts. They require good balance, flexibility, and trust in their teammates to perform aerial maneuvers.",
+      "The backspot in cheerleading is responsible for ensuring the safety and stability of the flyer during stunts. They provide crucial support from the ground and help catch the flyer if necessary.",
+    ],
   };
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
@@ -38,14 +49,16 @@ export default function Home() {
     setLoading(true);
     setCurrentMessage(null);
     const message = await addMessage(uid, body, instructions);
-    // console.log(JSON.parse(message.response)); Can't be parsed successfully until the playground instructions are updated.
-
-    setCurrentByte(demoWouldYouRather);
-
     console.log(message.response);
+
+    const fixedResponse = replaceQuotationMarks(message.response);
+    console.log(fixedResponse);
+    const parsedResponse = JSON.parse(fixedResponse);
+    console.log(parsedResponse);
+    // console.log(typeof parsedResponse);
     setCurrentMessage(
       responseFormatter(
-        demoWouldYouRather.body,
+        currentByte.body,
         contentRef,
         setVisibleLike,
         setLoading
@@ -67,6 +80,8 @@ export default function Home() {
 
   useEffect(() => {
     start();
+    // setCurrentByte(demoWouldYouRather);
+    setCurrentByte(demoPoll);
   }, [userId]);
 
   return (

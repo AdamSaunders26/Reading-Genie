@@ -48,3 +48,10 @@ export function scrollToBottom(
 export function randoNum(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export function replaceQuotationMarks(input: string): string {
+  let replaced = input.replace(/[\u201C]/g, '"');
+  replaced = replaced.replace(/[\u201D]/g, '"');
+
+  return replaced;
+}

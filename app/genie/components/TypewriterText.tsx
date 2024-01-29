@@ -6,6 +6,7 @@ import LoadingBubble from "./LoadingBubble";
 import { IoTriangle } from "react-icons/io5";
 import WouldYouRather from "./WouldYouRather";
 import { useState, useEffect } from "react";
+import ContentHandler from "./ContentHandler";
 
 interface Props {
   currentMessage: (string | number | (() => void))[] | null;
@@ -22,42 +23,6 @@ export default function TypewriterText({
   visibleLike,
   currentByte,
 }: Props) {
-  const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
-  const [currentContent, setCurrentContent] = useState<any>(
-    <TypeAnimation
-      cursor={false}
-      className={CURSOR_CLASS_NAME}
-      sequence={currentMessage as (string | number | (() => void))[]}
-      wrapper="span"
-      repeat={0}
-      speed={20}
-      style={{
-        whiteSpace: "pre-line",
-        display: "inline-block",
-      }}
-    />
-  );
-  console.log(currentContent);
-  useEffect(() => {
-    console.log(currentByte);
-    switch (currentByte?.contentType) {
-      case "would you rather":
-        console.log("whoop");
-        setCurrentContent(
-          <WouldYouRather
-            currentMessage={
-              currentMessage as (string | number | (() => void))[]
-            }
-            currentByte={currentByte}
-            visibleLike={visibleLike}
-          />
-        );
-      default:
-        null;
-    }
-    console.log(currentContent);
-  }, [currentByte]);
-
   return (
     <div className="flex flex-col w-full overflow-scroll ">
       <div
@@ -73,7 +38,11 @@ export default function TypewriterText({
             }
           >
             {currentMessage ? (
-              currentContent
+              <ContentHandler
+                currentByte={currentByte}
+                currentMessage={currentMessage}
+                visibleLike={visibleLike}
+              />
             ) : loading ? (
               <LoadingBubble />
             ) : (
