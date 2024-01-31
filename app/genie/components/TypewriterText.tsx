@@ -4,12 +4,16 @@ import genieRoughSpeech from "../../../public/greengenie.svg";
 import LikeButtons from "@/app/genie/components/LikeButtons";
 import LoadingBubble from "./LoadingBubble";
 import { IoTriangle } from "react-icons/io5";
+import WouldYouRather from "./WouldYouRather";
+import { useState, useEffect } from "react";
+import ContentHandler from "./ContentHandler";
 
 interface Props {
   currentMessage: (string | number | (() => void))[] | null;
   loading: boolean;
   contentRef: React.MutableRefObject<HTMLDivElement | null>;
   visibleLike: boolean;
+  currentByte: any | null;
 }
 
 export default function TypewriterText({
@@ -17,9 +21,8 @@ export default function TypewriterText({
   loading,
   contentRef,
   visibleLike,
+  currentByte,
 }: Props) {
-  const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
-
   return (
     <div className="flex flex-col w-full overflow-scroll ">
       <div
@@ -27,7 +30,7 @@ export default function TypewriterText({
         className="flex  justify-between overflow-x-hidden w-full "
       >
         <div className="flex-col flex w-full">
-          <p
+          <div
             className={
               loading
                 ? `flex flex-col  h-fit w-full rounded-t-md p-3   text-3xl`
@@ -35,24 +38,17 @@ export default function TypewriterText({
             }
           >
             {currentMessage ? (
-              <TypeAnimation
-                cursor={false}
-                className={CURSOR_CLASS_NAME}
-                sequence={currentMessage}
-                wrapper="span"
-                repeat={0}
-                speed={20}
-                style={{
-                  whiteSpace: "pre-line",
-                  display: "inline-block",
-                }}
+              <ContentHandler
+                currentByte={currentByte}
+                currentMessage={currentMessage}
+                visibleLike={visibleLike}
               />
             ) : loading ? (
               <LoadingBubble />
             ) : (
               "Hit the button below to generate a byte."
             )}
-          </p>
+          </div>
           <div className="">{visibleLike ? <LikeButtons /> : null}</div>
         </div>
         <div className={loading ? "mt-[18rem]" : "flex"}>

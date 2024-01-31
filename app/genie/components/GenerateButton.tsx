@@ -17,7 +17,6 @@ interface Props {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
   askGenie: (uid: any, body: string, instructions: any) => Promise<void>;
-  type: "more" | "different";
 }
 
 export default function GenerateButton({
@@ -34,11 +33,6 @@ export default function GenerateButton({
   async function buttonHandler() {
     setVisibleLike(false);
     setLoading(true);
-    const lengths = {
-      Short: "one or two sentences, maximum 70 characters a sentence ",
-      Medium: "a paragraph, between 200 and 250 characters",
-      Long: "several paragraphs, each should be between 200 and 250 characters",
-    };
 
     const nowData = await getUserRecord(userId);
 
@@ -47,12 +41,14 @@ export default function GenerateButton({
         "fact",
         "joke",
         "riddle",
-        "poem",
         "would you rather",
         "poll",
       ];
+      // const randContentType =
+      //   allContentTypes[randoNum(0, allContentTypes.length - 1)];
+      console.log(nowData);
       const randContentType =
-        allContentTypes[randoNum(0, allContentTypes.length - 1)];
+        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
       const randInterest =
         nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
