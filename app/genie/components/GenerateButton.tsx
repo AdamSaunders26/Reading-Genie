@@ -38,15 +38,17 @@ export default function GenerateButton({
 
     if (nowData) {
       const allContentTypes = [
-        // "fact",
-        // "joke",
-        // "riddle",
-        // "poem",
+        "fact",
+        "joke",
+        "riddle",
         "would you rather",
         "poll",
       ];
+      // const randContentType =
+      //   allContentTypes[randoNum(0, allContentTypes.length - 1)];
+      console.log(nowData);
       const randContentType =
-        allContentTypes[randoNum(0, allContentTypes.length - 1)];
+        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
       const randInterest =
         nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 

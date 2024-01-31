@@ -4,6 +4,8 @@ export default function geniePrompt(contentType: string, interest: string) {
   switch (contentType) {
     case "fact":
       return `${contentType} about ${interest} `;
+    case "poll":
+      return `${contentType} about ${interest} `;
     default:
       return `${contentType}`;
   }

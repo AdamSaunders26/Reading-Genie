@@ -51,14 +51,12 @@ export default function Home() {
     const message = await addMessage(uid, body, instructions);
     console.log(message.response);
 
-    const fixedResponse = replaceQuotationMarks(message.response);
-    console.log(fixedResponse);
-    const parsedResponse = JSON.parse(fixedResponse);
-    console.log(parsedResponse);
-    // console.log(typeof parsedResponse);
+    const parsedResponse = JSON.parse(message.response);
+
+    setCurrentByte(parsedResponse);
     setCurrentMessage(
       responseFormatter(
-        currentByte.body,
+        parsedResponse.body,
         contentRef,
         setVisibleLike,
         setLoading
@@ -81,7 +79,7 @@ export default function Home() {
   useEffect(() => {
     start();
     // setCurrentByte(demoWouldYouRather);
-    setCurrentByte(demoPoll);
+    // setCurrentByte(demoPoll);
   }, [userId]);
 
   return (

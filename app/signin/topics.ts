@@ -50,7 +50,13 @@ export const categories: Categories = {
   Custom: {},
 };
 
-export const contentTypes = ["Facts", "Riddles", "Jokes", "Spells"];
+export const contentTypes = [
+  "fact",
+  "joke",
+  "riddle",
+  "would you rather",
+  "poll",
+];
 
 export const contentLengths = [
   "Short (1-2 sentences)",

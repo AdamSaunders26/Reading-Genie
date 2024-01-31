@@ -13,6 +13,7 @@ export default function WouldYouRather({
   visibleLike,
 }: Props) {
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+  const buttonClass = "text-3xl px-2 whitespace-normal h-fit bg-accent";
   return (
     <div className="flex flex-col gap-4 w-full">
       <TypeAnimation
@@ -29,12 +30,8 @@ export default function WouldYouRather({
       />
       {visibleLike ? (
         <div className=" text-xl flex flex-col gap-4 justify-between">
-          <Button className="text-3xl p-6  bg-accent">
-            {currentByte.options[0]}
-          </Button>
-          <Button className="text-3xl p-6 bg-accent">
-            {currentByte.options[1]}
-          </Button>
+          <Button className={buttonClass}>{currentByte.options[0]}</Button>
+          <Button className={buttonClass}>{currentByte.options[1]}</Button>
         </div>
       ) : null}
     </div>
