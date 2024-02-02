@@ -14,34 +14,18 @@ export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
   const [userData, setUserData] = useState<DocumentData | null>(null); //Not sure about this either
 
-  const { userId, setUserId } = useContext<GenieContextType>(genieContext);
+  const {
+    userId,
+    setUserId,
+    currentMessage,
+    setCurrentMessage,
+    setVisibleLike,
+    setLoading,
+    messageFormatter,
+  } = useContext<GenieContextType>(genieContext);
 
-  const [loading, setLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
-  const [differentLoading, setDifferentLoading] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState<
-    (string | (() => void) | number)[] | null
-  >(null);
-  const [visibleLike, setVisibleLike] = useState(false);
-  const contentRef = useRef<HTMLDivElement | null>(null);
   const [currentByte, setCurrentByte] = useState<any | null>(null);
-
-  const demoWouldYouRather = {
-    contentType: "would you rather",
-    body: "Would you rather have a pet dinosaur or a pet dragon?",
-    options: ["Pet dinosaur 🦖", "Pet dragon 🐉"],
-  };
-
-  const demoPoll = {
-    contentType: "poll",
-    body: "What's your favourite gymnastics position?",
-    options: ["Base", "Flyer", "Backspot"],
-    responses: [
-      "Bases in cheerleading typically provide the foundation and support for building pyramids and stunts. They are usually the ones who lift and support the flyers.",
-      "Flyers are the cheerleaders who are lifted into the air during stunts. They require good balance, flexibility, and trust in their teammates to perform aerial maneuvers.",
-      "The backspot in cheerleading is responsible for ensuring the safety and stability of the flyer during stunts. They provide crucial support from the ground and help catch the flyer if necessary.",
-    ],
-  };
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
     console.log("INSTRUCTIONS", instructions);
@@ -54,14 +38,7 @@ export default function Home() {
     const parsedResponse = JSON.parse(message.response);
 
     setCurrentByte(parsedResponse);
-    setCurrentMessage(
-      responseFormatter(
-        parsedResponse.body,
-        contentRef,
-        setVisibleLike,
-        setLoading
-      )
-    );
+    setCurrentMessage(messageFormatter(parsedResponse.body));
   };
 
   const start = async () => {
@@ -78,8 +55,6 @@ export default function Home() {
 
   useEffect(() => {
     start();
-    // setCurrentByte(demoWouldYouRather);
-    // setCurrentByte(demoPoll);
   }, [userId]);
 
   return (
@@ -88,10 +63,8 @@ export default function Home() {
       <section className="flex flex-1 flex-col overflow-hidden justify-between w-full p-4">
         <TypewriterText
           currentMessage={currentMessage}
-          contentRef={contentRef}
-          loading={loading}
-          visibleLike={visibleLike}
           currentByte={currentByte}
+          setCurrentByte={setCurrentByte}
         />
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
           <GenerateButton

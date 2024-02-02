@@ -64,7 +64,7 @@ export default function SignIn2({
             }}
             className="text-white w-full rounded-full "
           >
-            {backToGenie ? "Back to Genie" : "Next"}
+            {backToGenie ? "Save" : "Next"}
           </Button>
         </Link>
       </div>
