@@ -19,7 +19,7 @@ export default function Poll({
   setCurrentByte,
   visibleLike,
 }: Props) {
-  const { setCurrentMessage, messageFormatter } =
+  const { setCurrentMessage, messageFormatter, setVisibleLike } =
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
   console.log(currentByte);
@@ -39,20 +39,20 @@ export default function Poll({
       />
       {visibleLike ? (
         <div className=" text-xl flex flex-col gap-4 justify-between">
-          {currentByte.options.map((el, index) => {
+          {currentByte.options.map((el: string, index: number) => {
             return (
               <Button
                 key={index}
                 className="text-3xl px-2 whitespace-normal h-fit bg-accent"
                 onClick={() => {
-                  console.log(currentByte);
                   const responseByte = {
                     contentType: "poll response",
                     body: currentByte.optionFacts[index],
                   };
-                  console.log(responseByte);
+
                   setCurrentByte(responseByte);
                   setCurrentMessage(messageFormatter(responseByte.body));
+                  setVisibleLike(false);
                 }}
               >
                 {currentByte.options[index]}

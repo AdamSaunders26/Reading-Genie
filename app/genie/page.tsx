@@ -24,14 +24,7 @@ export default function Home() {
     messageFormatter,
   } = useContext<GenieContextType>(genieContext);
 
-  // const [loading, setLoading] = useState(false);
   const [moreLoading, setMoreLoading] = useState(false);
-
-  // const [currentMessage, setCurrentMessage] = useState<
-  //   (string | (() => void) | number)[] | null
-  // >(null);
-  // const [visibleLike, setVisibleLike] = useState(false);
-  // const contentRef = useRef<HTMLDivElement | null>(null);
   const [currentByte, setCurrentByte] = useState<any | null>(null);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
@@ -48,19 +41,6 @@ export default function Home() {
     setCurrentMessage(messageFormatter(parsedResponse.body));
   };
 
-  // useEffect(() => {
-  //   if (currentByte) {
-  //     setCurrentMessage(
-  //       responseFormatter(
-  //         currentByte.body,
-  //         contentRef,
-  //         setVisibleLike,
-  //         setLoading
-  //       )
-  //     );
-  //   }
-  // }, [currentByte]);
-
   const start = async () => {
     const uid = await initFirebase();
     const record = await getUserRecord(uid);
@@ -75,8 +55,6 @@ export default function Home() {
 
   useEffect(() => {
     start();
-    // setCurrentByte(demoWouldYouRather);
-    // setCurrentByte(demoPoll);
   }, [userId]);
 
   return (
@@ -85,9 +63,6 @@ export default function Home() {
       <section className="flex flex-1 flex-col overflow-hidden justify-between w-full p-4">
         <TypewriterText
           currentMessage={currentMessage}
-          // contentRef={contentRef}
-          // loading={loading}
-          // visibleLike={visibleLike}
           currentByte={currentByte}
           setCurrentByte={setCurrentByte}
         />

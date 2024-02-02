@@ -58,9 +58,6 @@ export default function GenerateButton({
         setLoading(false);
       });
       setNewResponse(false);
-      //   askGenie(userId, instructions, "instructions").then((o) => {
-      //     setLoading(false);
-      //   });
     }
   }
 

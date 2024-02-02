@@ -20,9 +20,6 @@ interface Props {
 
 export default function TypewriterText({
   currentMessage,
-  // loading,
-  // contentRef,
-  // visibleLike,
   currentByte,
   setCurrentByte,
 }: Props) {
