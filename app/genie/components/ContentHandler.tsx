@@ -1,18 +1,24 @@
 import { TypeAnimation } from "react-type-animation";
 import WouldYouRather from "./WouldYouRather";
 import Poll from "./Poll";
+import { useContext } from "react";
+import {
+  GenieContextType,
+  genieContext,
+} from "@/app/context/ReadingGenieContext";
 
 interface Props {
   currentByte: any;
+  setCurrentByte: (value: any) => void;
   currentMessage: (string | number | (() => void))[];
-  visibleLike: boolean;
 }
 
 export default function ContentHandler({
   currentByte,
+  setCurrentByte,
   currentMessage,
-  visibleLike,
 }: Props) {
+  const { visibleLike } = useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
   if (!currentByte) {
     return (
@@ -44,6 +50,7 @@ export default function ContentHandler({
         <Poll
           currentMessage={currentMessage}
           currentByte={currentByte}
+          setCurrentByte={setCurrentByte}
           visibleLike={visibleLike}
         />
       );

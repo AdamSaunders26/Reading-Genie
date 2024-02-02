@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useReducer,
+  useRef,
   useState,
 } from "react";
 import {
@@ -12,6 +13,7 @@ import {
   initialState,
   topicReducer,
 } from "../signin/topicReducer";
+import { responseFormatter } from "../utils";
 
 export interface GenieContextType {
   selected: State | null;
@@ -20,6 +22,16 @@ export interface GenieContextType {
   setUserId: React.Dispatch<React.SetStateAction<string | null>>;
   newResponse: boolean;
   setNewResponse: React.Dispatch<React.SetStateAction<boolean>>;
+  currentMessage: (string | (() => void) | number)[] | null;
+  setCurrentMessage: React.Dispatch<
+    React.SetStateAction<(string | number | (() => void))[] | null>
+  >;
+  contentRef: React.MutableRefObject<HTMLDivElement | null>;
+  visibleLike: boolean;
+  setVisibleLike: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  messageFormatter: (message: string) => (string | number | (() => void))[];
 }
 
 export const genieContext = createContext<GenieContextType>({
@@ -29,12 +41,31 @@ export const genieContext = createContext<GenieContextType>({
   setUserId: () => null,
   newResponse: false,
   setNewResponse: () => null,
+  currentMessage: null,
+  setCurrentMessage: () => null,
+  contentRef: { current: null },
+  visibleLike: false,
+  setVisibleLike: () => null,
+  loading: false,
+  setLoading: () => null,
+  messageFormatter: () => [],
 });
 
 export function GenieProvider({ children }: { children: ReactNode }) {
   const [selected, dispatch] = useReducer(topicReducer, initialState);
   const [userId, setUserId] = useState<string | null>(null);
   const [newResponse, setNewResponse] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState<
+    (string | (() => void) | number)[] | null
+  >(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [visibleLike, setVisibleLike] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+
+  function messageFormatter(message: string) {
+    return responseFormatter(message, contentRef, setVisibleLike, setLoading);
+  }
+  console.log(currentMessage);
   console.log(selected);
   return (
     <genieContext.Provider
@@ -45,6 +76,14 @@ export function GenieProvider({ children }: { children: ReactNode }) {
         setUserId,
         newResponse,
         setNewResponse,
+        currentMessage,
+        setCurrentMessage,
+        contentRef,
+        visibleLike,
+        setVisibleLike,
+        loading,
+        setLoading,
+        messageFormatter,
       }}
     >
       {children}

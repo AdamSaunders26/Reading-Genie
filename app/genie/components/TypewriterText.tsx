@@ -5,24 +5,29 @@ import LikeButtons from "@/app/genie/components/LikeButtons";
 import LoadingBubble from "./LoadingBubble";
 import { IoTriangle } from "react-icons/io5";
 import WouldYouRather from "./WouldYouRather";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import ContentHandler from "./ContentHandler";
+import {
+  GenieContextType,
+  genieContext,
+} from "@/app/context/ReadingGenieContext";
 
 interface Props {
   currentMessage: (string | number | (() => void))[] | null;
-  loading: boolean;
-  contentRef: React.MutableRefObject<HTMLDivElement | null>;
-  visibleLike: boolean;
   currentByte: any | null;
+  setCurrentByte: (value: any) => void;
 }
 
 export default function TypewriterText({
   currentMessage,
-  loading,
-  contentRef,
-  visibleLike,
+  // loading,
+  // contentRef,
+  // visibleLike,
   currentByte,
+  setCurrentByte,
 }: Props) {
+  const { contentRef, loading, visibleLike } =
+    useContext<GenieContextType>(genieContext);
   return (
     <div className="flex flex-col w-full overflow-scroll ">
       <div
@@ -40,8 +45,8 @@ export default function TypewriterText({
             {currentMessage ? (
               <ContentHandler
                 currentByte={currentByte}
+                setCurrentByte={setCurrentByte}
                 currentMessage={currentMessage}
-                visibleLike={visibleLike}
               />
             ) : loading ? (
               <LoadingBubble />
