@@ -12,7 +12,7 @@ interface Props {
   visibleLike: boolean;
 }
 
-export default function Joke({
+export default function Riddle({
   currentMessage,
   currentByte,
   visibleLike,
@@ -20,6 +20,7 @@ export default function Joke({
   const { setCurrentMessage, messageFormatter, setVisibleLike } =
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+  const [showHint, setShowHint] = useState<boolean>(false);
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
   console.log(currentByte);
   return (
@@ -38,6 +39,29 @@ export default function Joke({
       />
       {visibleLike ? (
         <div className="  flex flex-col gap-4 justify-between">
+          {showHint ? (
+            <TypeAnimation
+              cursor={false}
+              className={CURSOR_CLASS_NAME}
+              sequence={messageFormatter(currentByte.hint)}
+              wrapper="span"
+              repeat={0}
+              speed={20}
+              style={{
+                whiteSpace: "pre-line",
+                display: "inline-block",
+              }}
+            />
+          ) : (
+            <Button
+              onClick={() => {
+                setShowHint(true);
+              }}
+              className="text-3xl px-2 whitespace-normal h-fit bg-accent"
+            >
+              Show hint?
+            </Button>
+          )}
           {showAnswer ? (
             <TypeAnimation
               cursor={false}
