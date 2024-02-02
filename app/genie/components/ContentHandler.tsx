@@ -6,6 +6,7 @@ import {
   GenieContextType,
   genieContext,
 } from "@/app/context/ReadingGenieContext";
+import Joke from "./Joke";
 
 interface Props {
   currentByte: any;
@@ -37,6 +38,14 @@ export default function ContentHandler({
     );
   }
   switch (currentByte.contentType) {
+    case "joke":
+      return (
+        <Joke
+          currentMessage={currentMessage}
+          currentByte={currentByte}
+          visibleLike={visibleLike}
+        />
+      );
     case "would you rather":
       return (
         <WouldYouRather
