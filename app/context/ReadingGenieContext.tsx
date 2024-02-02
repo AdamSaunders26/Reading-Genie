@@ -65,7 +65,7 @@ export function GenieProvider({ children }: { children: ReactNode }) {
   function messageFormatter(message: string) {
     return responseFormatter(message, contentRef, setVisibleLike, setLoading);
   }
-  console.log(currentMessage);
+
   console.log(selected);
   return (
     <genieContext.Provider
