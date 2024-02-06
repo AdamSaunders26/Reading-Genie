@@ -4,7 +4,7 @@ export default function geniePrompt(contentType: string, interest: string) {
   switch (contentType) {
     case "many":
       console.log("many");
-      return "6 bytes, fact: cooking, poll:cooking";
+      return `6 bytes, fact:${interest}, poll:${interest}`;
     case "fact":
       return `${contentType} about ${interest} `;
     case "poll":
