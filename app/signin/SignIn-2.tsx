@@ -42,11 +42,11 @@ export default function SignIn2({
         <ReadingGenieLogo />
       </div>
       <RandomTopics selected={selected} dispatch={dispatch} />
-      <ContentTypesList
+      {/* <ContentTypesList
         selected={selected}
         dispatch={dispatch}
         buttonClasses={buttonClasses}
-      />
+      /> */}
       {/* <ContentLengthsList
         selected={selected}
         dispatch={dispatch}

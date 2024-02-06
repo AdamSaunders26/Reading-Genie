@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useContext, useState } from "react";
 import { FaPlus } from "react-icons/fa6";
-import { addCustomTopic } from "../topicReducer";
+import { addCustomTopic, toggleCategory } from "../topicReducer";
 
 interface Props {
   setNewTopic: React.Dispatch<React.SetStateAction<string | null>>;
@@ -14,28 +14,41 @@ interface Props {
 
 export default function CustomTopicInput({ setNewTopic }: Props) {
   const [inputValue, setInputValue] = useState("");
+  const [currentTopic, setCurrentTopic] = useState<string | null>(null);
   const { dispatch } = useContext<GenieContextType>(genieContext);
+
   return (
-    <div className="flex gap-4">
-      <Input
-        className="text-2xl border-geniePurple-500 border-2"
-        value={inputValue}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setInputValue(e.target.value);
-        }}
-      />
-      <Button
-        className="text-white font-bold"
-        onClick={() => {
-          setNewTopic(inputValue);
-          if (dispatch) {
-            addCustomTopic(inputValue, dispatch);
-          }
-          setInputValue("");
-        }}
-      >
-        <FaPlus />
-      </Button>
+    <div className="flex flex-col gap-4">
+      <div className="text-3xl flex flex-col gap-2 bg-geniePurple-500 p-6 rounded-xl text-white items-center place-self-center">
+        <p>Current Topic:</p>
+        <p className="text-5xl  font-bold text-center">
+          {" "}
+          {currentTopic ? currentTopic : "None selected"}
+        </p>
+      </div>
+      <div className="flex  gap-4">
+        <Input
+          className="text-2xl border-geniePurple-500 border-2"
+          value={inputValue}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setInputValue(e.target.value);
+          }}
+        />
+        <Button
+          className="text-white font-bold"
+          onClick={() => {
+            setNewTopic(inputValue);
+            setCurrentTopic(inputValue);
+            if (dispatch) {
+              addCustomTopic(inputValue, dispatch);
+              toggleCategory("Custom", inputValue, dispatch);
+            }
+            setInputValue("");
+          }}
+        >
+          <FaPlus />
+        </Button>
+      </div>
     </div>
   );
 }

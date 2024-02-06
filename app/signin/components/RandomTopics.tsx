@@ -72,7 +72,7 @@ export default function RandomTopics({
         What do they care about?
       </h1>
       <CustomTopicInput setNewTopic={setNewTopic} />
-      <div className="grid grid-cols-2 grid-rows-3  gap-x-8 gap-y-4 ">
+      {/* <div className="grid grid-cols-2 grid-rows-3  gap-x-8 gap-y-4 ">
         {randomTopics.map((interest, idx) => {
           let category = "";
           let topic = "";
@@ -103,15 +103,15 @@ export default function RandomTopics({
             </Button>
           );
         })}
-      </div>
-      <Button
+      </div> */}
+      {/* <Button
         className="w-fit h-fit text-white text-xl place-self-center rounded-full p-4 active:bg-geniePurple-700"
         onClick={() => {
           setRefresh((curr) => ++curr);
         }}
       >
         <MdRefresh />
-      </Button>
+      </Button> */}
     </div>
   );
 }

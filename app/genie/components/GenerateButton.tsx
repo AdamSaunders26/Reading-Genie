@@ -52,7 +52,7 @@ export default function GenerateButton({
       const randInterest =
         nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
-      const prompt = geniePrompt(randContentType, randInterest);
+      const prompt = geniePrompt("many", randInterest);
 
       askGenie(userId, prompt, "instructions").then((o) => {
         setLoading(false);
