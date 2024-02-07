@@ -22,7 +22,7 @@ export default function ContentHandler({
 }: Props) {
   const { visibleLike } = useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
-  if (!currentByte) {
+  if (currentByte.contentType === "none") {
     return (
       <TypeAnimation
         cursor={false}
@@ -60,6 +60,7 @@ export default function ContentHandler({
         <WouldYouRather
           currentMessage={currentMessage}
           currentByte={currentByte}
+          setCurrentByte={setCurrentByte}
           visibleLike={visibleLike}
         />
       );

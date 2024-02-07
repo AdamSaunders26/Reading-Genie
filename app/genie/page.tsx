@@ -25,14 +25,16 @@ export default function Home() {
     messageFormatter,
     byteBatch,
     setByteBatch,
+    byteCount,
+    setByteCount,
   } = useContext<GenieContextType>(genieContext);
 
   const [moreLoading, setMoreLoading] = useState(false);
-  const [currentByte, setCurrentByte] = useState<any | null>(null);
+  const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
-    console.log("INSTRUCTIONS", instructions);
+    // console.log("INSTRUCTIONS", instructions);
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
@@ -62,11 +64,25 @@ export default function Home() {
   }, [userId]);
 
   useEffect(() => {
+    console.log("ur");
+
     if (byteBatch) {
-      setCurrentByte(byteBatch[0]);
-      setCurrentMessage(messageFormatter(byteBatch[0].body));
+      console.log("not broke?");
+      if (byteBatch.length === byteCount) {
+        console.log(byteCount, "Its too high");
+        setByteBatch(null);
+        setCurrentByte(null);
+        setCurrentMessage(null);
+        setByteCount(0);
+        setVisibleLike(false);
+      } else {
+        console.log("maybe?");
+        setCurrentByte(byteBatch[byteCount]);
+        setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
+        setVisibleLike(false);
+      }
     }
-  }, [byteBatch]);
+  }, [byteCount, byteBatch]);
 
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">

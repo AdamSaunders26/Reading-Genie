@@ -32,8 +32,10 @@ export interface GenieContextType {
   loading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   messageFormatter: (message: string) => (string | number | (() => void))[];
-  byteBatch: null;
+  byteBatch: any;
   setByteBatch: React.Dispatch<React.SetStateAction<any>>;
+  byteCount: number;
+  setByteCount: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const genieContext = createContext<GenieContextType>({
@@ -53,6 +55,8 @@ export const genieContext = createContext<GenieContextType>({
   messageFormatter: () => [],
   byteBatch: null,
   setByteBatch: () => null,
+  byteCount: 0,
+  setByteCount: () => null,
 });
 
 export function GenieProvider({ children }: { children: ReactNode }) {
@@ -66,14 +70,15 @@ export function GenieProvider({ children }: { children: ReactNode }) {
   const [visibleLike, setVisibleLike] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [byteBatch, setByteBatch] = useState<any>(null);
+  const [byteCount, setByteCount] = useState<number>(0);
 
-  console.log(byteBatch);
+  // console.log(byteCount);
 
   function messageFormatter(message: string) {
     return responseFormatter(message, contentRef, setVisibleLike, setLoading);
   }
 
-  console.log(selected);
+  // console.log(selected);
   return (
     <genieContext.Provider
       value={{
@@ -93,6 +98,8 @@ export function GenieProvider({ children }: { children: ReactNode }) {
         messageFormatter,
         byteBatch,
         setByteBatch,
+        byteCount,
+        setByteCount,
       }}
     >
       {children}

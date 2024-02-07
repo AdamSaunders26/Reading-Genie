@@ -46,7 +46,7 @@ export default function GenerateButton({
       ];
       // const randContentType =
       //   allContentTypes[randoNum(0, allContentTypes.length - 1)];
-      console.log(nowData);
+      // console.log(nowData);
       const randContentType =
         nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
       const randInterest =

@@ -42,7 +42,7 @@ export default function RandomTopics({
   }, [refresh]);
 
   const [newTopic, setNewTopic] = useState<string | null>(null);
-  console.log(newTopic);
+  // console.log(newTopic);
 
   useEffect(() => {
     if (newTopic) {
@@ -50,13 +50,13 @@ export default function RandomTopics({
         const newArr = [...curr];
         newArr.pop();
         newArr.unshift({ Custom: newTopic });
-        console.log(newArr);
+        // console.log(newArr);
         return newArr;
       });
     }
   }, [newTopic]);
 
-  console.log(randomTopics);
+  // console.log(randomTopics);
   const getIconByInterest = (interest: string) => {
     return iconIndex.interests[interest as keyof typeof iconIndex.interests];
   };
