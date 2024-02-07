@@ -21,7 +21,7 @@ export default function Joke({
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
-  console.log(currentByte);
+  // console.log(currentByte);
   return (
     <div className="flex flex-col gap-4 w-full">
       <TypeAnimation

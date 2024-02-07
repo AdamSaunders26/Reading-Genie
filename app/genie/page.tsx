@@ -9,6 +9,7 @@ import GenerateButton from "./components/GenerateButton";
 import TypewriterText from "./components/TypewriterText";
 import { replaceQuotationMarks, responseFormatter } from "../utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
+import NextButton from "./components/NextButton";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -22,13 +23,18 @@ export default function Home() {
     setVisibleLike,
     setLoading,
     messageFormatter,
+    byteBatch,
+    setByteBatch,
+    byteCount,
+    setByteCount,
   } = useContext<GenieContextType>(genieContext);
 
   const [moreLoading, setMoreLoading] = useState(false);
-  const [currentByte, setCurrentByte] = useState<any | null>(null);
+  const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
+  // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
-    console.log("INSTRUCTIONS", instructions);
+    // console.log("INSTRUCTIONS", instructions);
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
@@ -36,9 +42,9 @@ export default function Home() {
     console.log(message.response);
 
     const parsedResponse = JSON.parse(message.response);
-
-    setCurrentByte(parsedResponse);
-    setCurrentMessage(messageFormatter(parsedResponse.body));
+    setByteBatch(parsedResponse);
+    // setCurrentByte(parsedResponse);
+    // setCurrentMessage(messageFormatter(parsedResponse.body));
   };
 
   const start = async () => {
@@ -57,6 +63,27 @@ export default function Home() {
     start();
   }, [userId]);
 
+  useEffect(() => {
+    console.log("ur");
+
+    if (byteBatch) {
+      console.log("not broke?");
+      if (byteBatch.length === byteCount) {
+        console.log(byteCount, "Its too high");
+        setByteBatch(null);
+        setCurrentByte(null);
+        setCurrentMessage(null);
+        setByteCount(0);
+        setVisibleLike(false);
+      } else {
+        console.log("maybe?");
+        setCurrentByte(byteBatch[byteCount]);
+        setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
+        setVisibleLike(false);
+      }
+    }
+  }, [byteCount, byteBatch]);
+
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
       <Header />
@@ -67,14 +94,18 @@ export default function Home() {
           setCurrentByte={setCurrentByte}
         />
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
-          <GenerateButton
-            setVisibleLike={setVisibleLike}
-            setGenerate={setLoading}
-            loading={moreLoading}
-            setLoading={setMoreLoading}
-            askGenie={askGenie}
-            userId={userId}
-          />
+          {byteBatch ? (
+            <NextButton />
+          ) : (
+            <GenerateButton
+              setVisibleLike={setVisibleLike}
+              setGenerate={setLoading}
+              loading={moreLoading}
+              setLoading={setMoreLoading}
+              askGenie={askGenie}
+              userId={userId}
+            />
+          )}
         </div>
       </section>
     </main>

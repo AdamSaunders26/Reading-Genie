@@ -22,7 +22,7 @@ export default function Poll({
   const { setCurrentMessage, messageFormatter, setVisibleLike } =
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
-  console.log(currentByte);
+  // console.log(currentByte);
   return (
     <div className="flex flex-col gap-4 w-full">
       <TypeAnimation

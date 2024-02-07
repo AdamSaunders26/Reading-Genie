@@ -1,17 +1,26 @@
+import {
+  GenieContextType,
+  genieContext,
+} from "@/app/context/ReadingGenieContext";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
 import { TypeAnimation } from "react-type-animation";
 
 interface Props {
   currentMessage: (string | number | (() => void))[];
   currentByte: any | null;
+  setCurrentByte: (value: any) => void;
   visibleLike: boolean;
 }
 
 export default function WouldYouRather({
   currentMessage,
   currentByte,
+  setCurrentByte,
   visibleLike,
 }: Props) {
+  const { setCurrentMessage, messageFormatter, setVisibleLike } =
+    useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
   const buttonClass = "text-3xl px-2 whitespace-normal h-fit bg-accent";
   return (
@@ -30,8 +39,26 @@ export default function WouldYouRather({
       />
       {visibleLike ? (
         <div className=" text-xl flex flex-col gap-4 justify-between">
-          <Button className={buttonClass}>{currentByte.options[0]}</Button>
-          <Button className={buttonClass}>{currentByte.options[1]}</Button>
+          {currentByte.options.map((el: string, index: number) => {
+            return (
+              <Button
+                key={index}
+                className="text-3xl px-2 whitespace-normal h-fit bg-accent"
+                onClick={() => {
+                  const responseByte = {
+                    contentType: "poll response",
+                    body: currentByte.optionResponse[index],
+                  };
+
+                  setCurrentByte(responseByte);
+                  setCurrentMessage(messageFormatter(responseByte.body));
+                  setVisibleLike(false);
+                }}
+              >
+                {currentByte.options[index]}
+              </Button>
+            );
+          })}
         </div>
       ) : null}
     </div>

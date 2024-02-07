@@ -26,7 +26,6 @@ export default function RewardEmoji({
       {buttonClicked ? null : (
         <Button
           onClick={() => {
-            console.log("click");
             setButtonClicked(true);
           }}
           className="bg-secondary border-border w-16 h-16 text-4xl border-2 place-self-center pt-4"
