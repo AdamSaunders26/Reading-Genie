@@ -48,7 +48,7 @@ export default function TypewriterText({
             ) : loading ? (
               <LoadingBubble />
             ) : (
-              "Hit the button below to generate a byte."
+              "Add today’s topic in settings and then hit the button below to generate your daily 6 bytes."
             )}
           </div>
           <div className="">{visibleLike ? <LikeButtons /> : null}</div>

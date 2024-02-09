@@ -10,11 +10,17 @@ import { addCustomTopic, toggleCategory } from "../topicReducer";
 
 interface Props {
   setNewTopic: React.Dispatch<React.SetStateAction<string | null>>;
+  currentTopic: string;
+  setCurrentTopic: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function CustomTopicInput({ setNewTopic }: Props) {
+export default function CustomTopicInput({
+  setNewTopic,
+  currentTopic,
+  setCurrentTopic,
+}: Props) {
   const [inputValue, setInputValue] = useState("");
-  const [currentTopic, setCurrentTopic] = useState<string | null>(null);
+  // const [currentTopic, setCurrentTopic] = useState<string>("");
   const { dispatch } = useContext<GenieContextType>(genieContext);
 
   return (

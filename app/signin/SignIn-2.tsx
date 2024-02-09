@@ -24,7 +24,7 @@ export default function SignIn2({
 }) {
   const { newResponse, setNewResponse } =
     useContext<GenieContextType>(genieContext);
-
+  const [currentTopic, setCurrentTopic] = useState<string>("");
   const [randomTopics, setRandomTopics] = useState(false);
 
   const buttonClasses = {
@@ -41,7 +41,12 @@ export default function SignIn2({
         <BackButton />
         <ReadingGenieLogo />
       </div>
-      <RandomTopics selected={selected} dispatch={dispatch} />
+      <RandomTopics
+        selected={selected}
+        dispatch={dispatch}
+        currentTopic={currentTopic}
+        setCurrentTopic={setCurrentTopic}
+      />
       {/* <ContentTypesList
         selected={selected}
         dispatch={dispatch}
@@ -62,6 +67,7 @@ export default function SignIn2({
             onClick={() => {
               // setNewResponse(true);
             }}
+            disabled={!currentTopic}
             className="text-white w-full rounded-full "
           >
             {backToGenie ? "Save" : "Next"}

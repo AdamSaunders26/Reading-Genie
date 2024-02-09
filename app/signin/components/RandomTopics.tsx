@@ -8,9 +8,13 @@ import { MdRefresh } from "react-icons/md";
 export default function RandomTopics({
   selected,
   dispatch,
+  currentTopic,
+  setCurrentTopic,
 }: {
   selected: State;
   dispatch: React.Dispatch<Action>;
+  currentTopic: string;
+  setCurrentTopic: React.Dispatch<React.SetStateAction<string>>;
 }) {
   type topicItem = { [key: string]: string };
   const allTopics: topicItem[] = [];
@@ -71,7 +75,11 @@ export default function RandomTopics({
       <h1 className="text-2xl font-semibold text-primary text-center ">
         What do they care about?
       </h1>
-      <CustomTopicInput setNewTopic={setNewTopic} />
+      <CustomTopicInput
+        setNewTopic={setNewTopic}
+        currentTopic={currentTopic}
+        setCurrentTopic={setCurrentTopic}
+      />
       {/* <div className="grid grid-cols-2 grid-rows-3  gap-x-8 gap-y-4 ">
         {randomTopics.map((interest, idx) => {
           let category = "";
