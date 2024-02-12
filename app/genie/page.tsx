@@ -10,6 +10,7 @@ import TypewriterText from "./components/TypewriterText";
 import { replaceQuotationMarks, responseFormatter } from "../utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 import NextButton from "./components/NextButton";
+import RandomTopics from "../signin/components/RandomTopics";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -27,10 +28,13 @@ export default function Home() {
     setByteBatch,
     byteCount,
     setByteCount,
+    selected,
+    dispatch,
   } = useContext<GenieContextType>(genieContext);
 
   const [moreLoading, setMoreLoading] = useState(false);
   const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
+  const [currentTopic, setCurrentTopic] = useState<string>("");
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
@@ -88,13 +92,22 @@ export default function Home() {
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
       <Header />
       <section className="flex flex-1 flex-col overflow-hidden justify-between w-full p-4">
-        <TypewriterText
-          currentMessage={currentMessage}
-          currentByte={currentByte}
-          setCurrentByte={setCurrentByte}
-        />
+        {currentMessage ? (
+          <TypewriterText
+            currentMessage={currentMessage}
+            currentByte={currentByte}
+            setCurrentByte={setCurrentByte}
+          />
+        ) : (
+          <RandomTopics
+            selected={selected}
+            dispatch={dispatch}
+            currentTopic={currentTopic}
+            setCurrentTopic={setCurrentTopic}
+          />
+        )}
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
-          {byteBatch ? (
+          {currentTopic === "" ? null : byteBatch ? (
             <NextButton />
           ) : (
             <GenerateButton

@@ -25,14 +25,14 @@ export default function CustomTopicInput({
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="text-3xl flex flex-col gap-2 bg-geniePurple-500 p-6 rounded-xl text-white items-center place-self-center">
+      {/* <div className="text-3xl flex flex-col gap-2 bg-geniePurple-500 p-6 rounded-xl text-white items-center place-self-center">
         <p>Current Topic:</p>
         <p className="text-5xl  font-bold text-center">
           {" "}
           {currentTopic ? currentTopic : "None selected"}
         </p>
-      </div>
-      <div className="flex  gap-4">
+      </div> */}
+      <div className="flex flex-col items-center gap-8">
         <Input
           className="text-2xl border-geniePurple-500 border-2"
           value={inputValue}
@@ -41,7 +41,7 @@ export default function CustomTopicInput({
           }}
         />
         <Button
-          className="text-white font-bold"
+          className="text-white w-fit text-3xl p-6"
           onClick={() => {
             setNewTopic(inputValue);
             setCurrentTopic(inputValue);
@@ -52,7 +52,7 @@ export default function CustomTopicInput({
             setInputValue("");
           }}
         >
-          <FaPlus />
+          Let's go!
         </Button>
       </div>
     </div>

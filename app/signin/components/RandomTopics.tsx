@@ -4,6 +4,7 @@ import { Action, State, toggleCategory } from "../topicReducer";
 import { useEffect, useState } from "react";
 import CustomTopicInput from "./CustomTopicInput";
 import { MdRefresh } from "react-icons/md";
+import ReadingGenieLogo from "./ReadingGenieLogo";
 
 export default function RandomTopics({
   selected,
@@ -71,10 +72,12 @@ export default function RandomTopics({
     "bg-secondary border border-2 border-border h-full hover:lg:bg-geniePurple-200 hover:bg-secondary ";
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-semibold text-primary text-center ">
-        What do they care about?
+    <div className="flex flex-col gap-4 mx-8">
+      <ReadingGenieLogo />
+      <h1 className="text-3xl font-semibold text-primary text-center ">
+        Add today's topic
       </h1>
+      <p className="text-primary text-xl italic  mb-4">{`Think school topics (e.g. Romans), hobbies (e.g. cheerleading), favourite foods (e.g pizza) or activity (e.g. Lego)`}</p>
       <CustomTopicInput
         setNewTopic={setNewTopic}
         currentTopic={currentTopic}
