@@ -11,6 +11,7 @@ import { replaceQuotationMarks, responseFormatter } from "../utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 import NextButton from "./components/NextButton";
 import RandomTopics from "../signin/components/RandomTopics";
+import { preGenJokes } from "../pregen/jokes";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -87,6 +88,8 @@ export default function Home() {
       }
     }
   }, [byteCount, byteBatch]);
+  console.log(currentTopic);
+  // console.log(currentMessage);
 
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
@@ -107,7 +110,7 @@ export default function Home() {
           />
         )}
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
-          {currentTopic === "" ? null : byteBatch ? (
+          {/* {currentTopic === "" ? null : byteBatch ? (
             <NextButton />
           ) : (
             <GenerateButton
@@ -117,6 +120,20 @@ export default function Home() {
               setLoading={setMoreLoading}
               askGenie={askGenie}
               userId={userId}
+              currentTopic={currentTopic}
+            />
+          )} */}
+          {byteBatch ? (
+            <NextButton />
+          ) : (
+            <GenerateButton
+              setVisibleLike={setVisibleLike}
+              setGenerate={setLoading}
+              loading={moreLoading}
+              setLoading={setMoreLoading}
+              askGenie={askGenie}
+              userId={userId}
+              currentTopic={currentTopic}
             />
           )}
         </div>

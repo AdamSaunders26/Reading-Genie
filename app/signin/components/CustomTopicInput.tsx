@@ -38,9 +38,11 @@ export default function CustomTopicInput({
           value={inputValue}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setInputValue(e.target.value);
+            setNewTopic(e.target.value);
+            setCurrentTopic(e.target.value);
           }}
         />
-        <Button
+        {/* <Button
           className="text-white w-fit text-3xl p-6"
           onClick={() => {
             setNewTopic(inputValue);
@@ -53,7 +55,7 @@ export default function CustomTopicInput({
           }}
         >
           Let's go!
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
