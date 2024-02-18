@@ -36,6 +36,8 @@ export default function Home() {
   const [moreLoading, setMoreLoading] = useState(false);
   const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
   const [currentTopic, setCurrentTopic] = useState<string>("");
+  const [showLamp, setShowLamp] = useState(false);
+  console.log(showLamp);
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
@@ -80,6 +82,7 @@ export default function Home() {
         setCurrentMessage(null);
         setByteCount(0);
         setVisibleLike(false);
+        setShowLamp(true);
       } else {
         console.log("maybe?");
         setCurrentByte(byteBatch[byteCount]);
@@ -107,6 +110,8 @@ export default function Home() {
             dispatch={dispatch}
             currentTopic={currentTopic}
             setCurrentTopic={setCurrentTopic}
+            showLamp={showLamp}
+            setShowLamp={setShowLamp}
           />
         )}
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">

@@ -5,17 +5,22 @@ import { useEffect, useState } from "react";
 import CustomTopicInput from "./CustomTopicInput";
 import { MdRefresh } from "react-icons/md";
 import ReadingGenieLogo from "./ReadingGenieLogo";
+import RewardLamp from "@/app/genie/components/RewardLamp";
 
 export default function RandomTopics({
   selected,
   dispatch,
   currentTopic,
   setCurrentTopic,
+  showLamp,
+  setShowLamp,
 }: {
   selected: State;
   dispatch: React.Dispatch<Action>;
   currentTopic: string;
   setCurrentTopic: React.Dispatch<React.SetStateAction<string>>;
+  showLamp: boolean;
+  setShowLamp: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   type topicItem = { [key: string]: string };
   const allTopics: topicItem[] = [];
@@ -71,58 +76,26 @@ export default function RandomTopics({
   const iconNotClicked =
     "bg-secondary border border-2 border-border h-full hover:lg:bg-geniePurple-200 hover:bg-secondary ";
 
+  console.log(currentTopic);
+
   return (
-    <div className="flex flex-col gap-4 mx-8">
-      <ReadingGenieLogo />
-      <h1 className="text-3xl font-semibold text-primary text-center ">
-        Add today's topic
-      </h1>
-      <p className="text-primary text-xl italic  mb-4">{`Think school topics (e.g. Romans), hobbies (e.g. cheerleading), favourite foods (e.g pizza) or activity (e.g. Lego)`}</p>
-      <CustomTopicInput
-        setNewTopic={setNewTopic}
-        currentTopic={currentTopic}
-        setCurrentTopic={setCurrentTopic}
-      />
-      {/* <div className="grid grid-cols-2 grid-rows-3  gap-x-8 gap-y-4 ">
-        {randomTopics.map((interest, idx) => {
-          let category = "";
-          let topic = "";
-          for (const key in interest) {
-            category = key;
-            topic = interest[key];
-          }
-          return (
-            <Button
-              key={idx}
-              className={
-                selected.categories[category][topic]
-                  ? iconClicked
-                  : iconNotClicked
-              }
-              onClick={() => {
-                toggleCategory(category, topic, dispatch);
-              }}
-            >
-              <div className="flex flex-col items-center">
-                <span className="p-2 text-3xl drop-shadow-xl">
-                  {category === "Custom" ? "🌟" : getIconByInterest(topic)}
-                </span>
-                <span className=" whitespace-normal leading-6 text-xl">
-                  {topic}
-                </span>
-              </div>
-            </Button>
-          );
-        })}
-      </div> */}
-      {/* <Button
-        className="w-fit h-fit text-white text-xl place-self-center rounded-full p-4 active:bg-geniePurple-700"
-        onClick={() => {
-          setRefresh((curr) => ++curr);
-        }}
-      >
-        <MdRefresh />
-      </Button> */}
+    <div className="h-full">
+      {showLamp ? (
+        <RewardLamp setShowLamp={setShowLamp} />
+      ) : (
+        <div className="flex flex-col gap-4 mx-8">
+          <ReadingGenieLogo />
+          <h1 className="text-3xl font-semibold text-primary text-center ">
+            Add today's topic
+          </h1>
+          <p className="text-primary text-xl italic  mb-4">{`Think school topics (e.g. Romans), hobbies (e.g. cheerleading), favourite foods (e.g pizza) or activity (e.g. Lego)`}</p>
+          <CustomTopicInput
+            setNewTopic={setNewTopic}
+            currentTopic={currentTopic}
+            setCurrentTopic={setCurrentTopic}
+          />
+        </div>
+      )}
     </div>
   );
 }
