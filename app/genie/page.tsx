@@ -39,7 +39,7 @@ export default function Home() {
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
-    // console.log("INSTRUCTIONS", instructions);
+    console.log("INSTRUCTIONS", instructions);
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
