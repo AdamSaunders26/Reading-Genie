@@ -10,6 +10,8 @@ import TypewriterText from "./components/TypewriterText";
 import { replaceQuotationMarks, responseFormatter } from "../utils";
 import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 import NextButton from "./components/NextButton";
+import RandomTopics from "../signin/components/RandomTopics";
+import { preGenJokes } from "../pregen/jokes";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -27,10 +29,15 @@ export default function Home() {
     setByteBatch,
     byteCount,
     setByteCount,
+    selected,
+    dispatch,
   } = useContext<GenieContextType>(genieContext);
 
   const [moreLoading, setMoreLoading] = useState(false);
   const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
+  const [currentTopic, setCurrentTopic] = useState<string>("");
+  const [showLamp, setShowLamp] = useState(false);
+
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
@@ -64,10 +71,7 @@ export default function Home() {
   }, [userId]);
 
   useEffect(() => {
-    console.log("ur");
-
     if (byteBatch) {
-      console.log("not broke?");
       if (byteBatch.length === byteCount) {
         console.log(byteCount, "Its too high");
         setByteBatch(null);
@@ -75,25 +79,51 @@ export default function Home() {
         setCurrentMessage(null);
         setByteCount(0);
         setVisibleLike(false);
+        setShowLamp(true);
       } else {
-        console.log("maybe?");
         setCurrentByte(byteBatch[byteCount]);
         setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
         setVisibleLike(false);
       }
     }
   }, [byteCount, byteBatch]);
+  console.log(currentTopic);
+  // console.log(currentMessage);
 
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
       <Header />
       <section className="flex flex-1 flex-col overflow-hidden justify-between w-full p-4">
-        <TypewriterText
-          currentMessage={currentMessage}
-          currentByte={currentByte}
-          setCurrentByte={setCurrentByte}
-        />
+        {currentMessage ? (
+          <TypewriterText
+            currentMessage={currentMessage}
+            currentByte={currentByte}
+            setCurrentByte={setCurrentByte}
+          />
+        ) : (
+          <RandomTopics
+            selected={selected}
+            dispatch={dispatch}
+            currentTopic={currentTopic}
+            setCurrentTopic={setCurrentTopic}
+            showLamp={showLamp}
+            setShowLamp={setShowLamp}
+          />
+        )}
         <div className=" w-full flex flex-col justify-center mt-4 gap-2">
+          {/* {currentTopic === "" ? null : byteBatch ? (
+            <NextButton />
+          ) : (
+            <GenerateButton
+              setVisibleLike={setVisibleLike}
+              setGenerate={setLoading}
+              loading={moreLoading}
+              setLoading={setMoreLoading}
+              askGenie={askGenie}
+              userId={userId}
+              currentTopic={currentTopic}
+            />
+          )} */}
           {byteBatch ? (
             <NextButton />
           ) : (
@@ -104,6 +134,7 @@ export default function Home() {
               setLoading={setMoreLoading}
               askGenie={askGenie}
               userId={userId}
+              currentTopic={currentTopic}
             />
           )}
         </div>

@@ -17,6 +17,7 @@ interface Props {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   userId: string | null;
   askGenie: (uid: any, body: string, instructions: any) => Promise<void>;
+  currentTopic: string;
 }
 
 export default function GenerateButton({
@@ -26,6 +27,7 @@ export default function GenerateButton({
   setLoading,
   userId,
   askGenie,
+  currentTopic,
 }: Props) {
   const { newResponse, setNewResponse } =
     useContext<GenieContextType>(genieContext);
@@ -47,12 +49,12 @@ export default function GenerateButton({
       // const randContentType =
       //   allContentTypes[randoNum(0, allContentTypes.length - 1)];
       // console.log(nowData);
-      const randContentType =
-        nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
-      const randInterest =
-        nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
+      // const randContentType =
+      //   nowData?.contentTypes[randoNum(0, nowData?.contentTypes.length - 1)];
+      // const randInterest =
+      //   nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
-      const prompt = geniePrompt("many", randInterest);
+      const prompt = geniePrompt("many", currentTopic);
 
       askGenie(userId, prompt, "instructions").then((o) => {
         setLoading(false);
@@ -71,7 +73,7 @@ export default function GenerateButton({
         "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
       }
     >
-      {loading ? <FaSpinner className="animate-spin" /> : <HiOutlineSparkles />}
+      {loading ? <FaSpinner className="animate-spin" /> : `Let's go!`}
     </Button>
   );
 }
