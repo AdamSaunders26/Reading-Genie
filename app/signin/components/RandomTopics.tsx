@@ -86,7 +86,7 @@ export default function RandomTopics({
         <div className="flex flex-col gap-4 mx-8">
           <ReadingGenieLogo />
           <h1 className="text-3xl font-semibold text-primary text-center ">
-            Add today's topic
+            Add today&apos;s topic
           </h1>
           <p className="text-primary text-xl italic  mb-4">{`Think school topics (e.g. Romans), hobbies (e.g. cheerleading), favourite foods (e.g pizza) or activity (e.g. Lego)`}</p>
           <CustomTopicInput
