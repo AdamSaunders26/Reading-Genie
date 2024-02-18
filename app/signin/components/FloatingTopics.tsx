@@ -17,9 +17,11 @@ export default function FloatingTopics({
   const [currentTopicSelection, setCurrentTopicSelection] = useState<string[]>(
     []
   );
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
-    for (let i = 0; i < 4; i++) {
+    setCurrentTopicSelection([]);
+    for (let i = 0; i < 8; i++) {
       setCurrentTopicSelection((curr) => {
         const randomNum = randoNum(0, floatingTopicsList.length);
         const selectionCopy = [...curr];
@@ -31,7 +33,7 @@ export default function FloatingTopics({
         return uniqueArray;
       });
     }
-  }, []);
+  }, [refresh]);
 
   return (
     <div className="flex flex-col gap-4 items-center">
@@ -57,6 +59,14 @@ export default function FloatingTopics({
             })
           : null}
       </div>
+      <Button
+        className="bg-accent text-white text-xl hover:bg-accent"
+        onClick={() => {
+          setRefresh((curr) => ++curr);
+        }}
+      >
+        Refresh list
+      </Button>
     </div>
   );
 }
