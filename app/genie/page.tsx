@@ -37,11 +37,11 @@ export default function Home() {
   const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [showLamp, setShowLamp] = useState(false);
-  console.log(showLamp);
+
   // const [byteCount, setByteCount] = useState<number>(0);
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
-    console.log("INSTRUCTIONS", instructions);
+    // console.log("INSTRUCTIONS", instructions);
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
@@ -71,10 +71,7 @@ export default function Home() {
   }, [userId]);
 
   useEffect(() => {
-    console.log("ur");
-
     if (byteBatch) {
-      console.log("not broke?");
       if (byteBatch.length === byteCount) {
         console.log(byteCount, "Its too high");
         setByteBatch(null);
@@ -84,7 +81,6 @@ export default function Home() {
         setVisibleLike(false);
         setShowLamp(true);
       } else {
-        console.log("maybe?");
         setCurrentByte(byteBatch[byteCount]);
         setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
         setVisibleLike(false);
