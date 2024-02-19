@@ -19,7 +19,7 @@ export default function Header() {
         <Image src={textlogo} alt="reading genie" className="w-64 pl-6" />
       </Link>
       <div className="w-24 flex items-center justify-center">
-        <SettingsButton />
+        {/* <SettingsButton /> */}
       </div>
     </header>
   );

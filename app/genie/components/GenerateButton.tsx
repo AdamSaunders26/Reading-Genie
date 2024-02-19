@@ -69,6 +69,7 @@ export default function GenerateButton({
         setGenerate(true);
         buttonHandler();
       }}
+      disabled={currentTopic === ""}
       className={
         "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
       }

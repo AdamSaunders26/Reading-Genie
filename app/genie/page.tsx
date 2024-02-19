@@ -87,7 +87,7 @@ export default function Home() {
       }
     }
   }, [byteCount, byteBatch]);
-  console.log(currentTopic);
+
   // console.log(currentMessage);
 
   return (
