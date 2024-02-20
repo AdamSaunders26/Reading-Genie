@@ -110,7 +110,7 @@ export default function Home() {
             setShowLamp={setShowLamp}
           />
         )}
-        <div className=" w-full flex flex-col justify-center mt-4 gap-2">
+        <div className=" w-full flex flex-col justify-center  gap-2">
           {/* {currentTopic === "" ? null : byteBatch ? (
             <NextButton />
           ) : (

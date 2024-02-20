@@ -36,11 +36,11 @@ export default function FloatingTopics({
   }, [refresh]);
 
   return (
-    <div className="flex flex-col gap-4 items-center">
-      <p className="text-2xl text-geniePurple-500 font-bold">
+    <div className="flex flex-col gap-2 items-center">
+      <p className="text-xl text-geniePurple-500 font-bold">
         Use these for inspiration!
       </p>
-      <div className="flex gap-4 flex-wrap justify-center text-white">
+      <div className="flex gap-2 flex-wrap justify-center text-white">
         {currentTopicSelection
           ? currentTopicSelection.map((topic, i) => {
               return (
@@ -51,7 +51,7 @@ export default function FloatingTopics({
                     setNewTopic(topic);
                     setCurrentTopic(topic);
                   }}
-                  className="text-xl"
+                  className=""
                 >
                   {topic}
                 </Button>
@@ -60,7 +60,7 @@ export default function FloatingTopics({
           : null}
       </div>
       <Button
-        className="bg-accent text-white text-xl hover:bg-accent"
+        className="bg-accent text-white  hover:bg-accent"
         onClick={() => {
           setRefresh((curr) => ++curr);
         }}
