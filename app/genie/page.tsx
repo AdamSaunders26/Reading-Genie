@@ -38,10 +38,7 @@ export default function Home() {
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [showLamp, setShowLamp] = useState(false);
 
-  // const [byteCount, setByteCount] = useState<number>(0);
-
   const askGenie = async (uid: any, body: string, instructions: any) => {
-    // console.log("INSTRUCTIONS", instructions);
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
@@ -50,8 +47,6 @@ export default function Home() {
 
     const parsedResponse = JSON.parse(message.response);
     setByteBatch(parsedResponse);
-    // setCurrentByte(parsedResponse);
-    // setCurrentMessage(messageFormatter(parsedResponse.body));
   };
 
   const start = async () => {
@@ -88,8 +83,6 @@ export default function Home() {
     }
   }, [byteCount, byteBatch]);
 
-  // console.log(currentMessage);
-
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
       <Header />
@@ -111,19 +104,6 @@ export default function Home() {
           />
         )}
         <div className=" w-full flex flex-col justify-center  gap-2">
-          {/* {currentTopic === "" ? null : byteBatch ? (
-            <NextButton />
-          ) : (
-            <GenerateButton
-              setVisibleLike={setVisibleLike}
-              setGenerate={setLoading}
-              loading={moreLoading}
-              setLoading={setMoreLoading}
-              askGenie={askGenie}
-              userId={userId}
-              currentTopic={currentTopic}
-            />
-          )} */}
           {byteBatch ? (
             <NextButton />
           ) : (

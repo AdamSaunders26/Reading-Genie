@@ -23,7 +23,7 @@ export default function TypewriterText({
   currentByte,
   setCurrentByte,
 }: Props) {
-  const { contentRef, loading, visibleLike } =
+  const { contentRef, visibleLike } =
     useContext<GenieContextType>(genieContext);
   return (
     <div className="flex flex-col w-full overflow-scroll ">
@@ -32,39 +32,23 @@ export default function TypewriterText({
         className="flex  justify-between overflow-x-hidden w-full "
       >
         <div className="flex-col flex w-full">
-          <div
-            className={
-              loading
-                ? `flex flex-col  h-fit w-full rounded-t-md p-3   text-3xl`
-                : `flex flex-col bg-white h-fit w-full rounded-t-md p-3   text-3xl`
-            }
-          >
+          <div className="flex flex-col bg-white h-fit w-full rounded-t-md p-3   text-3xl">
             {currentMessage ? (
               <ContentHandler
                 currentByte={currentByte}
                 setCurrentByte={setCurrentByte}
                 currentMessage={currentMessage}
               />
-            ) : loading ? (
-              <LoadingBubble />
-            ) : (
-              "Add today’s topic in settings and then hit the button below to generate your daily 6 bytes."
-            )}
+            ) : null}
           </div>
           <div className="">{visibleLike ? <LikeButtons /> : null}</div>
         </div>
-        <div className={loading ? "mt-[18rem]" : "flex"}>
-          {loading ? null : (
-            <IoTriangle className="text-white rotate-90 -ml-1 mt-2 h-6 w-6" />
-          )}
+        <div className="flex">
+          <IoTriangle className="text-white rotate-90 -ml-1 mt-2 h-6 w-6" />
           <Image
             src={genieRoughSpeech}
             alt="reading genie"
-            className={
-              loading
-                ? "w-12 h-12 rounded-full  place-self-end bg-lightaccent "
-                : "w-12 h-12 rounded-full  bg-lightaccent "
-            }
+            className="w-12 h-12 rounded-full  bg-lightaccent "
           />
         </div>
       </div>
