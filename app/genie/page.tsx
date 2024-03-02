@@ -12,10 +12,13 @@ import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 import NextButton from "./components/NextButton";
 import RandomTopics from "../signin/components/RandomTopics";
 import { preGenJokes } from "../pregen/jokes";
+import { newGenie } from "../openai/getTest";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
   const [userData, setUserData] = useState<DocumentData | null>(null); //Not sure about this either
+
+  newGenie();
 
   const {
     userId,
