@@ -18,8 +18,6 @@ export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
   const [userData, setUserData] = useState<DocumentData | null>(null); //Not sure about this either
 
-  newGenie();
-
   const {
     userId,
     setUserId,
@@ -41,16 +39,28 @@ export default function Home() {
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [showLamp, setShowLamp] = useState(false);
 
-  const askGenie = async (uid: any, body: string, instructions: any) => {
+  // const askGenie = async (uid: any, body: string, instructions: any) => {
+  //   setVisibleLike(false);
+  //   setLoading(true);
+  //   setCurrentMessage(null);
+  //   const message = await addMessage(uid, body, instructions);
+  //   console.log(message.response);
+
+  //   const parsedResponse = JSON.parse(message.response);
+  //   setByteBatch(parsedResponse);
+  // };
+
+  async function askGenie() {
+    const genieBytes = (await newGenie("Harry Potter")) as string;
+    console.log(genieBytes);
+    const parsedGenieBytes = JSON.parse(genieBytes);
+    console.log(parsedGenieBytes);
+
     setVisibleLike(false);
     setLoading(true);
     setCurrentMessage(null);
-    const message = await addMessage(uid, body, instructions);
-    console.log(message.response);
-
-    const parsedResponse = JSON.parse(message.response);
-    setByteBatch(parsedResponse);
-  };
+    setByteBatch(parsedGenieBytes);
+  }
 
   const start = async () => {
     const uid = await initFirebase();
@@ -68,23 +78,39 @@ export default function Home() {
     start();
   }, [userId]);
 
+  // useEffect(() => {
+  //   if (byteBatch) {
+  //     if (byteBatch.length === byteCount) {
+  //       console.log(byteCount, "Its too high");
+  //       setByteBatch(null);
+  //       setCurrentByte(null);
+  //       setCurrentMessage(null);
+  //       setByteCount(0);
+  //       setVisibleLike(false);
+  //       setShowLamp(true);
+  //     } else {
+  //       setCurrentByte(byteBatch[byteCount]);
+  //       setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
+  //       setVisibleLike(false);
+  //     }
+  //   }
+  // }, [byteCount, byteBatch]);
+
   useEffect(() => {
-    if (byteBatch) {
-      if (byteBatch.length === byteCount) {
-        console.log(byteCount, "Its too high");
-        setByteBatch(null);
-        setCurrentByte(null);
-        setCurrentMessage(null);
-        setByteCount(0);
-        setVisibleLike(false);
-        setShowLamp(true);
-      } else {
-        setCurrentByte(byteBatch[byteCount]);
-        setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
-        setVisibleLike(false);
-      }
+    if (!byteBatch) {
+      console.log(byteBatch, "Its empty cap'n");
+      setByteBatch(null);
+      setCurrentByte(null);
+      setCurrentMessage(null);
+      setByteCount(0);
+      setVisibleLike(false);
+      setShowLamp(true);
+    } else {
+      setCurrentByte(byteBatch[0]);
+      setCurrentMessage(messageFormatter(byteBatch[0].body));
+      setVisibleLike(false);
     }
-  }, [byteCount, byteBatch]);
+  }, [byteBatch]);
 
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">
