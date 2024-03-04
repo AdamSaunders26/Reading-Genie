@@ -38,7 +38,7 @@ export default function Home() {
   const [currentByte, setCurrentByte] = useState<any>({ contentType: "none" });
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [showLamp, setShowLamp] = useState(false);
-
+  console.log(currentTopic);
   // const askGenie = async (uid: any, body: string, instructions: any) => {
   //   setVisibleLike(false);
   //   setLoading(true);
@@ -51,7 +51,7 @@ export default function Home() {
   // };
 
   async function askGenie() {
-    const genieBytes = (await newGenie("Harry Potter")) as string;
+    const genieBytes = (await newGenie(currentTopic)) as string;
     console.log(genieBytes);
     const parsedGenieBytes = JSON.parse(genieBytes);
     console.log(parsedGenieBytes);
@@ -78,34 +78,17 @@ export default function Home() {
     start();
   }, [userId]);
 
-  // useEffect(() => {
-  //   if (byteBatch) {
-  //     if (byteBatch.length === byteCount) {
-  //       console.log(byteCount, "Its too high");
-  //       setByteBatch(null);
-  //       setCurrentByte(null);
-  //       setCurrentMessage(null);
-  //       setByteCount(0);
-  //       setVisibleLike(false);
-  //       setShowLamp(true);
-  //     } else {
-  //       setCurrentByte(byteBatch[byteCount]);
-  //       setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
-  //       setVisibleLike(false);
-  //     }
-  //   }
-  // }, [byteCount, byteBatch]);
-
   useEffect(() => {
-    if (!byteBatch) {
+    if (!byteBatch && byteCount > 0) {
       console.log(byteBatch, "Its empty cap'n");
+
       setByteBatch(null);
       setCurrentByte(null);
       setCurrentMessage(null);
       setByteCount(0);
-      setVisibleLike(false);
       setShowLamp(true);
-    } else {
+      setVisibleLike(false);
+    } else if (byteBatch) {
       setCurrentByte(byteBatch[0]);
       setCurrentMessage(messageFormatter(byteBatch[0].body));
       setVisibleLike(false);

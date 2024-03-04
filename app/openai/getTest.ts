@@ -11,7 +11,7 @@ export async function newGenie(topic: string) {
     messages: [
       {
         role: "system",
-        content: genieContent("pizza"),
+        content: genieContent(topic),
       },
     ],
     model: "gpt-3.5-turbo",
