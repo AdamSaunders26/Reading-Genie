@@ -64,8 +64,6 @@ export default function RandomTopics({
     }
   }, [newTopic]);
 
-  console.log(currentTopic);
-
   return (
     <div className="h-full">
       {showLamp ? (

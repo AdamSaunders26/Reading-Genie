@@ -8,6 +8,7 @@ import {
 } from "@/app/context/ReadingGenieContext";
 import Joke from "./Joke";
 import Riddle from "./Riddle";
+import Response from "./Response";
 
 interface Props {
   currentByte: any;
@@ -22,6 +23,8 @@ export default function ContentHandler({
 }: Props) {
   const { visibleLike } = useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+  console.log(currentByte);
+  console.log(currentMessage);
   if (currentByte.contentType === "none") {
     return (
       <TypeAnimation
@@ -75,18 +78,7 @@ export default function ContentHandler({
       );
     default:
       return (
-        <TypeAnimation
-          cursor={false}
-          className={CURSOR_CLASS_NAME}
-          sequence={currentMessage}
-          wrapper="span"
-          repeat={0}
-          speed={20}
-          style={{
-            whiteSpace: "pre-line",
-            display: "inline-block",
-          }}
-        />
+        <Response currentByte={currentByte} currentMessage={currentMessage} />
       );
   }
 }

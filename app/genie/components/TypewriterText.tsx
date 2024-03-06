@@ -25,7 +25,7 @@ export default function TypewriterText({
 }: Props) {
   const { contentRef, visibleLike, byteBatch } =
     useContext<GenieContextType>(genieContext);
-
+  console.log(currentByte);
   return (
     <div className="flex flex-col w-full overflow-scroll ">
       <div

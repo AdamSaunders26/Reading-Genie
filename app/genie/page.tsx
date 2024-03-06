@@ -88,7 +88,11 @@ export default function Home() {
       setByteCount(0);
       setShowLamp(true);
       setVisibleLike(false);
-    } else if (byteBatch) {
+    } else if (byteBatch && byteCount === 0) {
+      console.log("changing?");
+      console.log(byteCount);
+      // console.log(currentByte);
+      // console.log(byteBatch);
       setCurrentByte(byteBatch[0]);
       setCurrentMessage(messageFormatter(byteBatch[0].body));
       setVisibleLike(false);
@@ -117,7 +121,7 @@ export default function Home() {
         )}
         <div className=" w-full flex flex-col justify-center  gap-2">
           {byteBatch ? (
-            <NextButton />
+            <NextButton setCurrentByte={setCurrentByte} />
           ) : (
             <GenerateButton
               setVisibleLike={setVisibleLike}
