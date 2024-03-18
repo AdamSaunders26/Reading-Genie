@@ -12,6 +12,7 @@ import { GenieContextType, genieContext } from "../context/ReadingGenieContext";
 import NextButton from "./components/NextButton";
 import RandomTopics from "../signin/components/RandomTopics";
 import { preGenJokes } from "../pregen/jokes";
+import contentLoader from "../pregen/contentLoader";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -88,6 +89,9 @@ export default function Home() {
     }
   }, [byteCount, byteBatch]);
 
+  useEffect(() => {
+    contentLoader();
+  }, []);
   // console.log(currentMessage);
 
   return (
