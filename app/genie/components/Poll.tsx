@@ -3,7 +3,7 @@ import {
   genieContext,
 } from "@/app/context/ReadingGenieContext";
 import { Button } from "@/components/ui/button";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
 interface Props {
@@ -22,6 +22,7 @@ export default function Poll({
   const { setCurrentMessage, messageFormatter, setVisibleLike } =
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
+
   console.log(currentByte);
   return (
     <div className="flex flex-col gap-4 w-full">

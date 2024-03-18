@@ -91,6 +91,7 @@ export default function Home() {
     } else if (byteBatch && byteCount === 0) {
       console.log("changing?");
       console.log(byteCount);
+      console.log(byteBatch[0]);
       // console.log(currentByte);
       // console.log(byteBatch);
       setCurrentByte(byteBatch[0]);
