@@ -1,12 +1,12 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { TypeAnimation } from "react-type-animation";
-import genieRoughSpeech from "../../../public/greengenie.svg";
 import LikeButtons from "@/app/genie/components/LikeButtons";
 import LoadingBubble from "./LoadingBubble";
 import { IoTriangle } from "react-icons/io5";
 import WouldYouRather from "./WouldYouRather";
 import { useState, useEffect, useContext } from "react";
 import ContentHandler from "./ContentHandler";
+import TypeWriterIcon from "./TypewriterIcon";
 import {
   GenieContextType,
   genieContext,
@@ -57,15 +57,7 @@ export default function TypewriterText({
           {loading ? null : (
             <IoTriangle className="text-white rotate-90 -ml-1 mt-2 h-6 w-6" />
           )}
-          <Image
-            src={genieRoughSpeech}
-            alt="reading genie"
-            className={
-              loading
-                ? "w-12 h-12 rounded-full  place-self-end bg-lightaccent "
-                : "w-12 h-12 rounded-full  bg-lightaccent "
-            }
-          />
+          <TypeWriterIcon contentType={currentByte.contentType}/>
         </div>
       </div>
       <style global jsx>{`
