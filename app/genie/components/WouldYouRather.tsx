@@ -46,7 +46,7 @@ export default function WouldYouRather({
                 className="text-3xl px-2 whitespace-normal h-fit bg-accent"
                 onClick={() => {
                   const responseByte = {
-                    contentType: "poll response",
+                    contentType: "would you rather response",
                     body: currentByte.optionResponse[index],
                   };
 
