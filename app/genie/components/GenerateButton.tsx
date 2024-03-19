@@ -3,6 +3,7 @@ import {
   genieContext,
 } from "@/app/context/ReadingGenieContext";
 import { getUserRecord } from "@/app/firebase/config";
+import contentLoader from "@/app/pregen/contentLoader";
 import geniePrompt from "@/app/prompt/geniePrompt";
 import { randoNum } from "@/app/utils";
 import { Button } from "@/components/ui/button";
@@ -29,12 +30,17 @@ export default function GenerateButton({
   askGenie,
   currentTopic,
 }: Props) {
-  const { newResponse, setNewResponse } =
+  const { newResponse, setNewResponse, setByteBatch, setCurrentMessage } =
     useContext<GenieContextType>(genieContext);
 
   async function buttonHandler() {
+    const preLoadedContent = contentLoader();
+    setByteBatch(preLoadedContent);
     setVisibleLike(false);
+    // setLoading(true);
+
     setLoading(true);
+    setCurrentMessage(null);
 
     const nowData = await getUserRecord(userId);
 
@@ -57,7 +63,7 @@ export default function GenerateButton({
       const prompt = geniePrompt("many", currentTopic);
 
       askGenie(userId, prompt, "instructions").then((o) => {
-        setLoading(false);
+        // setLoading(false);
       });
       setNewResponse(false);
     }
@@ -66,7 +72,9 @@ export default function GenerateButton({
   return (
     <Button
       onClick={() => {
-        setGenerate(true);
+        // const preLoadedContent = contentLoader();
+        // setByteBatch(preLoadedContent);
+        // setGenerate(true);
         buttonHandler();
       }}
       disabled={currentTopic === ""}
@@ -74,7 +82,7 @@ export default function GenerateButton({
         "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
       }
     >
-      {loading ? <FaSpinner className="animate-spin" /> : `Let's go!`}
+      {`Let's go!`}
     </Button>
   );
 }
