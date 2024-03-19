@@ -13,6 +13,7 @@ import NextButton from "./components/NextButton";
 import RandomTopics from "../signin/components/RandomTopics";
 import { preGenJokes } from "../pregen/jokes";
 import contentLoader from "../pregen/contentLoader";
+import { parse } from "path";
 
 export default function Home() {
   const [dbData, setDbData] = useState<string[] | null>(null); //is this currently used? Unsure.
@@ -43,14 +44,18 @@ export default function Home() {
 
   const askGenie = async (uid: any, body: string, instructions: any) => {
     // console.log("INSTRUCTIONS", instructions);
-    setVisibleLike(false);
-    setLoading(true);
-    setCurrentMessage(null);
+    // setVisibleLike(false);
+    // setLoading(true);
+    // setCurrentMessage(null);
     const message = await addMessage(uid, body, instructions);
     console.log(message.response);
 
     const parsedResponse = JSON.parse(message.response);
-    setByteBatch(parsedResponse);
+    setByteBatch((curr) => {
+      const copyByteBatch = JSON.stringify(curr);
+      const parsedCopy = JSON.parse(copyByteBatch);
+      return parsedCopy.concat(parsedResponse);
+    });
     // setCurrentByte(parsedResponse);
     // setCurrentMessage(messageFormatter(parsedResponse.body));
   };
@@ -90,7 +95,9 @@ export default function Home() {
   }, [byteCount, byteBatch]);
 
   useEffect(() => {
-    contentLoader();
+    // const preLoadedContent = contentLoader();
+    // setByteBatch(preLoadedContent);
+    // console.log(preLoadedContent);
   }, []);
   // console.log(currentMessage);
 
