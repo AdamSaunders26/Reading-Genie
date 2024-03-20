@@ -21,7 +21,9 @@ export default function Joke({
     useContext<GenieContextType>(genieContext);
   const CURSOR_CLASS_NAME = "custom-type-animation-cursor";
   const [showAnswer, setShowAnswer] = useState<boolean>(false);
+  const [showExplanationText, setshowExplanationText] = useState<boolean>(false);
   // console.log(currentByte);
+  const includeExplanation: boolean = showAnswer && currentByte.jokeexplain
   return (
     <div className="flex flex-col gap-4 w-full">
       <TypeAnimation
@@ -61,6 +63,31 @@ export default function Joke({
               Show answer?
             </Button>
           )}
+          {includeExplanation && 
+            (showExplanationText ? (
+              <TypeAnimation
+                cursor={false}
+                className={CURSOR_CLASS_NAME}
+                sequence={messageFormatter(currentByte.jokeexplain)}
+                wrapper="span"
+                repeat={0}
+                speed={20}
+                style={{
+                  whiteSpace: "pre-line",
+                  display: "inline-block",
+                }}
+              />
+            ) : (
+              <Button
+                onClick={() => {
+                  setshowExplanationText(true);
+                }}
+                className="text-3xl px-2 whitespace-normal h-fit bg-accent"
+              >
+                Explain the answer
+              </Button>
+            ))
+          }
         </div>
       ) : null}
     </div>
