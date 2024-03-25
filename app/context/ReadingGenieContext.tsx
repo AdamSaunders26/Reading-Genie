@@ -72,7 +72,7 @@ export function GenieProvider({ children }: { children: ReactNode }) {
   const [byteBatch, setByteBatch] = useState<any>(null);
   const [byteCount, setByteCount] = useState<number>(0);
 
-  // console.log(byteCount);
+  console.log(visibleLike);
 
   function messageFormatter(message: string) {
     return responseFormatter(message, contentRef, setVisibleLike, setLoading);

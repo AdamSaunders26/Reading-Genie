@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { GrFormNextLink } from "react-icons/gr";
 
 export default function NextButton() {
-  const { setByteBatch, byteBatch, setByteCount } =
+  const { setByteBatch, byteBatch, setByteCount, setVisibleLike } =
     useContext<GenieContextType>(genieContext);
 
   //   const [byteCount, setByteCount] = useState<number>(0);
@@ -24,6 +24,7 @@ export default function NextButton() {
     <Button
       onClick={() => {
         setByteCount((curr) => ++curr);
+        setVisibleLike(false);
         // setByteBatch((curr) => {
         //   console.log(curr);
         //   const copyBatch = JSON.parse(JSON.stringify(curr));
