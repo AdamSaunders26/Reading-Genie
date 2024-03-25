@@ -13,7 +13,7 @@ export const preGenRiddles = [
   },
   {
     contentType: "riddle",
-    body: "What has hands but can not clap?",
+    body: "What has hands but cannot clap?",
     hint: "It's always ticking...",
     answer: "A clock 🕰️",
   },
@@ -44,7 +44,7 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "What lights up a football stadium at night?",
-    hint: "Every room has one...",
+    hint: "Think about what you can light a candle with...",
     answer: "A football match 🔦",
   },
   {
@@ -68,7 +68,7 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "What begins with T, ends with T and has T in it?",
-    hint: "You pour tea into it!",
+    hint: "You pour tea out of it!",
     answer: "A teapot. ☕",
   },
 
@@ -87,28 +87,21 @@ export const preGenRiddles = [
   },
   {
     contentType: "riddle",
-    body: "What type of cheese is made backward?",
+    body: "What type of cheese is 'made' backward?",
     hint: "It's a common cheese!",
     answer: "Edam",
   },
   {
     contentType: "riddle",
-    body: "What has 88 keys but can’t open a door?",
-    hint: "It can play music...",
-    answer: "A piano 🎹",
-  },
-
-  {
-    contentType: "riddle",
     body: "What kind of tree can you carry in your hand?",
-    hint: "It's a snack...",
+    hint: "Think about what the centre of your hand is called...",
     answer: "A palm tree (palm of your hand)! 🌴",
   },
   {
     contentType: "riddle",
     body: "I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?",
-    hint: "You use it to light a fire...",
-    answer: "A flame. 🔥",
+    hint: "You use it for light and heat...",
+    answer: "A fire. 🔥",
   },
   {
     contentType: "riddle",
@@ -121,12 +114,12 @@ export const preGenRiddles = [
     contentType: "riddle",
     body: "In a one-story pink house, there was a pink person, a pink cat, a pink fish, a pink computer, a pink chair, a pink table, a pink telephone, a pink shower– everything was pink! What colour were the stairs?",
     hint: "Think about the house...",
-    answer: "There weren’t any stairs, it was a one story house!",
+    answer: "There weren’t any stairs, it was a one-story house!",
   },
   {
     contentType: "riddle",
     body: "I shave every day, but my beard stays the same. What am I?",
-    hint: "Not a person...",
+    hint: "It's a job...",
     answer: "A barber. ✂️",
   },
   {
@@ -157,14 +150,8 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "What is so delicate that saying its name breaks it?",
-    hint: "It requires silence...",
+    hint: "Don't make a noise!",
     answer: "Silence 🤫",
-  },
-  {
-    contentType: "riddle",
-    body: "What has a face and two hands but no arms or legs?",
-    hint: "It tells time...",
-    answer: "A clock 🕗",
   },
   {
     contentType: "riddle",
@@ -181,25 +168,25 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "What is always coming, but never arrives?",
-    hint: "You cannot stop it...",
+    hint: "Think about the future...",
     answer: "Tomorrow ⌛️",
   },
   {
     contentType: "riddle",
     body: "What can be cracked, made, told, and played?",
-    hint: "It's fun to share with friends...",
+    hint: "It can make you laugh...",
     answer: "A joke 😄",
   },
   {
     contentType: "riddle",
     body: "What can fill a room but takes up no space?",
-    hint: "You can't see or touch it...",
+    hint: "You can turn it off and on...",
     answer: "Light 💡",
   },
   {
     contentType: "riddle",
     body: "What goes up and doesn’t come back down?",
-    hint: "As time goes by, it increases...",
+    hint: "It increases every year...",
     answer: "Your age 🎂",
   },
   {
@@ -217,7 +204,7 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "I start out tall, but the longer I stand, the shorter I grow. What am I?",
-    hint: "You use me when it's dark...",
+    hint: "You can light me when it's dark...",
     answer: "A candle 🕯️",
   },
   {
@@ -228,14 +215,8 @@ export const preGenRiddles = [
   },
   {
     contentType: "riddle",
-    body: "What has keys but can't open any kind of lock?",
-    hint: "You use it to type...",
-    answer: "A keyboard 💻",
-  },
-  {
-    contentType: "riddle",
     body: "What can you catch but never throw?",
-    hint: "You get it when someone is sick...",
+    hint: "It can make you feel ill...",
     answer: "A cold 🤧",
   },
   {
@@ -259,13 +240,13 @@ export const preGenRiddles = [
   {
     contentType: "riddle",
     body: "What has teeth but can’t bite?",
-    hint: "You might use it to get dressed...",
+    hint: "You brush it through your hair...",
     answer: "A comb 🪒",
   },
   {
     contentType: "riddle",
     body: "What has a thumb and four fingers, but is not a hand?",
-    hint: "It's made of fabric...",
+    hint: "It keeps your hand warm...",
     answer: "A glove 🧤",
   },
 ];

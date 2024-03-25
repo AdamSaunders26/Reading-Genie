@@ -24,6 +24,7 @@ export default function Home() {
     setUserId,
     currentMessage,
     setCurrentMessage,
+    visibleLike,
     setVisibleLike,
     setLoading,
     messageFormatter,
@@ -89,7 +90,6 @@ export default function Home() {
       } else {
         setCurrentByte(byteBatch[byteCount]);
         setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
-        setVisibleLike(false);
       }
     }
   }, [byteCount, byteBatch]);
