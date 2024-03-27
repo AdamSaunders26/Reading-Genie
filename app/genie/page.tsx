@@ -52,11 +52,11 @@ export default function Home() {
     console.log(message.response);
 
     const parsedResponse = JSON.parse(message.response);
-    setByteBatch((curr) => {
-      const copyByteBatch = JSON.stringify(curr);
-      const parsedCopy = JSON.parse(copyByteBatch);
-      return parsedCopy.concat(parsedResponse);
-    });
+    const preLoadedContent = contentLoader(3);
+
+    let mixedContent = [parsedResponse[0], ...preLoadedContent, ...parsedResponse.slice(1)];
+    setByteBatch(mixedContent);
+
     // setCurrentByte(parsedResponse);
     // setCurrentMessage(messageFormatter(parsedResponse.body));
   };

@@ -34,8 +34,6 @@ export default function GenerateButton({
     useContext<GenieContextType>(genieContext);
 
   async function buttonHandler() {
-    const preLoadedContent = contentLoader();
-    setByteBatch(preLoadedContent);
     setVisibleLike(false);
     // setLoading(true);
 
@@ -60,10 +58,10 @@ export default function GenerateButton({
       // const randInterest =
       //   nowData?.interests[randoNum(0, nowData?.interests.length - 1)];
 
-      const prompt = geniePrompt("many", currentTopic);
+      const prompt = geniePrompt("many", currentTopic, 2);
 
       askGenie(userId, prompt, "instructions").then((o) => {
-        // setLoading(false);
+        setLoading(false);
       });
       setNewResponse(false);
     }
@@ -82,7 +80,7 @@ export default function GenerateButton({
         "bg-accent active:bg-lightaccent hover:bg-accent  rounded-full text-white text-5xl font-semibold h-fit w-fit p-6 place-self-center"
       }
     >
-      {`Let's go!`}
+      {loading ? <FaSpinner className="animate-spin" /> : `Let's go!`}
     </Button>
   );
 }
