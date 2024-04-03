@@ -84,7 +84,7 @@ export default function Joke({
                 }}
                 className="text-3xl px-2 whitespace-normal h-fit bg-accent"
               >
-                Explain the answer
+                Explain the joke
               </Button>
             ))
           }
