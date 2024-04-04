@@ -36,7 +36,10 @@ export default function TypeWriterIcon({ contentType }: Props) {
     case "riddle":
       typewriterIcon = riddleIcon;
       break;
-    case "true or false":
+    case "TrueFalse":
+      typewriterIcon = trueOrFalseIcon;
+      break;
+    case "true or false response":
       typewriterIcon = trueOrFalseIcon;
       break;
     case "would you rather":
