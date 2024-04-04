@@ -54,8 +54,33 @@ export default function Home() {
     const parsedResponse = JSON.parse(message.response);
     const preLoadedContent = contentLoader(3);
 
-    let mixedContent = [parsedResponse[0], ...preLoadedContent, ...parsedResponse.slice(1)];
-    setByteBatch(mixedContent);
+    const allContent = [...parsedResponse, ...preLoadedContent]
+
+    const contentOrder = [
+      "fact",
+      "joke",
+      "TrueFalse",
+      "would you rather",
+      "riddle",
+      "poll"
+    ]
+
+    const orderedContent = contentOrder.map(type => {
+      const matchingIndex = allContent.findIndex(item => item.contentType === type)
+      if(matchingIndex >= 0) {
+        const byte = allContent[matchingIndex]
+        // Removing the used byte so it can't be used again if multiple bytes of the same content type are requried. 
+        allContent.splice(matchingIndex, 1)
+        return byte
+      } else return null
+    })
+
+    const strippedOrderedContent = orderedContent.filter(byte => byte != null)
+
+    console.log("------ FINAL CONTENT ORDER -------")
+    console.log(strippedOrderedContent)
+
+    setByteBatch(strippedOrderedContent);
 
     // setCurrentByte(parsedResponse);
     // setCurrentMessage(messageFormatter(parsedResponse.body));
