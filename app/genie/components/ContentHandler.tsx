@@ -8,6 +8,7 @@ import {
 } from "@/app/context/ReadingGenieContext";
 import Joke from "./Joke";
 import Riddle from "./Riddle";
+import TrueFalse from "./TrueFalse";
 
 interface Props {
   currentByte: any;
@@ -67,6 +68,15 @@ export default function ContentHandler({
     case "poll":
       return (
         <Poll
+          currentMessage={currentMessage}
+          currentByte={currentByte}
+          setCurrentByte={setCurrentByte}
+          visibleLike={visibleLike}
+        />
+      );
+      case "TrueFalse":
+      return (
+        <TrueFalse
           currentMessage={currentMessage}
           currentByte={currentByte}
           setCurrentByte={setCurrentByte}
