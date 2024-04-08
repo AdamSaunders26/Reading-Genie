@@ -65,7 +65,7 @@ export default function FloatingTopics({
           setRefresh((curr) => ++curr);
         }}
       >
-        Refresh list
+        More ideas
       </Button>
     </div>
   );
