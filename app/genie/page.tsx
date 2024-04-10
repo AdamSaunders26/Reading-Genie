@@ -182,7 +182,7 @@ export default function Home() {
           )} */}
           {byteBatch ? (
             <NextButton />
-          ) : (
+          ) : !showLamp ? (
             <GenerateButton
               setVisibleLike={setVisibleLike}
               setGenerate={setLoading}
@@ -192,7 +192,7 @@ export default function Home() {
               userId={userId}
               currentTopic={currentTopic}
             />
-          )}
+          ) : null}
         </div>
       </section>
     </main>
