@@ -27,6 +27,7 @@ export default function CustomTopicInput({
     <div className="flex flex-col gap-4">
       <div className="flex flex-col items-center gap-2">
         <Input
+          placeholder = "Today&apos;s topic"
           className="text-2xl border-geniePurple-500 border-2"
           value={inputValue}
           disabled={loading}
