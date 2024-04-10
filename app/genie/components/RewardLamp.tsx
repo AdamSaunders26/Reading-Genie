@@ -12,12 +12,12 @@ export default function RewardLamp({
       <h1>You&apos;ve earned a Genie Lamp!</h1>
       <Image src={lamp} alt="reading genie lamp" className="w-full " />
       <Button
-        className="text-white text-3xl p-6 h-100"
+        className="text-white text-3xl p-6"
         onClick={() => {
           setShowLamp(false);
         }}
       >
-        I&apos;m not finished!<br />Give me more.
+        Give me more!
       </Button>
     </div>
   );
