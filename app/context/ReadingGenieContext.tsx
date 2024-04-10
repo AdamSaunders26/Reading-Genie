@@ -36,6 +36,10 @@ export interface GenieContextType {
   setByteBatch: React.Dispatch<React.SetStateAction<any>>;
   byteCount: number;
   setByteCount: React.Dispatch<React.SetStateAction<number>>;
+  completedBytes: {};
+  setCompletedBytes: React.Dispatch<React.SetStateAction<number[]>>;
+  currentByteId: string | null;
+  setCurrentByteId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export const genieContext = createContext<GenieContextType>({
@@ -57,6 +61,10 @@ export const genieContext = createContext<GenieContextType>({
   setByteBatch: () => null,
   byteCount: 0,
   setByteCount: () => null,
+  completedBytes: {},
+  setCompletedBytes: () => null,
+  currentByteId: null,
+  setCurrentByteId: () => null,
 });
 
 export function GenieProvider({ children }: { children: ReactNode }) {
@@ -71,11 +79,21 @@ export function GenieProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [byteBatch, setByteBatch] = useState<any>(null);
   const [byteCount, setByteCount] = useState<number>(0);
+  const [completedBytes, setCompletedBytes] = useState<any>({});
+  const [currentByteId, setCurrentByteId] = useState<string | null>(null);
 
   console.log(visibleLike);
 
+  function typingFinished(thisByteId: string) {
+    setCompletedBytes(prevCompletedBytes => {
+      const currentCompletedBytes = { ...prevCompletedBytes}
+      currentCompletedBytes[thisByteId] = true
+      return currentCompletedBytes
+    })
+  }
+
   function messageFormatter(message: string) {
-    return responseFormatter(message, contentRef, setVisibleLike, setLoading);
+    return responseFormatter(message, contentRef, setVisibleLike, setLoading, currentByteId, typingFinished);
   }
 
   // console.log(selected);
@@ -100,6 +118,10 @@ export function GenieProvider({ children }: { children: ReactNode }) {
         setByteBatch,
         byteCount,
         setByteCount,
+        completedBytes,
+        setCompletedBytes,
+        currentByteId,
+        setCurrentByteId
       }}
     >
       {children}
