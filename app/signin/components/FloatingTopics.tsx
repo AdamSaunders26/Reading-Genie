@@ -21,9 +21,9 @@ export default function FloatingTopics({
 
   useEffect(() => {
     setCurrentTopicSelection([]);
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 9; i++) {
       setCurrentTopicSelection((curr) => {
-        const randomNum = randoNum(0, floatingTopicsList.length);
+        const randomNum = randoNum(0, floatingTopicsList.length - 1);
         const selectionCopy = [...curr];
         selectionCopy.push(floatingTopicsList[randomNum]);
         const uniqueArray = selectionCopy.filter(function (item, pos, self) {
@@ -40,7 +40,7 @@ export default function FloatingTopics({
       <p className="text-xl text-geniePurple-500 font-bold">
         Use these for inspiration!
       </p>
-      <div className="flex gap-2 flex-wrap justify-center text-white">
+      <div className="flex gap-2 flex-wrap justify-center text-white overflow-hidden max-h-36">
         {currentTopicSelection
           ? currentTopicSelection.map((topic, i) => {
               return (
