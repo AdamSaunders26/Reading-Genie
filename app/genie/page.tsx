@@ -34,6 +34,10 @@ export default function Home() {
     setByteCount,
     selected,
     dispatch,
+    completedBytes,
+    setCompletedBytes,
+    currentByteId,
+    setCurrentByteId
   } = useContext<GenieContextType>(genieContext);
 
   const [moreLoading, setMoreLoading] = useState(false);
@@ -51,7 +55,14 @@ export default function Home() {
     const message = await addMessage(uid, body, instructions);
     console.log(message.response);
 
-    const parsedResponse = JSON.parse(message.response);
+    let parsedResponse = []
+
+    try {
+      JSON.parse(message.response);
+      parsedResponse = JSON.parse(message.response);
+    } catch {
+      console.error("Error parsing openAI response - incorrect format")
+    }
     const preLoadedContent = contentLoader(3);
 
     const allContent = [...parsedResponse, ...preLoadedContent]
@@ -71,7 +82,7 @@ export default function Home() {
         const byte = allContent[matchingIndex]
         // Removing the used byte so it can't be used again if multiple bytes of the same content type are requried. 
         allContent.splice(matchingIndex, 1)
-        return byte
+        return {...byte, byteId: byte.contentType + "-" + Math.floor(Math.random() * 1000000)}
       } else return null
     })
 
@@ -81,6 +92,7 @@ export default function Home() {
     console.log(strippedOrderedContent)
 
     setByteBatch(strippedOrderedContent);
+    setCurrentByteId(strippedOrderedContent[0].byteId);
 
     // setCurrentByte(parsedResponse);
     // setCurrentMessage(messageFormatter(parsedResponse.body));
@@ -109,9 +121,11 @@ export default function Home() {
         setByteBatch(null);
         setCurrentByte(null);
         setCurrentMessage(null);
+        setCurrentByteId(null);
         setByteCount(0);
         setVisibleLike(false);
         setShowLamp(true);
+        setCompletedBytes({});
       } else {
         setCurrentByte(byteBatch[byteCount]);
         setCurrentMessage(messageFormatter(byteBatch[byteCount].body));
@@ -125,6 +139,12 @@ export default function Home() {
     // console.log(preLoadedContent);
   }, []);
   // console.log(currentMessage);
+
+  useEffect(() => {
+    if(completedBytes[currentByteId]) {
+      setVisibleLike(true)
+    }
+  }, [completedBytes])
 
   return (
     <main className="flex flex-col  w-full h-[100dvh] bg-secondary  ">

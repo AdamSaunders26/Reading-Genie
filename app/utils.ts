@@ -2,7 +2,9 @@ export function responseFormatter(
   message: string,
   contentRef: React.MutableRefObject<HTMLDivElement | null>,
   setVisibleLike: React.Dispatch<React.SetStateAction<boolean>>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+  currentByteId: string | null,
+  typingFinished: any
 ) {
   const splitResponse = message.split(" ");
   const delay = 100;
@@ -22,7 +24,7 @@ export function responseFormatter(
   sequenceArray.push([
     previousPhrase,
     () => {
-      setVisibleLike(true);
+      typingFinished(currentByteId)
     },
     10,
   ]);
